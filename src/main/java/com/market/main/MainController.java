@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MainController {
 	
-	// 8.2 변경 테스트
-	
 	@GetMapping("/main-view")
 	public String mainView() {
 		return "main/main";
