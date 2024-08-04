@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 header {height:120px;}
-.contents {min-height:520px; background:#FFE2B7;}
+.contents {min-height:550px; background:#FFE2B7;}
 footer {height:100px;}
 .logo1 {font-size:40px;}
 .nav {font-size:20px;}
@@ -15,7 +15,7 @@ footer {height:100px;}
 .mainLetter1 {font-size:50px;}
 .mainLetter2 {font-size:30px; color:gray;}
 .letterBox {height:520px;}
-.whiteBox {height:450px; width:900px; border-radius:30px;}
+.whiteBox {min-height:450px; width:900px; border-radius:30px; background-color:white;}
 #loginId {width:400px;}
 #password {width:400px;}
 #loginBtn {width:100px;}

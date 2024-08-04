@@ -4,9 +4,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/defaultLayout}">
 <section layout:fragment="content" class="contents d-flex justify-content-center align-items-center">
-	<div class="bg-white whiteBox">
+	<div class="whiteBox">
 		<!-- 로그인 글씨 -->
-		<div class="h-25 w-100 d-flex align-items-end pl-5">
+		<div class="h-25 w-100 d-flex align-items-end pl-5 pt-5">
 			<h1>로그인</h1>
 		</div>
 		
@@ -27,9 +27,9 @@
 		
 			<!-- 로그인 버튼 -->
 			<div class="h-50 d-flex justify-content-end pr-5 mr-4">
-				<div>
-					<input type="submit" id="loginBtn" class="btn btn-info mr-5" value="로그인">
-					<a class="signInBtn mr-5" href="/user/sign-up-view">회원가입</a>
+				<div class="d-flex justify-content-between">
+					<input type="submit" id="loginBtn" class="btn btn-info mr-5 mt-3" value="로그인">
+					<a class="signInBtn mr-5 mt-4" href="/user/sign-up-view">회원가입</a>
 				</div>
 			</div>
 		</form>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<section layout:fragment="content" class="contents d-flex justify-content-center align-items-center">
+	<div class="whiteBox d-flex justify-content-center align-items-center">
+		<div class="h-100 w-75">
+			<!-- 회원가입 글씨 -->
+			<div class="mt-2"><h2>회원가입</h2></div>
+			
+			<form id="signUpForm" method="post" action="/user/sign-up">
+				<!-- 회원정보 입력 -->
+				<table class="table table-bordered">
+					<tr>
+						<th>아이디</th>
+						<td>
+							<div class="d-flex">
+								<input type="text" id="loginId" name="loginId" class="form-control w-75" placeholder="아이디를 입력하세요.">
+								<button type="button" id="loginIdCheckBtn" class="btn btn-success ml-3">중복확인</button><br>
+							</div>
+							<!-- ID 체크 결과 -->
+							<div id="idCheckDuplicated" class="small text-danger d-none mt-2">이미 사용중인 ID입니다.</div>
+							<div id="idCheckOk" class="small text-success d-none mt-2">사용 가능한 ID입니다.</div>
+						</td>
+					</tr>
+					<tr>
+						<th>비밀번호</th>
+						<td><input type="password" id="password" name="password" class="form-control w-100" placeholder="비밀번호를 입력하세요."></td>
+					</tr>
+					<tr>
+						<th>비밀번호 확인</th>
+						<td><input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="비밀번호를 입력하세요."></td>
+					</tr>
+					<tr>
+						<th>이름</th>
+						<td><input type="text" id="name" name="name" class="form-control" placeholder="이름을 입력하세요."></td>
+					</tr>
+					<tr>
+						<th>휴대폰 전화번호</th>
+						<td><input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="010-0000-0000"></td>
+					</tr>
+					<tr>
+						<th>이메일</th>
+						<td><input type="text" id="email" name="email" class="form-control" placeholder="이메일을 입력하세요."></td>
+					</tr>
+				</table>
+			
+				<!-- 회원가입 버튼 -->
+				<button type="submit" id="signUpBtn" class="btn btn-primary float-right mb-2">회원가입</button>
+			</form>
+		</div>
+	</div>
+</section>
+
+<th:block layout:fragment="script">
+    <script>
+		$(document).ready(function() {
+			// ID 중복확인
+			$("#loginIdCheckBtn").on('click', function() {
+				// ID 중복확인 관련 문구 초기화
+				$("#idCheckDuplicated").addClass("d-none");
+				$("#idCheckOk").addClass("d-none");
+				
+				let loginId = $("#loginId").val().trim();
+				
+				if (loginId < 1) {
+					alert("아이디를 입력하세요.");
+					return;
+				}
+				
+				// ID 중복확인 AJAX
+				$.ajax({
+					url:"/user/is-duplicated-id"
+					, type:"POST"
+					, data:{"loginId":loginId}
+				
+					, success:function(data) {
+						if (data.is_duplicated_id) { // ID가 중복인 경우
+							$("#idCheckDuplicated").removeClass("d-none");
+						} else { // ID가 중복이 아닌 경우
+							$("#idCheckOk").removeClass("d-none");
+						}
+					}
+					, error:function(error) {
+						alert("중복확인에 실패했습니다.");
+					}
+				});			
+			}); // --- ID 중복확인 끝
+		});
+    </script>
+</th:block>
