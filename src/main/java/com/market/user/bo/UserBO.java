@@ -17,4 +17,16 @@ public class UserBO {
 	public UserEntity getUserEntityByLoginId(String loginId) {
 		return userRepository.findByLoginId(loginId);
 	}
+	
+	// input : 회원가입 정보
+	// output : UserEntity
+	public UserEntity addUser(String loginId, String password, String name, String phoneNumber, String email) {
+		return userRepository.save(UserEntity.builder()
+				.loginId(loginId)
+				.password(password)
+				.name(name)
+				.phoneNumber(phoneNumber)
+				.email(email)
+				.build());
+	}
 }

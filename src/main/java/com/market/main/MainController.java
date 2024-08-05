@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MainController {
 	
-	// 학원 수정
-	
 	@GetMapping("/main-view")
 	public String mainView() {
 		return "main/main";

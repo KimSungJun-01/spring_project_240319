@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.market.common.EncryptUtils;
 import com.market.user.bo.UserBO;
 import com.market.user.entity.UserEntity;
 
@@ -19,6 +20,7 @@ public class UserRestController {
 	@Autowired
 	private UserBO userBO;
 	
+	// ID 중복확인
 	@PostMapping("/is-duplicated-id")
 	public Map<String, Object> isDuplicatedId(
 			@RequestParam("loginId") String loginId) {
@@ -35,5 +37,21 @@ public class UserRestController {
 			result.put("is_duplicated_id", false);
 		}
 		return result;
+	}
+	
+	// 회원가입
+	@PostMapping("/sign-up")
+	public Map<String, Object> signUp(
+			@RequestParam("loginId") String loginId,
+			@RequestParam("password") String password,
+			@RequestParam("name") String name,
+			@RequestParam("phoneNumber") String phoneNumber,
+			@RequestParam(value = "email", required = false) String email) {
+		
+		// password 암호화 (md5 알고리즘)
+		String hashedPassword = EncryptUtils.md5(password);
+		
+		// DB 저장
+		UserEntity user = userBO.addUser(loginId, hashedPassword, name, phoneNumber, email);
 	}
 }
