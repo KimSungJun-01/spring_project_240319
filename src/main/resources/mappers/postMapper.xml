@@ -9,4 +9,20 @@
 		FROM
 			`post`
  	</select>
+ 	<select id="selectPostList" resultType="map">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`subject`
+			,`price`
+			,`address`
+			,`content`
+			,`state`
+			,`buyerId`
+			,`isEvaluated`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+ 	</select>
  </mapper>

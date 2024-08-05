@@ -20,7 +20,12 @@
 			</nav>
 			
 			<!-- 로그인 -->
-			<div class="col-2 d-flex justify-content-end align-items-center">
+			<div class="col-2 d-flex justify-content-end align-items-center" th:if="${session.userId != null}">
+				<a href="/user/info-view" class="userName" th:text="${session.userName} + '님'"></a>
+				<a href="/user/sign-out" class="logout pl-3">로그아웃</a>
+			</div>
+			
+			<div class="col-2 d-flex justify-content-end align-items-center" th:unless="${session.userId != null}">
 				<a href="/user/sign-in-view" id="mainLoginBtn">로그인</a>
 			</div>
 		</div>

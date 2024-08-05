@@ -135,10 +135,11 @@
 				}
 				
 				let url = $(this).attr("action");
-				//console.log(url);
 				let params = $(this).serialize();
+				//console.log(url);
 				//console.log(params);
 				
+				// 회원가입 AJAX
 				$.post(url, params)
 				.done(function(data) {
 					if (data.code == 200) {

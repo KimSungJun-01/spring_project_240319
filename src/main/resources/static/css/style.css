@@ -2,6 +2,7 @@
 
 header {height:120px;}
 .contents {min-height:550px; background:#FFE2B7;}
+.orangeBox {height:550px; width:1150px; background:rgb(255, 249, 239);}
 footer {height:100px;}
 .logo1 {font-size:40px;}
 .nav {font-size:20px;}
@@ -21,3 +22,7 @@ footer {height:100px;}
 #loginBtn {width:100px;}
 .signInBtn {color:gray;}
 .signInBtn:hover {color:black;}
+.logout {color:gray;}
+.logout:hover {color:black;}
+.userName {color:black;}
+.userName:hover {color:gray;}

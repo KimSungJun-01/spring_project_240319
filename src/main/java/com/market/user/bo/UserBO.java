@@ -26,7 +26,14 @@ public class UserBO {
 				.password(password)
 				.name(name)
 				.phoneNumber(phoneNumber)
+				.degree(36.5)
 				.email(email)
 				.build());
+	}
+	
+	// input : loginId, hashedPassword
+	// output : UserEntity or null
+	public UserEntity getUserEntityByLoginIdPassword(String loginId, String password) {
+		return userRepository.findByLoginIdAndPassword(loginId, password);
 	}
 }
