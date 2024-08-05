@@ -53,5 +53,16 @@ public class UserRestController {
 		
 		// DB 저장
 		UserEntity user = userBO.addUser(loginId, hashedPassword, name, phoneNumber, email);
+		
+		// 응답값
+		Map<String, Object> result = new HashMap<>();
+		if (user != null) {
+			result.put("code", 200);
+			result.put("result", "성공");
+		} else {
+			result.put("code", 500);
+			result.put("error_message", "회원가입에 실패해습니다.");
+		}
+		return result;
 	}
 }
