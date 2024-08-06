@@ -9,7 +9,7 @@ import lombok.ToString;
 @Data
 public class Post {
 	private int id;
-	private String userId;
+	private int userId;
 	private String subject;
 	private int price;
 	private String address;

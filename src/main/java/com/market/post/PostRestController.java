@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.market.post.bo.PostBO;
+import com.market.post.bo.PostImageBO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,6 +22,9 @@ public class PostRestController {
 	
 	@Autowired
 	private PostBO postBO;
+	
+	@Autowired
+	private PostImageBO postImageBO;
 	
 	// 글쓰기
 	@PostMapping("/create")
@@ -35,7 +39,8 @@ public class PostRestController {
 		int userId = (int) session.getAttribute("userId");
 		
 		// DB insert
-		postBO.addPost(userId, subject, price, address, content, files);
+		int postId = postBO.addPost(userId, subject, price, address, content);
+		postImageBO.addImages(postId, files);
 		
 		// 응답값
 		Map<String, Object> result = new HashMap<>();

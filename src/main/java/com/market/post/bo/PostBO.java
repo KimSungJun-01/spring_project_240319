@@ -20,5 +20,17 @@ public class PostBO {
 		return postMapper.selectPostList();
 	}
 	
-	// input : 
+	// input : userId, subject, price, address, content(비필수)
+	// output : int
+	public int addPost(int userId, String subject, int price, String address, String content) {
+		Post post = new Post();
+		post.setUserId(userId);
+		post.setSubject(subject);
+		post.setPrice(price);
+		post.setAddress(address);
+		post.setContent(content);
+		
+		postMapper.insertPost(post);
+		return post.getId();
+	}
 }

@@ -25,4 +25,26 @@
 		FROM
 			`post`
  	</select>
+ 	<insert id="insertPost" parameterType="com.market.post.domain.Post" useGeneratedKeys="true" keyProperty="id">
+ 		INSERT INTO `post`
+ 		(
+			`userId`
+			,`subject`
+			,`price`
+			,`address`
+			,`content`
+			,`createdAt`
+			,`updatedAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{userId}
+ 			, #{subject}
+ 			, #{price}
+ 			, #{address}
+ 			, #{content}
+ 			, NOW()
+ 			, NOW()
+ 		)
+ 	</insert>
  </mapper>

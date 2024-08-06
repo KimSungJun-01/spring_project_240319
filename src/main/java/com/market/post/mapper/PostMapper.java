@@ -12,4 +12,5 @@ public interface PostMapper {
 	
 	public List<Map<String, Object>> selectPostListTest();
 	public List<Post> selectPostList();
+	public void insertPost(Post post);
 }
