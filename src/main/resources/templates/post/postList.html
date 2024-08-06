@@ -3,9 +3,44 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/defaultLayout}">
-<section layout:fragment="content" class="contents d-flex justify-content-center align-items-center">
-	<div class="orangeBox">
-		
+<section layout:fragment="content" class="contents">
+	<div class="orangeBox d-flex justify-content-center">
+		<div class="h-100 w-75">
+			<!-- 제목 및 배열순위버튼 -->
+			<div class="exchangeLetter d-flex">
+				<div class="h-100 w-75 d-flex align-items-center justify-content-end">
+					<span class="exchangeLetter1 mr-5 pr-5">중고거래 인기매물</span>
+				</div>
+				<div class="h-100 w-25 d-flex justify-content-center align-items-center">
+					<select>
+					  <option selected>최신순</option>
+					  <option>인기순</option>
+					  <option>가격순</option>
+					</select>
+				</div>
+			</div>
+			
+			<!-- 물품 리스트 -->
+			<div class="bg-white exchangeList d-flex flex-wrap">
+				<!-- 제품 1개 -->
+				<div class="bg-danger productOne mr-1 ml-2 d-flex justify-content-center" th:each="post : ${postList}">
+					<div class="h-100 w-75">
+						<a href="#" class="postAnchor">
+							<img src="/img/refrigerator.png" class="productImage mt-1 rounded" alt="제품 이미지">						
+							<div class="postSubject pt-1 pl-1" th:text="${post.subject}"></div><br>
+							<div class="postPrice pl-1 font-weight-bold" th:text="${post.price} + '원'"></div><br>
+							<div class="postAddress pl-1" th:text="${post.address}"></div><br>
+							<div class="likeCount pl-1">관심 37</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 페이지 이동 -->
+			<div class="bg-primary changePage">
+				
+			</div>
+		</div>
 	</div>
 </section>
 

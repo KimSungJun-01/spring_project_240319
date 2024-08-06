@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<section layout:fragment="content" class="contents d-flex justify-content-center align-items-center pt-4 pb-4">
+	<div class="whiteBox d-flex justify-content-center">
+		<div class="w-50">
+			<h1>글쓰기</h1>
+			<h5>제목</h5>
+			<input type="text" id="subject" class="form-control"><br>
+			<h5>가격</h5>
+			<input type="text" id="price" class="form-control"><br>
+			<h5>거래지역</h5>
+			<input type="text" id="address" class="form-control"><br>
+			<h5>세부사항</h5>
+			<textarea rows="5" id="content" class="form-control"></textarea><br>
+			<div class="d-flex justify-content-between pb-3">
+				<input type="file" id="files" name="files" accept=".jpg, .png, .gif" multiple>
+				<button type="button" id="postSaveBtn" class="btn btn-primary">작성완료</button>
+			</div>
+			<div id="preview"></div>
+		</div>
+	</div>
+</section>
+
+<th:block layout:fragment="script">
+    <script>
+		$(document).ready(function() {
+			// 이미지 파일 변경시 미리보기 구현
+			$("#files").on('change', function(e) {
+				// 미리보기 내용 제거
+				$("#preview").empty();
+				
+				let files = e.target.files;
+				for (let i = 0; i < files.length; i++) {
+					let file = files[i];
+					
+					// 이미지 파일인지 아닌지 확인
+					if (file && file.type.match('image.*')) {
+						let reader = new FileReader();
+						
+						reader.onload = function(e) {
+							// 이미지 미리보기 생성
+							let img = $('<img>').attr('src', e.target.result).css({
+								'max-width':'100px',
+								'max-heigth':'50px',
+								'margin':'5px'
+							});
+							$("#preview").append(img);
+						}
+						reader.readAsDataURL(file);
+					}
+				}
+			});
+			
+			// 작성완료 버튼
+			$("#postSaveBtn").on('click', function() {
+				//alert("작성완료");
+				
+				let subject = $("#subject").val().trim();
+				let price = $("#price").val().trim();
+				let address = $("#address").val().trim();
+				let content = $("#content").val();
+				let files = $("#files")[0].files;
+				
+				console.log(files);
+				
+				let fileNames = [];
+				for (let i = 0; i < files.length; i++) {
+					fileNames.push(files[i].name);
+				}
+				//console.log(fileNames);
+				
+				// validation
+				if (!subject) {
+					alert("제목을 입력하세요");
+					return;
+				}
+				
+				if (!price) {
+					alert("가격을 입력하세요");
+					return;
+				}
+				
+				if (!address) {
+					alert("주소를 입력하세요");
+					return;
+				}
+				
+				if (fileNames) {
+					//alert("사진 첨부 완료");
+					let extensions = [];
+					for (let i = 0; i < fileNames.length; i++) {
+						extensions[i] = fileNames[i].split(".").pop().toLowerCase();
+						//console.log(extensions[i]);
+						if ($.inArray(extensions[i], ["jpg", "gif", "png"]) == -1) {
+							alert("이미지 파일만 업로드 할 수 있습니다.");
+							$("#files").val("");
+							return;
+						}
+					}	
+				}				
+				
+				let formData = new FormData();
+				formData.append("subject", subject);
+				formData.append("price", price);
+				formData.append("address", address);
+				formData.append("content", content);
+				for (let i = 0; i < files.legnth; i++) {
+					formData.append("files", files[i]);
+				}
+				
+				$.ajax({
+					type:"post"
+					, url:"/post/create"
+					, data:formData
+					, enctype:"multipart/form-data"
+					, processData:false
+					, contentType:false
+					
+					, success:function(data) {
+						if (data.code == 200) {
+							alert("글이 작성되었습니다.");
+							location.href = "/post/post-list-view";
+						} else {
+							alert(data.error_message);
+						}
+					}
+					, error:function(e) {
+						alert("글을 저장하는데 실패했습니다.");
+					}
+				});
+			});
+		});
+    </script>
+</th:block>

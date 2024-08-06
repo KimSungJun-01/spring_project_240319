@@ -3,7 +3,7 @@
 header {height:120px;}
 .contents {min-height:550px; background:#FFE2B7;}
 .orangeBox {height:550px; width:1150px; background:rgb(255, 249, 239);}
-footer {height:100px;}
+footer {height:100px; color:gray;}
 .logo1 {font-size:40px;}
 .nav {font-size:20px;}
 .nav-link {color:gray;}
@@ -26,3 +26,14 @@ footer {height:100px;}
 .logout:hover {color:black;}
 .userName {color:black;}
 .userName:hover {color:gray;}
+.exchangeLetter {height:80px;}
+.exchangeList {height:400px;}
+.changePage {height:70px;}
+.exchangeLetter1 {font-size:35px;}
+.productOne {height:200px; width:200px; text-align:center; line-height:10px;}
+.productImage {height:120px; width:145px;}
+.postSubject {font-size:12px; text-align:left; color:black;}
+.postPrice {font-size:11px; text-align:left; color:black;}
+.postAddress {font-size:11px; text-align:left; color:black;}
+.likeCount {font-size:10px; text-align:left; color:gray;}
+.postAnchor:hover {text-decoration:none;}

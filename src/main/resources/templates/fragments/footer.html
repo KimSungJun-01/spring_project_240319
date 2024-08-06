@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<footer class="d-flex align-items-center" th:fragment="footerFragment">
-		<div class="copyright pl-4">대표 김성준 | 사업자번호 123-45-6789<br>
-			주소 서울특별시 서초구 (당무 서비스)<br>
-			전화 1234-5678 | 고객문의 jt2302@naver.com</div>
+	<footer th:fragment="footerFragment">
+		<div class="h-50 w-100 d-flex justify-content-center align-items-end">
+			<span>대표 김성준 | 사업자번호 123-45-6789</span>
+		</div>
+		<div class="h-25 w-100 d-flex justify-content-center align-items-center">
+			<span>주소 서울특별시 서초구 (당무 서비스)</span>
+		</div>
+		<div class="h-25 w-100 d-flex justify-content-center align-items-center">
+			<span>전화 1234-5678 | 고객문의 jt2302@naver.com</span>
+		</div>
 	</footer>
 </html>

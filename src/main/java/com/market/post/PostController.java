@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.market.post.bo.PostBO;
 import com.market.post.domain.Post;
 
+import jakarta.servlet.http.HttpSession;
+
 @RequestMapping("/post")
 @Controller
 public class PostController {
@@ -27,5 +29,18 @@ public class PostController {
 		model.addAttribute("postList", postList);
 		
 		return "post/postList";
+	}
+	
+	// 글쓰기 화면
+	@GetMapping("/post-create-view")
+	public String postCreateView(HttpSession session) {
+		
+		// 로그인 여부 확인
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			return "redirect:/user/sign-in-view";
+		}
+		
+		return "post/postCreate";
 	}
 }

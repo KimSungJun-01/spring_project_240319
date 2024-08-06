@@ -19,4 +19,6 @@ public class PostBO {
 	public List<Post> getPostList() {
 		return postMapper.selectPostList();
 	}
+	
+	// input : 
 }
