@@ -17,6 +17,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class PostController {
 	
+	//
+	
 	@Autowired
 	private PostBO postBO;
 	
