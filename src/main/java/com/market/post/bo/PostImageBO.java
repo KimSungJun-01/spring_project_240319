@@ -6,19 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.market.post.mapper.PostImageMapper;
+import com.market.common.FileManagerService;
+import com.market.post.mapper.PostMapper;
 
 @Service
 public class PostImageBO {
 	
 	@Autowired
-	private PostImageMapper postImageMapper;
+	private PostMapper postMapper;
+	
+	@Autowired
+	private FileManagerService fileManagerService;
 	
 	// input : postId, List<MultipartFile> files
 	// output : x
-	public void addImages(int postId, List<MultipartFile> files) {
+	public void addImages(int postId, String userLoginId, List<MultipartFile> files) {
 		for (int i = 0; i < files.size(); i++) {
-			postImageMapper.insertImage(postId, files.get(i));
+			String imagePath = fileManagerService.uploadFile(files.get(i), userLoginId);
+			postMapper.insertImage(postId, imagePath);
 		}
 	}
 }

@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/defaultLayout}">
 <section layout:fragment="content" class="contents d-flex justify-content-center align-items-center">
-	<div class="whiteBox d-flex justify-content-center align-items-center">
+	<div class="whiteBox d-flex justify-content-center align-items-center mt-4 mb-4">
 		<div class="h-100 w-75">
 			<!-- 회원가입 글씨 -->
 			<div class="mt-2"><h2>회원가입</h2></div>
@@ -43,6 +43,10 @@
 					<tr>
 						<th>이메일</th>
 						<td><input type="text" id="email" name="email" class="form-control" placeholder="이메일을 입력하세요."></td>
+					</tr>
+					<tr>
+						<th>프로필 이미지</th>
+						<td><input type="file" id="profileImage" name="profileImage" accept=".jpg, .png, .gif"></td>
 					</tr>
 				</table>
 			
@@ -102,6 +106,7 @@
 				let name = $("#name").val().trim();
 				let phoneNumber = $("#phoneNumber").val().trim();
 				let email = $("#email").val().trim();
+				let fileName = $("#profileImage").val();
 				
 				// validation
 				if (!loginId) {
@@ -129,25 +134,52 @@
 					return false;
 				}
 				
+				if (!fileName) {
+					alert("프로필 이미지를 선택하세요");
+					return false;
+				} else {
+					let extension = fileName.split(".").pop().toLowerCase();
+					//console.log(extension);
+					if ($.inArray(extension, ["jpg", "gif", "png"]) == -1) {
+						alert("이미지 파일만 업로드 할 수 있습니다.");
+						$("#profileImage").val("");
+						return;
+					}
+				}
+				
 				if ($("#idCheckOk").hasClass("d-none")) {
 					alert("아이디 중복확인을 해주세요");
 					return false;
 				}
 				
-				let url = $(this).attr("action");
-				let params = $(this).serialize();
-				//console.log(url);
-				//console.log(params);
+				let formData = new FormData();
+				formData.append("loginId", loginId);
+				formData.append("password", password);
+				formData.append("name", name);
+				formData.append("phoneNumber", phoneNumber);
+				formData.append("email", email);
+				formData.append("profileImage", $("#profileImage")[0].files[0]);
 				
 				// 회원가입 AJAX
-				$.post(url, params)
-				.done(function(data) {
-					if (data.code == 200) {
-						alert("가입을 환영합니다. 로그인 해주세요.");
-						location.href = "/user/sign-in-view";
-					} else {
-						alert(data.error_message);
+				$.ajax({
+					type:"post"
+					, url:"/user/sign-up"
+					, data:formData
+					, enctype:"multipart/form-data"
+					, processData:false
+					, contentType:false
+					
+					, success:function(data) {
+						if (data.code == 200) {
+							alert("가입을 환영합니다. 로그인 해주세요.");
+							location.href = "/user/sign-in-view";
+						} else {
+							alert(data.error_message);
+						}
 					}
+				, error:function(e) {
+					alert("글을 저장하는데 실패했습니다.");
+				}
 				});
 			});
 		});

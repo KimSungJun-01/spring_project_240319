@@ -2,7 +2,9 @@ package com.market.user.bo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.market.common.FileManagerService;
 import com.market.user.entity.UserEntity;
 import com.market.user.repository.UserRepository;
 
@@ -12,6 +14,9 @@ public class UserBO {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private FileManagerService fileManagerService;
+	
 	// input : loginId
 	// output : UserEntity or null
 	public UserEntity getUserEntityByLoginId(String loginId) {
@@ -20,7 +25,10 @@ public class UserBO {
 	
 	// input : 회원가입 정보
 	// output : UserEntity
-	public UserEntity addUser(String loginId, String password, String name, String phoneNumber, String email) {
+	public UserEntity addUser(String loginId, String password, String name, String phoneNumber, String email, MultipartFile profileImage) {
+		
+		String profileImagePath = fileManagerService.profileUploadFile(profileImage, loginId);
+		
 		return userRepository.save(UserEntity.builder()
 				.loginId(loginId)
 				.password(password)
@@ -28,6 +36,7 @@ public class UserBO {
 				.phoneNumber(phoneNumber)
 				.degree(36.5)
 				.email(email)
+				.profileImagePath(profileImagePath)
 				.build());
 	}
 	
@@ -36,4 +45,5 @@ public class UserBO {
 	public UserEntity getUserEntityByLoginIdPassword(String loginId, String password) {
 		return userRepository.findByLoginIdAndPassword(loginId, password);
 	}
+
 }

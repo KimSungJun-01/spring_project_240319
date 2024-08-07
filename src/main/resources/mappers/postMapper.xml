@@ -47,4 +47,18 @@
  			, NOW()
  		)
  	</insert>
+ 	<insert id="insertImage" parameterType="map">
+ 		INSERT INTO `image`
+ 		(
+			`postId`
+			,`imagePath`
+			,`createdAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{postId}
+ 			, #{imagePath}
+ 			, NOW()
+ 		)
+ 	</insert>
  </mapper>

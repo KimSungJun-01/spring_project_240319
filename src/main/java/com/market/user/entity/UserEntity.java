@@ -43,6 +43,9 @@ public class UserEntity {
 	
 	private String email;
 	
+	@Column(name = "profileImagePath")
+	private String profileImagePath;
+	
 	@CreationTimestamp
 	@Column(name = "createdAt")
 	private LocalDateTime createdAt;

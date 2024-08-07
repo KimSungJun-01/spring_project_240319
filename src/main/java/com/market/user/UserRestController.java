@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.market.common.EncryptUtils;
 import com.market.user.bo.UserBO;
@@ -49,13 +50,14 @@ public class UserRestController {
 			@RequestParam("password") String password,
 			@RequestParam("name") String name,
 			@RequestParam("phoneNumber") String phoneNumber,
-			@RequestParam(value = "email", required = false) String email) {
+			@RequestParam(value = "email", required = false) String email,
+			@RequestParam("profileImage") MultipartFile profileImage) {
 		
 		// password 암호화 (md5 알고리즘)
 		String hashedPassword = EncryptUtils.md5(password);
 		
 		// DB 저장
-		UserEntity user = userBO.addUser(loginId, hashedPassword, name, phoneNumber, email);
+		UserEntity user = userBO.addUser(loginId, hashedPassword, name, phoneNumber, email, profileImage);
 		
 		// 응답값
 		Map<String, Object> result = new HashMap<>();

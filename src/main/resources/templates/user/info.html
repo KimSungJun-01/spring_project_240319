@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<section layout:fragment="content" class="contents d-flex justify-content-center align-items-center">
+	<div class="whiteBox d-flex justify-content-center">
+		<div class="w-50 infoBox">
+			<!-- 회원 프로필 -->
+			<div class="profileBox d-flex">
+				<div class="h-100 w-50 d-flex justify-content-center align-items-center">
+					<img th:src="${user.profileImagePath}" alt="프로필 이미지" class="profileImage">
+				</div>
+				<div class="h-100 w-50 d-flex justify-content-center align-items-center">
+					<h1 th:text="${user.loginId}"></h1>
+				</div>
+			</div>
+			
+			<!-- 회원 매너온도 -->
+			<div class="degreeBox">
+				<div class="h-50 w-100 d-flex justify-content-between align-items-center">
+					<span class="ml-3 font-weight-bold">매너온도</span>
+					<span class="mr-3">36.5℃</span>
+				</div>
+				<div class="h-50 w-100 d-flex justify-content-center align-items-center">
+					<div class="progress h-25">
+					  <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 거래현황 버튼 -->
+			<div class="infoButtonBox">
+				<div class="h-50 w-100 d-flex justify-content-center align-items-center">
+					<button class="btn btn-secondary myLikeBtn">찜한 목록</button>
+				</div>
+				<div class="h-50 w-100 d-flex justify-content-center align-items-center">
+					<button class="btn btn-secondary myChangeStateBtn">나의 거래 현황</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<th:block layout:fragment="script">
+    <script>
+		
+    </script>
+</th:block>

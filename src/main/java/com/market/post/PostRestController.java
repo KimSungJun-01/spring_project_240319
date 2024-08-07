@@ -36,16 +36,17 @@ public class PostRestController {
 			@RequestParam("files") List<MultipartFile> files,
 			HttpSession session) {	
 		
-		int userId = (int) session.getAttribute("userId");
+		int userId = (int)session.getAttribute("userId");
+		String userLoginId = (String)session.getAttribute("userLoginId");
 		
 		// DB insert
 		int postId = postBO.addPost(userId, subject, price, address, content);
-		postImageBO.addImages(postId, files);
+		postImageBO.addImages(postId, userLoginId, files);
 		
 		// 응답값
 		Map<String, Object> result = new HashMap<>();
 		result.put("code", 200);
-		result.put("result", "성공");
+		result.put(" result", "성공");
 		return result;
 	}
 }
