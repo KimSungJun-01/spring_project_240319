@@ -9,15 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.market.post.bo.PostBO;
-import com.market.post.domain.Post;
+import com.market.post.domain.CardView;
 
 import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/post")
 @Controller
 public class PostController {
-	
-	//
 	
 	@Autowired
 	private PostBO postBO;
@@ -26,9 +24,13 @@ public class PostController {
 	@GetMapping("/post-list-view")
 	public String postListView(Model model) {
 		
-		List<Post> postList = postBO.getPostList();
+		//List<Post> postList = postBO.getPostList();
 		
-		model.addAttribute("postList", postList);
+		//model.addAttribute("postList", postList);
+		
+		List<CardView> cardViewList = cardViewBO.getCardViewList();
+		
+		model.addAttribute("cardViewList", cardViewList);
 		
 		return "post/postList";
 	}
@@ -50,7 +52,12 @@ public class PostController {
 	@GetMapping("/like-view")
 	public String likeView(HttpSession session, Model model) {
 		
+		// 로그인 여부 확인
 		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			return "redirect:/user/sign-in-view";
+		}
+		
 		model.addAttribute("userId", userId);
 		
 		return "post/like";
@@ -58,7 +65,16 @@ public class PostController {
 	
 	// 나의 거래 현황
 	@GetMapping("/state-view")
-	public String stateView() {
+	public String stateView(HttpSession session, Model model) {
+		
+		// 로그인 여부 확인
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			return "redirect:/user/sign-in-view";
+		}
+		
+		model.addAttribute("userId", userId);
+		
 		return "post/state";
 	}
 }

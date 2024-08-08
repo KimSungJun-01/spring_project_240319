@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.market.common.FileManagerService;
+import com.market.post.domain.Image;
 import com.market.post.mapper.PostMapper;
 
 @Service
@@ -25,5 +26,11 @@ public class PostImageBO {
 			String imagePath = fileManagerService.uploadFile(files.get(i), userLoginId);
 			postMapper.insertImage(postId, imagePath);
 		}
+	}
+	
+	// input : postId
+	// output : List<Image>
+	public Image getImageByPostId(int postId) {
+		return postMapper.selectImageByPostId(postId);
 	}
 }

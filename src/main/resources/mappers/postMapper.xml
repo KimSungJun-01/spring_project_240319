@@ -61,4 +61,16 @@
  			, NOW()
  		)
  	</insert>
+ 	<select id="selectImageByPostId" parameterType="int" resultType="com.market.post.domain.Image">
+ 		SELECT
+ 			`id`
+			, `postId`
+			, `imagePath`
+			, `createdAt`
+ 		FROM `image`
+ 		WHERE
+ 			`postId` = #{postId}
+ 		ORDER BY `id` DESC
+ 		LIMIT 1
+ 	</select>
  </mapper>
