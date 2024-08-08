@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileManagerService {
 	
 	// notebook
-	public static final String FILE_UPLOAD_PATH = "C:\\Users\\moonh\\OneDrive\\바탕 화면\\김성준\\6_spring_project\\market\\images/";
+	public static final String FILE_UPLOAD_PATH = "C:\\Users\\moonh\\OneDrive\\바탕 화면\\김성준\\6_spring_project\\market\\market_workspace\\images/";
 	
 	// megastudy
 	// public static final String FILE_UPLOAD_PATH = "";

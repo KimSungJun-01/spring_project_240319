@@ -46,7 +46,7 @@ public class PostRestController {
 		// 응답값
 		Map<String, Object> result = new HashMap<>();
 		result.put("code", 200);
-		result.put(" result", "성공");
+		result.put("result", "성공");
 		return result;
 	}
 }
