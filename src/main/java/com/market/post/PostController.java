@@ -7,9 +7,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.market.post.bo.CardViewBO;
+import com.market.post.bo.PostBO;
+import com.market.post.bo.PostImageBO;
 import com.market.post.domain.CardView;
+import com.market.post.domain.Image;
+import com.market.post.domain.Post;
+import com.market.user.bo.UserBO;
+import com.market.user.entity.UserEntity;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -19,6 +26,15 @@ public class PostController {
 	
 	@Autowired
 	private CardViewBO cardViewBO;
+	
+	@Autowired
+	private PostBO postBO;
+	
+	@Autowired
+	private PostImageBO postImageBO;
+	
+	@Autowired
+	private UserBO userBO;
 	
 	// 중고거래 화면
 	@GetMapping("/post-list-view")
@@ -76,5 +92,22 @@ public class PostController {
 		model.addAttribute("userId", userId);
 		
 		return "post/state";
+	}
+	
+	// 글 상세 화면
+	@GetMapping("/post-detail-view")
+	public String postDetailView(
+			@RequestParam("postId") int postId,
+			Model model) {
+		
+		Post post = postBO.getPostByPostId(postId);
+		Image image = postImageBO.getImageByPostId(postId);
+		UserEntity writeUser = userBO.getUserEntityByLoginId(post.getUserId());
+		
+		model.addAttribute("post", post);
+		model.addAttribute("image", image);
+		model.addAttribute("writeUser", writeUser);
+		
+		return "post/postDetail";
 	}
 }

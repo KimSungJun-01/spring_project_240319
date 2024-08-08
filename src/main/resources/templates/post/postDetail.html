@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<section layout:fragment="content" class="contents d-flex justify-content-center align-items-cener">
+	<div class="whiteBox mt-4 mb-4 d-flex justify-content-center">
+		<div class="h-100 bg-secondary detailBox">
+			<!-- 제품 이미지 -->
+			<img th:src="${image.imagePath}" class="productDetailImage w-100 rounded mt-3">
+			
+			<div class="detailBox2 w-100 bg-warning d-flex">
+				<!-- 제품 제목,가격 -->
+				<div class="h-100 w-50 bg-danger">
+					<h2 th:text="${post.subject}" class="pt-2"></h2>
+					<h4 th:text="${post.price} + '원'" class="font-weight-bold"></h4>
+				</div>
+				
+				<!-- 판매자 정보 -->
+				<div class="h-100 w-50 bg-info d-flex">
+					<!-- 판매자 프로필 사진 -->
+					<div class="h-100 w-50 bg-primary d-flex justify-content-center align-items-center">
+						<img th:src="${writeUser.profileImagePath}" class="h-75 w-75 rounded">
+					</div>
+					
+					<!-- 판매자 LoginId, 매너온도 -->
+					<div class="h-100 w-50 bg-warning"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<th:block layout:fragment="script">
+    <script>
+		
+    </script>
+</th:block>

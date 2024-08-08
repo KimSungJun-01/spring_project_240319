@@ -73,4 +73,22 @@
  		ORDER BY `id` DESC
  		LIMIT 1
  	</select>
+ 	<select id="selectPostById" parameterType="int" resultType="com.market.post.domain.Post">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`subject`
+			,`price`
+			,`address`
+			,`content`
+			,`state`
+			,`buyerId`
+			,`isEvaluated`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		WHERE
+			`id` = #{id}
+ 	</select>
  </mapper>

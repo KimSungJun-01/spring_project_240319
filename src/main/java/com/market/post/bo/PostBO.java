@@ -33,4 +33,10 @@ public class PostBO {
 		postMapper.insertPost(post);
 		return post.getId();
 	}
+	
+	// input : postId
+	// output : Post
+	public Post getPostByPostId(int postId) {
+		return postMapper.selectPostById(postId);
+	}
 }

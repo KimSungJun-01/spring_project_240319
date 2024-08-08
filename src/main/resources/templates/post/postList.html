@@ -21,11 +21,11 @@
 			</div>
 			
 			<!-- 물품 리스트 -->
-			<div class="bg-white exchangeList d-flex flex-wrap">
+			<div class="exchangeList d-flex flex-wrap">
 				<!-- 제품 1개 -->
-				<div th:each="cardView : ${cardViewList}" class="bg-danger productOne mr-1 ml-2 d-flex justify-content-center">
+				<div th:each="cardView : ${cardViewList}" class="productOne mr-1 ml-2 d-flex justify-content-center">
 					<div class="h-100 w-75">
-						<a href="#" class="postAnchor">
+						<a th:href="|/post/post-detail-view?postId=${cardView.post.id}|" class="postAnchor">
 							<img th:src="${cardView.image.imagePath}" class="productImage mt-1 rounded" alt="제품 이미지">						
 							<div class="postSubject pt-1 pl-1" th:text="${cardView.post.subject}"></div><br>
 							<div class="postPrice pl-1 font-weight-bold" th:text="${cardView.post.price} + '원'"></div><br>

@@ -16,6 +16,7 @@ public interface PostMapper {
 	public List<Map<String, Object>> selectPostListTest();
 	public List<Post> selectPostList();
 	public void insertPost(Post post);
+	public Post selectPostById(int id);
 	
 	// 이미지
 	public void insertImage(
