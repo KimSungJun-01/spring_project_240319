@@ -21,5 +21,6 @@ public interface PostMapper {
 	public void insertImage(
 			@Param("postId") int postId, 
 			@Param("imagePath") String imagePath);
+	
 	public Image selectImageByPostId(int postId);
 }

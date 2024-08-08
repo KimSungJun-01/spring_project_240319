@@ -9,7 +9,7 @@
 		FROM
 			`post`
  	</select>
- 	<select id="selectPostList" resultType="map">
+ 	<select id="selectPostList" resultType="com.market.post.domain.Post">
  		SELECT
  			`id`
 			,`userId`
