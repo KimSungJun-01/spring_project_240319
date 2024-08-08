@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.market.like.bo.LikeBO;
 import com.market.post.bo.CardViewBO;
 import com.market.post.bo.PostBO;
 import com.market.post.bo.PostImageBO;
@@ -35,6 +36,9 @@ public class PostController {
 	
 	@Autowired
 	private UserBO userBO;
+	
+	@Autowired
+	private LikeBO likeBO;
 	
 	// 중고거래 화면
 	@GetMapping("/post-list-view")
@@ -98,15 +102,21 @@ public class PostController {
 	@GetMapping("/post-detail-view")
 	public String postDetailView(
 			@RequestParam("postId") int postId,
+			HttpSession session,
 			Model model) {
 		
-		Post post = postBO.getPostByPostId(postId);
-		Image image = postImageBO.getImageByPostId(postId);
-		UserEntity writeUser = userBO.getUserEntityByLoginId(post.getUserId());
 		
-		model.addAttribute("post", post);
+		Integer userId = (Integer)session.getAttribute("userId");
+		
+		Image image = postImageBO.getImageByPostId(postId);
+		Post post = postBO.getPostByPostId(postId);
+		UserEntity writeUser = userBO.getUserEntityByLoginId(post.getUserId());
+		boolean filledLike = likeBO.filledLikeByPostIdUserId(postId, userId);
+		
 		model.addAttribute("image", image);
+		model.addAttribute("post", post);
 		model.addAttribute("writeUser", writeUser);
+		model.addAttribute("filledLike", filledLike);
 		
 		return "post/postDetail";
 	}

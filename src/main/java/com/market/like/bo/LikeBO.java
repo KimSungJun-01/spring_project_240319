@@ -16,4 +16,15 @@ public class LikeBO {
 	public int getLikeCountByPostId(int postId) {
 		return likeMapper.selectLikeCountByPostId(postId);
 	}
+	
+	// input : postId, userId
+	// output : boolean
+	public boolean filledLikeByPostIdUserId(int postId, Integer userId) {
+		
+		if (userId == null) {
+			return false;
+		}
+		
+		return likeMapper.selectLikeCountByPostIdOrUserId(postId, userId) == 1 ? true : false;
+	}
 }

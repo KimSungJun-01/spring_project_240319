@@ -13,10 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileManagerService {
 	
 	// notebook
-	//public static final String FILE_UPLOAD_PATH = "C:\\Users\\moonh\\OneDrive\\바탕 화면\\김성준\\6_spring_project\\market\\market_workspace\\images/";
+	public static final String FILE_UPLOAD_PATH = "C:\\Users\\moonh\\OneDrive\\바탕 화면\\김성준\\6_spring_project\\market\\clone\\src\\main\\resources\\static\\img\\post_img/";
 	
 	// megastudy
-	public static final String FILE_UPLOAD_PATH = "D:\\김성준\\6_spring_project\\market\\clone\\src\\main\\resources\\static\\img\\post_img/";
+	//public static final String FILE_UPLOAD_PATH = "D:\\김성준\\6_spring_project\\market\\clone\\src\\main\\resources\\static\\img\\post_img/";
 	
 	// input : userLoginId, MultipartFile
 	// output : imagePath
@@ -44,10 +44,10 @@ public class FileManagerService {
 	}
 	
 	// notebook
-	//public static final String PROFILE_FILE_UPLOAD_PATH = "C:\\Users\\moonh\\OneDrive\\바탕 화면\\김성준\\6_spring_project\\market\\clone\\src\\main\\resources\\static\\img/";
+	public static final String PROFILE_FILE_UPLOAD_PATH = "C:\\Users\\moonh\\OneDrive\\바탕 화면\\김성준\\6_spring_project\\market\\clone\\src\\main\\resources\\static\\img\\profile_img/";
 	
 	// megastudy
-	public static final String PROFILE_FILE_UPLOAD_PATH = "D:\\김성준\\6_spring_project\\market\\clone\\src\\main\\resources\\static\\img\\profile_img/";
+	//public static final String PROFILE_FILE_UPLOAD_PATH = "D:\\김성준\\6_spring_project\\market\\clone\\src\\main\\resources\\static\\img\\profile_img/";
 	
 	public String profileUploadFile(MultipartFile profileImage, String loginId) {
 		
