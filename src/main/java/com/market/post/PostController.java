@@ -45,4 +45,20 @@ public class PostController {
 		
 		return "post/postCreate";
 	}
+	
+	// 찜한 목록 화면
+	@GetMapping("/like-view")
+	public String likeView(HttpSession session, Model model) {
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		model.addAttribute("userId", userId);
+		
+		return "post/like";
+	}
+	
+	// 나의 거래 현황
+	@GetMapping("/state-view")
+	public String stateView() {
+		return "post/state";
+	}
 }
