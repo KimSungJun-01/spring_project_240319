@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.market.like.bo.LikeBO;
 import com.market.post.domain.CardView;
 import com.market.post.domain.Post;
 
@@ -17,6 +18,9 @@ public class CardViewBO {
 	
 	@Autowired
 	private PostImageBO postImageBO;
+	
+	@Autowired
+	private LikeBO likeBO;
 	
 	// input : 
 	// output : List<CardView>
@@ -36,6 +40,11 @@ public class CardViewBO {
 			
 			// 글의 id로 해당 대표 이미지 1개 CardView에 추가
 			card.setImage(postImageBO.getImageByPostId(thisPostId));
+			
+			// 해당 글의 좋아요 개수 추가
+			card.setLikeCount(likeBO.getLikeCountByPostId(thisPostId));
+			
+			cardViewList.add(card);
 		}
 		
 		return cardViewList;

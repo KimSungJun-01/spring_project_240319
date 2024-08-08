@@ -23,14 +23,14 @@
 			<!-- 물품 리스트 -->
 			<div class="bg-white exchangeList d-flex flex-wrap">
 				<!-- 제품 1개 -->
-				<div class="bg-danger productOne mr-1 ml-2 d-flex justify-content-center" th:each="post : ${postList}">
+				<div th:each="cardView : ${cardViewList}" class="bg-danger productOne mr-1 ml-2 d-flex justify-content-center" th:each="post : ${postList}">
 					<div class="h-100 w-75">
 						<a href="#" class="postAnchor">
-							<img src="/img/refrigerator.png" class="productImage mt-1 rounded" alt="제품 이미지">						
-							<div class="postSubject pt-1 pl-1" th:text="${post.subject}"></div><br>
-							<div class="postPrice pl-1 font-weight-bold" th:text="${post.price} + '원'"></div><br>
-							<div class="postAddress pl-1" th:text="${post.address}"></div><br>
-							<div class="likeCount pl-1">관심 37</div>
+							<img th:src="${cardView.image.imagePath}" class="productImage mt-1 rounded" alt="제품 이미지">						
+							<div class="postSubject pt-1 pl-1" th:text="${cardView.post.subject}"></div><br>
+							<div class="postPrice pl-1 font-weight-bold" th:text="${cardView.post.price} + '원'"></div><br>
+							<div class="postAddress pl-1" th:text="${cardView.post.address}"></div><br>
+							<div class="likeCount pl-1" th:text="'관심 ' + ${cardView.likeCount}"></div>
 						</a>
 					</div>
 				</div>

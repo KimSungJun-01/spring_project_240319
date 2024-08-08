@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.market.post.bo.PostBO;
+import com.market.post.bo.CardViewBO;
 import com.market.post.domain.CardView;
 
 import jakarta.servlet.http.HttpSession;
@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpSession;
 public class PostController {
 	
 	@Autowired
-	private PostBO postBO;
+	private CardViewBO cardViewBO;
 	
 	// 중고거래 화면
 	@GetMapping("/post-list-view")
@@ -28,7 +28,7 @@ public class PostController {
 		
 		//model.addAttribute("postList", postList);
 		
-		List<CardView> cardViewList = cardViewBO.getCardViewList();
+		List<CardView> cardViewList = cardViewBO.generateCardViewList();
 		
 		model.addAttribute("cardViewList", cardViewList);
 		
