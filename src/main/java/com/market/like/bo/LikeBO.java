@@ -27,4 +27,16 @@ public class LikeBO {
 		
 		return likeMapper.selectLikeCountByPostIdOrUserId(postId, userId) == 1 ? true : false;
 	}
+	
+	// input : postId, userId
+	// output : x
+	public void likeToggle(int postId, int userId) {
+		int count = likeMapper.selectLikeCountByPostIdOrUserId(postId, userId);
+		
+		if (count > 0) {
+			likeMapper.deleteLikeByPostIdUserId(postId, userId);
+		} else {
+			likeMapper.insertLike(postId, userId);
+		}
+	}
 }
