@@ -12,16 +12,16 @@
 					<span class="exchangeLetter1 mr-5 pr-5">중고거래 인기매물</span>
 				</div>
 				<div class="h-100 w-25 d-flex justify-content-center align-items-center">
-					<select>
-					  <option selected>최신순</option>
-					  <option>인기순</option>
-					  <option>가격순</option>
+					<select id="listOrder">
+					  <option selected value="latest">최신순</option>
+					  <option value="popularity">인기순</option>
+					  <option value="price">가격순</option>
 					</select>
 				</div>
 			</div>
 			
 			<!-- 물품 리스트 -->
-			<div class="exchangeList d-flex flex-wrap">
+			<div class="exchangeList d-flex flex-wrap" th:fragment="postListFragment">
 				<!-- 제품 1개 -->
 				<div th:each="cardView : ${cardViewList}" class="productOne mr-1 ml-2 d-flex justify-content-center">
 					<div class="h-100 w-75">
@@ -46,6 +46,22 @@
 
 <th:block layout:fragment="script">
     <script>
-		
+		$(document).ready(function() {
+			$("#listOrder").on('change', function() {
+				let listOrder = $(this).val();
+				
+				$.ajax({
+					url: "/post/post-list-view"
+					, type: "GET"
+					, data: {"listOrder":listOrder}
+					, success:function(data) {
+						$(".exchangeList").html(data);
+					}
+					, error:function(error) {
+						alert("리스트 배열에 실패했습니다.");
+					}
+				});
+			});
+		});
     </script>
 </th:block>

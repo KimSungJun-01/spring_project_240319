@@ -33,9 +33,9 @@
 			<!-- 주소, 좋아요 버튼 -->
 			<div class="detailBox4 w-100 d-flex justify-content-between align-items-center">
 				<h5 th:text="${post.address}" class="ml-1"></h5>
-				<a href="#" class="likeBtn">
-					<img th:if="${filledLike == false}" src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="empty heart" class="mr-3">
-					<img th:unless="${filledLike == false}" src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18" height="18" alt="filled heart">
+				<a href="#" class="likeBtn" th:data-post-id="${post.id}">
+					<img th:if="${filledLike == false}" src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="empty heart" class="mr-2">
+					<img th:unless="${filledLike == false}" src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18" height="18" alt="filled heart" class="mr-2">
 				</a>	
 			</div>
 			
@@ -58,6 +58,24 @@
 		$(document).ready(function() {
 			$(".likeBtn").on('click', function(e) {
 				e.preventDefault();
+				
+				let postId = $(this).data("post-id");
+				//alert(postId);
+				
+				$.ajax({
+					url:"/like/" + postId
+					, success:function(data) {
+						if (data.code == 200) {
+							location.reload();
+						} else if (data.code == 403) {
+							alert(data.error_message);
+							location = "/user/sign-in-view";
+						}
+					}
+					, error:function(e) {
+						alert("좋아요를 하는데 실패했습니다.");
+					}
+				});
 			});
 		});
     </script>

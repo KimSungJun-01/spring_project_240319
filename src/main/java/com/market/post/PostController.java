@@ -42,15 +42,26 @@ public class PostController {
 	
 	// 중고거래 화면
 	@GetMapping("/post-list-view")
-	public String postListView(Model model) {
+	public String postListView(
+			@RequestParam(value="listOrder", required=false) String listOrder,
+			Model model) {
 		
 		//List<Post> postList = postBO.getPostList();
 		
 		//model.addAttribute("postList", postList);
-		
-		List<CardView> cardViewList = cardViewBO.generateCardViewList();
+	
+		List<CardView> cardViewList = null;
+		if (listOrder == null) {
+			cardViewList = cardViewBO.generateCardViewList();
+		} else {
+			cardViewList = cardViewBO.generateCardViewList(listOrder);
+		}
 		
 		model.addAttribute("cardViewList", cardViewList);
+		
+		if (listOrder != null) {
+			return "post/postList :: postListFragment";
+		}
 		
 		return "post/postList";
 	}

@@ -91,4 +91,40 @@
 		WHERE
 			`id` = #{id}
  	</select>
+ 	<select id="selectPostListOrderByCreatedAt" resultType="com.market.post.domain.Post">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`subject`
+			,`price`
+			,`address`
+			,`content`
+			,`state`
+			,`buyerId`
+			,`isEvaluated`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		ORDER BY
+			`createdAt` DESC
+ 	</select>
+ 	<select id="selectPostListOrderByPrice" resultType="com.market.post.domain.Post">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`subject`
+			,`price`
+			,`address`
+			,`content`
+			,`state`
+			,`buyerId`
+			,`isEvaluated`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		ORDER BY
+			`price` DESC
+ 	</select>
  </mapper>

@@ -20,6 +20,16 @@ public class PostBO {
 		return postMapper.selectPostList();
 	}
 	
+	// input : x
+	// output : List<Post>
+	public List<Post> getPostListLatest() {
+		return postMapper.selectPostListOrderByCreatedAt();
+	}
+	
+	public List<Post> getPostListPrice() {
+		return postMapper.selectPostListOrderByPrice();
+	}
+	
 	// input : userId, subject, price, address, content(비필수)
 	// output : int
 	public int addPost(int userId, String subject, int price, String address, String content) {

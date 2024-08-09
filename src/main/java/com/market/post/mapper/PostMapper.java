@@ -15,6 +15,8 @@ public interface PostMapper {
 	// 글
 	public List<Map<String, Object>> selectPostListTest();
 	public List<Post> selectPostList();
+	public List<Post> selectPostListOrderByCreatedAt();
+	public List<Post> selectPostListOrderByPrice();
 	public void insertPost(Post post);
 	public Post selectPostById(int id);
 	
