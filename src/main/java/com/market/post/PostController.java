@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.market.like.bo.LikeBO;
+import com.market.like.domain.Like;
 import com.market.post.bo.CardViewBO;
 import com.market.post.bo.PostBO;
 import com.market.post.bo.PostImageBO;
@@ -46,10 +47,6 @@ public class PostController {
 			@RequestParam(value="listOrder", required=false) String listOrder,
 			Model model) {
 		
-		//List<Post> postList = postBO.getPostList();
-		
-		//model.addAttribute("postList", postList);
-	
 		List<CardView> cardViewList = null;
 		if (listOrder == null) {
 			cardViewList = cardViewBO.generateCardViewList();
@@ -89,11 +86,11 @@ public class PostController {
 			return "redirect:/user/sign-in-view";
 		}
 		
-		// like 테이블에서 사용자가 좋아요를 누른 postId 가져오기
-		List<Integer> pushedLikePostIdList = likeBO.getPostIdListByUserId(userId);
+		// like 테이블에서 사용자가 좋아요를 누른 좋아요 객체 배열 가져오기
+		List<Like> pushedLikeList = likeBO.getLikeListByUserId(userId);
 		
-		// postIdList 넣어서 각 해당 postId에 해당하는 cardView 만들기
-		List<CardView> cardViewList = cardViewBO.generateMyLikeCardViewList(pushedLikePostIdList);
+		// pushedLikeList의 각 개체가 가지고 있는 postId에 해당하는 게시물 cardViewList로 만들기
+		List<CardView> cardViewList = cardViewBO.generateMyLikeCardViewList(pushedLikeList);
 		
 		model.addAttribute("cardViewList", cardViewList);
 		model.addAttribute("userId", userId);
@@ -111,7 +108,10 @@ public class PostController {
 			return "redirect:/user/sign-in-view";
 		}
 		
+		List<CardView> cardViewList = cardViewBO.generateMyCardViewList(userId);
+		
 		model.addAttribute("userId", userId);
+		model.addAttribute("cardViewList", cardViewList);
 		
 		return "post/myProduct";
 	}
@@ -126,7 +126,10 @@ public class PostController {
 			return "redirect:/user/sign-in-view";
 		}
 				
+		List<CardView> cardViewList = cardViewBO.generateRequestExchangeCardViewList(userId);
+		
 		model.addAttribute("userId", userId);
+		model.addAttribute("cardViewList", cardViewList);
 				
 		return "post/myExchange";
 	}

@@ -41,9 +41,12 @@
  			, NOW()
  		)
  	</insert>
- 	<select id="selectLikeByUserId" parameterType="int" resultType="List">
+ 	<select id="selectLikeByUserId" parameterType="int" resultType="com.market.like.domain.Like">
  		SELECT
- 			`postId`
+ 			`id`
+			,`userId`
+			,`postId`
+			,`createdAt`
  		FROM
  			`like`
  		WHERE

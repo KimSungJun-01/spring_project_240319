@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.market.like.domain.Like;
 import com.market.like.mapper.LikeMapper;
 
 @Service
@@ -42,7 +43,7 @@ public class LikeBO {
 		}
 	}
 	
-	public List<Integer> getPostIdListByUserId(int userId) {
+	public List<Like> getLikeListByUserId(int userId) {
 		return likeMapper.selectLikeByUserId(userId);
 	}
 }

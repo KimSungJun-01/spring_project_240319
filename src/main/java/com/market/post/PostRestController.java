@@ -65,7 +65,29 @@ public class PostRestController {
 			return result;
 		}
 		
-		postBO.updatePost(userId, postId);
+		postBO.updatePostBuyerId(userId, postId);
+		
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result;
+	}
+	
+	// 거래취소 요청
+	@PostMapping("/refund-request")
+	public Map<String, Object> refundRequest(
+			@RequestParam("postId") int postId,
+			HttpSession session) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 403);
+			result.put("error_message", "로그인을 해주세요");
+			return result;
+		}
+		
+		postBO.cancelPostBuyerId(userId);
 		
 		result.put("code", 200);
 		result.put("result", "성공");

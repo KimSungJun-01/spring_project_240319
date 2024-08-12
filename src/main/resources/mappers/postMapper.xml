@@ -153,4 +153,48 @@
  		WHERE
  			`id` = #{postId}
  	</update>
+ 	<update id="updateBuyerIdByUserId" parameterType="int">
+ 		UPDATE `post`
+ 		SET
+ 			`buyerId` = NULL
+ 			, `updatedAt` = NOW()
+ 		WHERE
+ 			`buyerId` = #{userId}
+ 	</update>
+ 	<select id="selectPostListByUserId" parameterType="int" resultType="com.market.post.domain.Post">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`subject`
+			,`price`
+			,`address`
+			,`content`
+			,`state`
+			,`buyerId`
+			,`isEvaluated`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		WHERE
+			`userId` = #{userId}
+ 	</select>
+ 	<select id="selectRequestExchangePostListByUserId" parameterType="int" resultType="com.market.post.domain.Post">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`subject`
+			,`price`
+			,`address`
+			,`content`
+			,`state`
+			,`buyerId`
+			,`isEvaluated`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		WHERE
+			`buyerId` = #{userId}
+ 	</select>
  </mapper>

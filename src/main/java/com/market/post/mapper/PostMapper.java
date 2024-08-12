@@ -15,14 +15,19 @@ public interface PostMapper {
 	// 글
 	public List<Map<String, Object>> selectPostListTest();
 	public List<Post> selectPostList();
+	public List<Post> selectPostListByUserId(int userId);
+	public List<Post> selectRequestExchangePostListByUserId(int userId);
+	
 	public List<Post> selectPostListOrderByCreatedAt();
 	public List<Post> selectPostListOrderByAscendingOrderPrice();
 	public List<Post> selectPostListOrderByDescendingOrderPrice();
+	
 	public void insertPost(Post post);
 	public Post selectPostById(int id);
 	public void updateBuyerIdByPostId(
 			@Param("userId") int userId, 
 			@Param("postId") int postId);
+	public void updateBuyerIdByUserId(int userId);
 	
 	// 이미지
 	public void insertImage(

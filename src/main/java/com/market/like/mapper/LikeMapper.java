@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.market.like.domain.Like;
+
 @Mapper
 public interface LikeMapper {
 	
@@ -16,7 +18,7 @@ public interface LikeMapper {
 			@Param("postId") int postId, 
 			@Param("userId") int userId);
 	
-	public List<Integer> selectLikeByUserId(int userId);
+	public List<Like> selectLikeByUserId(int userId);
 	
 	public void deleteLikeByPostIdUserId(
 			@Param("postId") int postId, 
