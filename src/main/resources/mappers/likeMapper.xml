@@ -41,4 +41,12 @@
  			, NOW()
  		)
  	</insert>
+ 	<select id="selectLikeByUserId" parameterType="int" resultType="List">
+ 		SELECT
+ 			`postId`
+ 		FROM
+ 			`like`
+ 		WHERE
+ 			`userId` = #{userId}
+ 	</select>
  </mapper>

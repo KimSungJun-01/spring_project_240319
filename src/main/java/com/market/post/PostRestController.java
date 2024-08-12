@@ -49,4 +49,26 @@ public class PostRestController {
 		result.put("result", "성공");
 		return result;
 	}
+	
+	// 거래요청
+	@PostMapping("/buy-request")
+	public Map<String, Object> buyRequest(
+			@RequestParam("postId") int postId,
+			HttpSession session) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 403);
+			result.put("error_message", "로그인을 해주세요");
+			return result;
+		}
+		
+		postBO.updatePost(userId, postId);
+		
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result;
+	}
 }

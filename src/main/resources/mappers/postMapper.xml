@@ -109,7 +109,7 @@
 		ORDER BY
 			`createdAt` DESC
  	</select>
- 	<select id="selectPostListOrderByPrice" resultType="com.market.post.domain.Post">
+ 	<select id="selectPostListOrderByAscendingOrderPrice" resultType="com.market.post.domain.Post">
  		SELECT
  			`id`
 			,`userId`
@@ -127,4 +127,30 @@
 		ORDER BY
 			`price` DESC
  	</select>
+ 	<select id="selectPostListOrderByDescendingOrderPrice" resultType="com.market.post.domain.Post">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`subject`
+			,`price`
+			,`address`
+			,`content`
+			,`state`
+			,`buyerId`
+			,`isEvaluated`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		ORDER BY
+			`price`
+ 	</select>
+ 	<update id="updateBuyerIdByPostId" parameterType="map">
+ 		UPDATE `post`
+ 		SET
+ 			`buyerId` = #{userId}
+ 			, `updatedAt` = NOW()
+ 		WHERE
+ 			`id` = #{postId}
+ 	</update>
  </mapper>

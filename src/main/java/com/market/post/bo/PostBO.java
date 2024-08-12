@@ -1,5 +1,6 @@
 package com.market.post.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,26 @@ public class PostBO {
 		return postMapper.selectPostList();
 	}
 	
+	public List<Post> getMyLikePostList(List<Integer> pushedLikePostIdList) {
+		List<Post> myLikePostList = new ArrayList<>();
+		for (int i = 0; i < pushedLikePostIdList.size(); i++) {
+			myLikePostList.add(postMapper.selectPostById(pushedLikePostIdList.get(i)));
+		}
+		return myLikePostList;
+	}
+	
 	// input : x
 	// output : List<Post>
-	public List<Post> getPostListLatest() {
+	public List<Post> getPostListLatestOrder() {
 		return postMapper.selectPostListOrderByCreatedAt();
 	}
 	
-	public List<Post> getPostListPrice() {
-		return postMapper.selectPostListOrderByPrice();
+	public List<Post> getPostListAscendingOrderPrice() {
+		return postMapper.selectPostListOrderByAscendingOrderPrice();
+	}
+	
+	public List<Post> getPostListDescendingOrderPrice() {
+		return postMapper.selectPostListOrderByDescendingOrderPrice();
 	}
 	
 	// input : userId, subject, price, address, content(비필수)
@@ -42,6 +55,12 @@ public class PostBO {
 		
 		postMapper.insertPost(post);
 		return post.getId();
+	}
+	
+	// input : postId, userId
+	// output : x
+	public void updatePost(int userId, int postId) {
+		postMapper.updateBuyerIdByPostId(userId, postId);
 	}
 	
 	// input : postId

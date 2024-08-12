@@ -89,14 +89,21 @@ public class PostController {
 			return "redirect:/user/sign-in-view";
 		}
 		
+		// like 테이블에서 사용자가 좋아요를 누른 postId 가져오기
+		List<Integer> pushedLikePostIdList = likeBO.getPostIdListByUserId(userId);
+		
+		// postIdList 넣어서 각 해당 postId에 해당하는 cardView 만들기
+		List<CardView> cardViewList = cardViewBO.generateMyLikeCardViewList(pushedLikePostIdList);
+		
+		model.addAttribute("cardViewList", cardViewList);
 		model.addAttribute("userId", userId);
 		
-		return "post/like";
+		return "post/myLikeProduct";
 	}
 	
-	// 나의 거래 현황
-	@GetMapping("/state-view")
-	public String stateView(HttpSession session, Model model) {
+	// 내가 올린 제품 현황
+	@GetMapping("/my-product-view")
+	public String myProductView(HttpSession session, Model model) {
 		
 		// 로그인 여부 확인
 		Integer userId = (Integer)session.getAttribute("userId");
@@ -106,7 +113,22 @@ public class PostController {
 		
 		model.addAttribute("userId", userId);
 		
-		return "post/state";
+		return "post/myProduct";
+	}
+	
+	// 내가 거래요청한 제품 현황
+	@GetMapping("/my-exchange-view")
+	public String myExchangeView(HttpSession session, Model model) {
+		
+		// 로그인 여부 확인
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			return "redirect:/user/sign-in-view";
+		}
+				
+		model.addAttribute("userId", userId);
+				
+		return "post/myExchange";
 	}
 	
 	// 글 상세 화면

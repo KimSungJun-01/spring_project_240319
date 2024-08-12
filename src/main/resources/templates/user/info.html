@@ -34,11 +34,14 @@
 			
 			<!-- 거래현황 버튼 -->
 			<div class="infoButtonBox">
-				<div class="h-50 w-100 d-flex justify-content-center align-items-center">
+				<div class="h-25 w-100 d-flex justify-content-center align-items-center">
 					<button class="btn btn-secondary myLikeBtn">찜한 목록</button>
 				</div>
-				<div class="h-50 w-100 d-flex justify-content-center align-items-center">
-					<button class="btn btn-secondary myChangeStateBtn">나의 거래 현황</button>
+				<div class="h-25 w-100 d-flex justify-content-center align-items-center">
+					<button class="btn btn-secondary myProductBtn">내가 올린 물품 목록</button>
+				</div>
+				<div class="h-25 w-100 d-flex justify-content-center align-items-center">
+					<button class="btn btn-secondary myExchangeBtn">내가 거래요청한 물품 목록</button>
 				</div>
 			</div>
 		</div>
@@ -55,11 +58,16 @@
 			}); // --- 찜한 목록 버튼 클릭 끝
 			
 			// 나의 거래 현황 클릭
-			$(".myChangeStateBtn").on('click', function() {
+			$(".myProductBtn").on('click', function() {
 				//alert("나의 거래 현황 클릭");
-				location.href = "/post/state-view";
+				location.href = "/post/my-product-view";
 			}); // --- 나의 거래 현황 클릭 끝
 			
+			// 내가 거래요청한 제품 목록 버튼 클릭
+			$(".myExchangeBtn").on('click', function() {
+				//alert("내가 거래요청한 제품 목록 버튼 클릭");
+				location.href = "/post/my-exchange-view";
+			}); // --- 나의 거래 현황 클릭 끝
 		});
     </script>
 </th:block>

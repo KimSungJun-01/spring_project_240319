@@ -16,9 +16,13 @@ public interface PostMapper {
 	public List<Map<String, Object>> selectPostListTest();
 	public List<Post> selectPostList();
 	public List<Post> selectPostListOrderByCreatedAt();
-	public List<Post> selectPostListOrderByPrice();
+	public List<Post> selectPostListOrderByAscendingOrderPrice();
+	public List<Post> selectPostListOrderByDescendingOrderPrice();
 	public void insertPost(Post post);
 	public Post selectPostById(int id);
+	public void updateBuyerIdByPostId(
+			@Param("userId") int userId, 
+			@Param("postId") int postId);
 	
 	// 이미지
 	public void insertImage(

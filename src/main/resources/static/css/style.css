@@ -43,8 +43,9 @@ footer {height:100px; color:gray;}
 .postAnchor:hover {text-decoration:none;}
 .profileImage {height:150px; width:150px;}
 .progress {width:430px;}
-.myLikeBtn {height:50px; width:430px;}
-.myChangeStateBtn {height:50px; width:430px;}
+.myLikeBtn {height:40px; width:430px;}
+.myProductBtn {height:40px; width:430px;}
+.myExchangeBtn {height:40px; width:430px;}
 .detailBox {width:520px; margin: 0 auto;}
 .productDetailImage {height:230px;}
 .detailBox2 {height:100px;}

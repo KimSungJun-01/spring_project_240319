@@ -1,5 +1,7 @@
 package com.market.like.bo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +40,9 @@ public class LikeBO {
 		} else {
 			likeMapper.insertLike(postId, userId);
 		}
+	}
+	
+	public List<Integer> getPostIdListByUserId(int userId) {
+		return likeMapper.selectLikeByUserId(userId);
 	}
 }

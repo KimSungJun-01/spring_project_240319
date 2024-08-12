@@ -56,12 +56,15 @@ public class CardViewBO {
 		List<CardView> cardViewList = new ArrayList<>();
 		
 		List<Post> postList = null;
-		if (listOrder.equals("latest")) {
-			postList = postBO.getPostListLatest();
-		} else if (listOrder.equals("popularity")) {
+		if (listOrder.equals("latestOrder")) {
+			postList = postBO.getPostListLatestOrder();
+		} else if (listOrder.equals("popularityOrder")) {
+			// TODO: 좋아요 많이받은 순서로 정렬 아직 구현 X
 			postList = postBO.getPostList();
-		} else if (listOrder.equals("price")) {
-			postList = postBO.getPostListPrice();
+		} else if (listOrder.equals("ascendingOrder")) {
+			postList = postBO.getPostListAscendingOrderPrice();
+		} else if (listOrder.equals("descendingOrder")) {
+			postList = postBO.getPostListDescendingOrderPrice();
 		}
 		
 		for (int i = 0; i < postList.size(); i++) {
@@ -69,6 +72,32 @@ public class CardViewBO {
 			
 			// CardView에 글 추가
 			card.setPost(postList.get(i));
+			
+			// 해당 글의 id 가져오기
+			int thisPostId = card.getPost().getId();
+			
+			// 글의 id로 해당 대표 이미지 1개 CardView에 추가
+			card.setImage(postImageBO.getImageByPostId(thisPostId));
+			
+			// 해당 글의 좋아요 개수 추가
+			card.setLikeCount(likeBO.getLikeCountByPostId(thisPostId));
+			
+			cardViewList.add(card);
+		}
+		
+		return cardViewList;
+	}
+	
+	public List<CardView> generateMyLikeCardViewList(List<Integer> pushedLikePostIdList) {
+		List<CardView> cardViewList = new ArrayList<>();
+		
+		List<Post> myLikePostList = postBO.getMyLikePostList(pushedLikePostIdList);
+		
+		for (int i = 0; i < myLikePostList.size(); i++) {
+			CardView card = new CardView();
+			
+			// CardView에 글 추가
+			card.setPost(myLikePostList.get(i));
 			
 			// 해당 글의 id 가져오기
 			int thisPostId = card.getPost().getId();
