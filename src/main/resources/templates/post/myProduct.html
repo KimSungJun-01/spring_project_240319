@@ -8,13 +8,13 @@
 		<div class="h-100 w-75">
 			<!-- 제목 및 배열순위버튼 -->
 			<div class="exchangeLetter d-flex">
-				<div class="h-100 w-75 d-flex align-items-center justify-content-end">
-					<span class="exchangeLetter1 mr-5 pr-5">내가 찜한 제품 목록</span>
+				<div class="h-100 w-100 d-flex align-items-center justify-content-center">
+					<span class="exchangeLetter1">내가 올린 물품 목록</span>
 				</div>
 			</div>
 			
 			<!-- 물품 리스트 -->
-			<div class="exchangeList d-flex flex-wrap" th:fragment="postListFragment">
+			<div class="exchangeList d-flex flex-wrap">
 				<!-- 제품 1개 -->
 				<div th:each="cardView : ${cardViewList}" class="productOne mr-1 ml-2 d-flex justify-content-center">
 					<div class="h-100 w-75">

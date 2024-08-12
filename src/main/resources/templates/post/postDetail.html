@@ -46,8 +46,14 @@
 			
 			
 			<!-- 거래요청 버튼 -->
-			<div  th:if="${session.userId != null && session.userId != post.userId}" class="d-flex justify-content-end">
+			<div th:if="${session.userId != null && session.userId != post.buyerId && session.userId != post.userId}" class="d-flex justify-content-end">
 				<button type="button" id="requestExBtn" class="btn btn-info" th:data-user-id="${session.userId}" th:data-post-id="${post.id}">거래요청</button>
+			</div>
+			<div th:if="${session.userId != null && session.userId == post.buyerId && session.userId != post.userId}" class="d-flex justify-content-end">
+				<button type="button" id="cancelExBtn" class="btn btn-danger" th:data-post-id="${post.id}">거래취소</button>
+			</div>
+			<div th:if="${session.userId != null && session.userId == post.userId && post.buyerId != null}" class="d-flex justify-content-end">
+				<button type="button" id="successExBtn" class="btn btn-secondary" th:data-post-id="${post.id}">거래완료</button>
 			</div>
 		</div>
 	</div>
@@ -86,7 +92,7 @@
 				//console.log(postId);
 				
 				$.ajax({
-					type: "post"
+					type:"post"
 					, url:"/post/buy-request"
 					, data:{"postId":postId}
 					, success:function(data) {
@@ -104,7 +110,37 @@
 						alert("거래요청에 실패했습니다.");
 					}
 				});
-			});
+			}); // --- 거래요청 버튼 클릭 끝
+			// 거래취소 버튼 클릭
+			$("#cancelExBtn").on('click', function() {
+				//alert("거래취소 버튼 클릭");
+				let postId = $(this).data("post-id");
+				
+				$.ajax({
+					type:"post"
+					, url:"/post/refund-request"
+					, data:{"postId":postId}
+					, success:function(data) {
+						if (data.code == 200) {
+							alert("거래요청이 취소되었습니다.");
+							location.reload(true);
+						} else if (data.code == 403) {
+							alert(data.error_message);
+							location.href = "/user/sign-in-view";
+						} else {
+							alert(data.error_message);
+						}
+					}
+					, error:function(e) {
+						alert("거래취소 요청에 실패했습니다.");
+					} 
+				});
+			}); // --- 거래취소 버튼 클릭 끝
+			
+			// 거래완료 버튼 클릭
+			$("#successExBtn").on('click', function() {
+				alert("거래완료 버튼 클릭");
+			}); // --- 거래완료 버튼 클릭 끝
 		});
     </script>
 </th:block>
