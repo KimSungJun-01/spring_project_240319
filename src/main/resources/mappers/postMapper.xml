@@ -149,6 +149,7 @@
  		UPDATE `post`
  		SET
  			`buyerId` = #{userId}
+ 			, `state` = '예약중'
  			, `updatedAt` = NOW()
  		WHERE
  			`id` = #{postId}
@@ -157,6 +158,7 @@
  		UPDATE `post`
  		SET
  			`buyerId` = NULL
+ 			, `state` = '거래전'
  			, `updatedAt` = NOW()
  		WHERE
  			`buyerId` = #{userId}

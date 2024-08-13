@@ -15,7 +15,7 @@ public class Post {
 	private String address;
 	private String content;
 	private String state;
-	private int buyerId;	
+	private Integer buyerId;	
 	private boolean isEvaluated;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;

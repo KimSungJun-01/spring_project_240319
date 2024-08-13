@@ -12,7 +12,18 @@
 			<div class="detailBox2 w-100 d-flex">
 				<!-- 제품 제목,가격 -->
 				<div class="h-100 detailBox3">
-					<h2 th:text="${post.subject}" class="pt-2"></h2>
+					<div class="d-flex align-items-center">
+						<h2 th:text="${post.subject}" class="pt-2"></h2>
+						<!-- 거래전 -->
+						<th:block th:if="${#strings.equals(post.state, '거래전')}">
+							<h4 th:text="${post.state}" class="pt-1 pl-4 text-info"></h4>
+						</th:block>
+						
+						<!-- 예약중 -->
+						<th:block th:if="${#strings.equals(post.state, '예약중')}">
+							<h4 th:text="${post.state}" class="pt-1 pl-4 text-danger"></h4>
+						</th:block>
+					</div>
 					<h4 th:text="${post.price} + '원'" class="font-weight-bold ml-1"></h4>
 				</div>
 				
@@ -46,15 +57,42 @@
 			
 			
 			<!-- 거래요청 버튼 -->
-			<div th:if="${session.userId != null && session.userId != post.buyerId && session.userId != post.userId}" class="d-flex justify-content-end">
-				<button type="button" id="requestExBtn" class="btn btn-info" th:data-user-id="${session.userId}" th:data-post-id="${post.id}">거래요청</button>
-			</div>
-			<div th:if="${session.userId != null && session.userId == post.buyerId && session.userId != post.userId}" class="d-flex justify-content-end">
-				<button type="button" id="cancelExBtn" class="btn btn-danger" th:data-post-id="${post.id}">거래취소</button>
-			</div>
-			<div th:if="${session.userId != null && session.userId == post.userId && post.buyerId != null}" class="d-flex justify-content-end">
-				<button type="button" id="successExBtn" class="btn btn-secondary" th:data-post-id="${post.id}">거래완료</button>
-			</div>
+			
+			<!-- 1로그인이 되어있는 경우 -->
+			<th:block th:if="${session.userId != null}">
+				<!-- 1-1내가 작성한 글인 경우 -->
+				<th:block th:if="${session.userId == post.userId}">
+					<!-- 1-1-1거래요청이 온 경우 -->
+					<div th:if="${post.buyerId != null}" class="d-flex justify-content-end">
+						<button type="button" id="successExBtn" class="btn btn-secondary" th:data-post-id="${post.id}">거래완료</button>
+					</div>
+					
+					<!-- 1-1-2거래요청이 오지 않은 경우 -->
+					<div th:unless="${post.buyerId != null}" class="d-flex justify-content-end"></div>
+				</th:block>
+				
+				<!-- 1-2내가 작성한 글이 아닌 경우 -->
+				<th:block th:unless="${session.userId == post.userId}">
+					<!-- 1-2-1내가 거래요청한 글인 경우 -->
+					<div th:if="${session.userId == post.buyerId}" class="d-flex justify-content-end">
+						<button type="button" id="cancelExBtn" class="btn btn-danger" th:data-post-id="${post.id}">거래취소</button>
+					</div>
+					
+					<!-- 1-2-2거래요청하지 않은 글인 경우 -->
+					<div th:unless="${session.userId == post.buyerId}" class="d-flex justify-content-end">
+						<!-- 1-2-2-1예약자가 있는 경우 -->
+						<th:block th:if="${post.buyerId != null}"></th:block>
+						
+						<!-- 1-2-2-2예약자가 없는 경우 -->
+						<th:block th:unless="${post.buyerId != null}">
+							<button type="button" id="requestExBtn" class="btn btn-info" th:data-user-id="${session.userId}" th:data-post-id="${post.id}">거래요청</button>
+						</th:block>
+					</div>
+				</th:block>
+			</th:block>
+			
+			<!-- 2로그인이 되어있지 않은 경우 -->
+			<th:block th:unless="${session.userId != null}"></th:block>
 		</div>
 	</div>
 </section>

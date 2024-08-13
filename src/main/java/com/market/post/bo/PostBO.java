@@ -14,7 +14,7 @@ import com.market.post.mapper.PostMapper;
 public class PostBO {
 	
 	@Autowired
-	private PostMapper postMapper;
+	private PostMapper postMapper; 
 	
 	// input : x
 	// output : List<Post>
