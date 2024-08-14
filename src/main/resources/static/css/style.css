@@ -56,28 +56,50 @@ footer {height:100px; color:gray;}
 .evaluateBox3 {height:100px;}
 .evaluateBox4 {height:100px;}
 .evaluateBox5 {height:100px;}
-.buyerProfile {width:120px;}
-.buyerName {width:120px;}
+.buyerProfile {width:150px;}
+.buyerName {width:90px;}
 .pleaseEvaluate {width:360px;}
+.star_rating {width:400px;}
+.star {height:80px; width:80px; background:url(/img/star_empty.png);}
+
 .star {
-	/* 기본 스타일 제거 */
-	appearance:none;
-	/* 화면에서 숨기기 */
-	display:none;
+  width:60px; 
+  height:60px; 
+  margin-right: 10px;
+  background: url('/img/star_empty.png') no-repeat; 
+  background-size: 100%; 
 }
-.star + .starLabel::before {
-	/* 라벨 앞에 비어있는 별 모양을 추가 */
-    content: '☆';
-    /* 별 모양의 크기를 설정 */
-    font-size: 60px;
-    /* 별 모양의 기본 색상을 설정 (노란색) */
-    color: hsl(60, 80%, 45%);
-    /* 마우스 포인터가 변경되도록 설정 */
-    cursor: pointer;
+.star.on {
+  width:60px; 
+  height:60px;
+  margin-right: 10px;
+  background: url('/img/star_fill.png') no-repeat;
+  background-size: 100%; 
 }
-.star:hover ~ .star + .starLabel::before{
-	/* 별을 채워진 별 모양으로 변경 */
-    content: '★';
-    /* 채워진 별의 색상 설정 */
-    color: hsl(60, 80%, 45%);
+
+.star_box {
+  width: 400px;
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 15px 0;
+  background: #F3F4F8;
+  border: 0;
+  border-radius: 10px;
+  height: 100px;
+  resize: none;
+  padding: 15px;
+  font-size: 13px;
+  font-family: sans-serif;
+}
+.btn02 {
+  display:block;
+  width: 400px;
+  font-weight: bold;
+  border: 0;
+  border-radius: 10px;
+  max-height: 50px;
+  padding: 15px 0;
+  font-size: 1.1em;
+  text-align: center;
+  background:bisque;
 }

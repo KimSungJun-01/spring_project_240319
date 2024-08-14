@@ -187,7 +187,7 @@
 					, success:function(data) {
 						if (data.code == 200) {
 							alert("거래가 완료되었습니다.");
-							location.href="/user/evaluate?buyerId=" + data.buyerId;
+							location.href="/user/evaluate-view?buyerId=" + data.buyerId;
 						} else if (data.code == 403) {
 							alert(data.error_message);
 							location.href = "/user/sign-in-view";

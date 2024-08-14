@@ -51,4 +51,10 @@ public class UserBO {
 	public UserEntity getUserEntityByLoginId(int userId) {
 		return userRepository.findById(userId);
 	}
+	
+	public void updateDegreeById(double fixedDegree, int id) {
+		UserEntity user = userRepository.findById(id).orElse(null);
+		
+		
+	}
 }

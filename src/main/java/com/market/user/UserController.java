@@ -59,7 +59,7 @@ public class UserController {
 	}
 	
 	// 평가하기 화면
-	@GetMapping("/evaluate")
+	@GetMapping("/evaluate-view")
 	public String evaluate(
 			@RequestParam("buyerId") int buyerId,
 			Model model) {

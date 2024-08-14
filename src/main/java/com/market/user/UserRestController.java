@@ -102,4 +102,48 @@ public class UserRestController {
 		}
 		return result;
 	}
+	
+	// 평가하기
+	@PostMapping("/evaluate")
+	public Map<String, Object> evaluate(
+			@RequestParam("starPoint") int starPoint,
+			@RequestParam("buyerId") int buyerId,
+			HttpSession session) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 403);
+			result.put("error_message", "로그인을 해주세요");
+			return result;
+		}
+		
+		int addPoint = 0;
+		switch(starPoint) {
+		case 1:
+			addPoint = -2;
+			break;
+		case 2:
+			addPoint = -1;
+			break;
+		case 3:
+			addPoint = 0;
+			break;
+		case 4:
+			addPoint = 1;
+			break;
+		case 5:
+			addPoint = 2;
+			break;
+		}
+		
+		UserEntity user = userBO.getUserEntityByLoginId(buyerId);
+		double fixedDegree = user.getDegree() + addPoint;
+		userBO.updateDegreeById(fixedDegree, user.getId());
+		
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result;
+	}
 }

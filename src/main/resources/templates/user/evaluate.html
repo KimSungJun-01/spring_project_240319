@@ -5,51 +5,42 @@
       layout:decorate="~{layout/defaultLayout}">
 <section layout:fragment="content" class="contents d-flex justify-content-center align-items-center">
 	<div class="whiteBox d-flex justify-content-center">
-		<div class="evaluateBox1 bg-warning">
+		<div class="evaluateBox1">
 			<!-- 거래는 어떠셨나요? -->
-			<div class="evaluateBox2 w-100 bg-info d-flex justify-content-center align-items-end">
+			<div class="evaluateBox2 w-100 d-flex justify-content-center align-items-end">
 				<h2>거래는 어떠셨나요?</h2>
 			</div>
 			
 			<!-- 00님에 대한 평가를 남겨주세요 -->
-			<div class="evaluateBox3 w-100 bg-danger d-flex">
+			<div class="evaluateBox3 w-100 d-flex">
 				<!-- 프로필 사진 -->
-				<div class="buyerProfile h-100 bg-warning d-flex justify-content-center align-items-center">
+				<div class="buyerProfile h-100 d-flex justify-content-center align-items-center">
 					<img th:src="${buyUser.profileImagePath}" alt="상대방 프로필 이미지" class="h-100 w-75 rounded">
 				</div>
 				<!-- 이름 -->
-				<div class="buyerName h-100 bg-white d-flex justify-content-center align-items-center">
+				<div class="buyerName h-100 d-flex justify-content-center align-items-center">
 					<h4 th:text="${buyUser.loginId}"></h4>
 				</div>
 				<!-- 님에 대한 평가를 남겨주세요. -->
-				<div class="pleaseEvaluate h-100 bg-warning d-flex align-items-center">
+				<div class="pleaseEvaluate h-100 d-flex align-items-center">
 					<h4>님에 대한 평가를 남겨주세요.</h4>
 				</div>
 			</div>
 			
 			<!-- 별 -->
-			<div class="evaluateBox4 w-100 bg-secondary d-flex justify-content-center align-items-center">
-				<div class="starPointBox h-100 bg-danger d-flex align-items-center">
-					<input type="radio" id="star1" class="star" value="1">
-					<label for="star1" class="starLabel"></label>
-					
-					<input type="radio" id="star2" class="star" value="2">
-					<label for="star2" class="starLabel"></label>
-					
-					<input type="radio" id="star3" class="star" value="3">
-					<label for="star3" class="starLabel"></label>
-					
-					<input type="radio" id="star4" class="star" value="4">
-					<label for="star4" class="starLabel"></label>
-					
-					<input type="radio" id="star5" class="star" value="5">
-					<label for="star5" class="starLabel"></label>
+			<div class="evaluateBox4 w-100 d-flex justify-content-center">
+				<div class="star_rating h-100 d-flex justify-content-center align-items-center">
+					<span class="star on" value="1"></span>
+					<span class="star on" value="2"></span>
+					<span class="star on" value="3"></span>
+					<span class="star" value="4"></span>
+					<span class="star" value="5"></span>
 				</div>
 			</div>
 			
 			<!-- 평가하기 버튼 -->
-			<div class="evaluateBox5 w-100 bg-info d-flex justify-content-center align-items-center">
-				<button type="button" id="evaluate" class="btn btn-info">평가하기</button>
+			<div class="evaluateBox5 w-100 d-flex justify-content-center align-items-center">
+				<button type="button" id="evaluate" class="btn btn-info" th:data-buyer-id="${buyUser.id}">평가하기</button>
 			</div>
 		</div>
 	</div>
@@ -58,20 +49,41 @@
 <th:block layout:fragment="script">
     <script>
 		$(document).ready(function() {
-			let selectedValue = null;
+			let starPoint = 1;
 			
-			// 별 선택시 값 가져오기
+			// 별 클릭
 			$(".star").on('click', function() {
-				selectedValue = $(this).val();
-			}); // --- 별 선택시 값 가져오기 끝
+				$(this).parent().children('span').removeClass('on');
+				$(this).addClass('on').prevAll('span').addClass('on');
+				starPoint = $(this).attr('value');
+				//alert(starPoint);
+			});
+			
 			// 평가하기 버튼 클릭
 			$("#evaluate").on('click', function() {
 				//alert("평가하기");
-				if (selectedValue) {
-					alert(selectedValue);
-				} else {
-					alert("별점을 선택해주세요.");
-				}
+				
+				let buyerId = $(this).data("buyer-id");
+				
+				$.ajax({
+					type:"post"
+					, url:"/user/evaluate"
+					, data:{"starPoint":starPoint, "buyerId":buyerId}
+					, success:function(data) {
+						if (data.code == 200) {
+							alert("평가가 완료되었습니다.");
+							location.href = "/post/post-list-view";
+						} else if (data.code == 403){
+							alert(data.error_message);
+							location.href = "/user/sign-in-view";
+						} else {
+							alert(data.error_message);
+						}
+					}
+					, error:function(e) {
+						alert("평가하는데 실패하였습니다.");
+					}
+				});
 			}); // --- 평가하기 버튼 클릭 끝
 		});
     </script>
