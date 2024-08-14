@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.market.post.bo.PostBO;
 import com.market.post.bo.PostImageBO;
+import com.market.post.domain.Post;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -91,6 +92,34 @@ public class PostRestController {
 		
 		result.put("code", 200);
 		result.put("result", "성공");
+		return result;
+	}
+	
+	// 거래완료 요청
+	@PostMapping("/exchange-complete")
+	public Map<String, Object> exchangeComplete(
+			@RequestParam("postId") int postId,
+			HttpSession session) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 403);
+			result.put("error_message", "로그인을 해주세요");
+			return result;
+		}
+		
+		// 거래자 id 추출
+		Post post = postBO.getPostByPostId(postId);
+		int buyerId = post.getBuyerId();
+		
+		// 게시글 삭제
+		postBO.deletePostById(postId);
+		
+		result.put("code", 200);
+		result.put("result", "성공");
+		result.put("buyerId", buyerId);
 		return result;
 	}
 }

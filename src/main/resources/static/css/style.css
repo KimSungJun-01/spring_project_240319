@@ -51,3 +51,33 @@ footer {height:100px; color:gray;}
 .detailBox2 {height:100px;}
 .detailBox3 {width:400px;}
 .detailBox4 {height:40px;}
+.evaluateBox1 {width:600px;}
+.evaluateBox2 {height:150px;}
+.evaluateBox3 {height:100px;}
+.evaluateBox4 {height:100px;}
+.evaluateBox5 {height:100px;}
+.buyerProfile {width:120px;}
+.buyerName {width:120px;}
+.pleaseEvaluate {width:360px;}
+.star {
+	/* 기본 스타일 제거 */
+	appearance:none;
+	/* 화면에서 숨기기 */
+	display:none;
+}
+.star + .starLabel::before {
+	/* 라벨 앞에 비어있는 별 모양을 추가 */
+    content: '☆';
+    /* 별 모양의 크기를 설정 */
+    font-size: 60px;
+    /* 별 모양의 기본 색상을 설정 (노란색) */
+    color: hsl(60, 80%, 45%);
+    /* 마우스 포인터가 변경되도록 설정 */
+    cursor: pointer;
+}
+.star:hover ~ .star + .starLabel::before{
+	/* 별을 채워진 별 모양으로 변경 */
+    content: '★';
+    /* 채워진 별의 색상 설정 */
+    color: hsl(60, 80%, 45%);
+}

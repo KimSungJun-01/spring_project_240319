@@ -82,4 +82,8 @@ public class PostBO {
 	public Post getPostByPostId(int postId) {
 		return postMapper.selectPostById(postId);
 	}
+	
+	public void deletePostById(int postId) {
+		postMapper.deletePostById(postId);
+	}
 }

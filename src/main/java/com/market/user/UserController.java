@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.market.user.bo.UserBO;
 import com.market.user.entity.UserEntity;
@@ -55,5 +56,19 @@ public class UserController {
 		model.addAttribute("user", user);
 		
 		return "user/info";
+	}
+	
+	// 평가하기 화면
+	@GetMapping("/evaluate")
+	public String evaluate(
+			@RequestParam("buyerId") int buyerId,
+			Model model) {
+		
+		// 구매자의 id로 해당 유저 정보 가져오기
+		UserEntity buyUser = userBO.getUserEntityByLoginId(buyerId);
+		
+		model.addAttribute("buyUser", buyUser);
+		
+		return "user/evaluate";
 	}
 }

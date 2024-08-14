@@ -28,6 +28,7 @@ public interface PostMapper {
 			@Param("userId") int userId, 
 			@Param("postId") int postId);
 	public void updateBuyerIdByUserId(int userId);
+	public void deletePostById(int postId);
 	
 	// 이미지
 	public void insertImage(
