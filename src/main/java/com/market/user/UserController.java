@@ -65,7 +65,7 @@ public class UserController {
 			Model model) {
 		
 		// 구매자의 id로 해당 유저 정보 가져오기
-		UserEntity buyUser = userBO.getUserEntityByLoginId(buyerId);
+		UserEntity buyUser = userBO.getUserEntityById(buyerId);
 		
 		model.addAttribute("buyUser", buyUser);
 		

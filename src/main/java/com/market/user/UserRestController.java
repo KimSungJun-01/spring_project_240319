@@ -138,7 +138,7 @@ public class UserRestController {
 			break;
 		}
 		
-		UserEntity user = userBO.getUserEntityByLoginId(buyerId);
+		UserEntity user = userBO.getUserEntityById(buyerId);
 		double fixedDegree = user.getDegree() + addPoint;
 		userBO.updateDegreeById(fixedDegree, user.getId());
 		

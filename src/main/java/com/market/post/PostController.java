@@ -146,7 +146,7 @@ public class PostController {
 		
 		Image image = postImageBO.getImageByPostId(postId);
 		Post post = postBO.getPostByPostId(postId);
-		UserEntity writeUser = userBO.getUserEntityByLoginId(post.getUserId());
+		UserEntity writeUser = userBO.getUserEntityById(post.getUserId());
 		boolean filledLike = likeBO.filledLikeByPostIdUserId(postId, userId);
 		
 		model.addAttribute("image", image);

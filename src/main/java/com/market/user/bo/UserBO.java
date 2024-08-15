@@ -1,5 +1,8 @@
 package com.market.user.bo;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,13 +51,18 @@ public class UserBO {
 	
 	// input : userId
 	// output : UserEntity
-	public UserEntity getUserEntityByLoginId(int userId) {
-		return userRepository.findById(userId);
+	public UserEntity getUserEntityById(int id) {
+		return userRepository.findById(id).orElse(null);
 	}
 	
 	public void updateDegreeById(double fixedDegree, int id) {
 		UserEntity user = userRepository.findById(id).orElse(null);
-		
-		
+		if (user != null) {
+			user = user.toBuilder()
+					.degree(fixedDegree)
+					.updatedAt(LocalDateTime.now())
+					.build();
+			user = userRepository.save(user);
+		}
 	}
 }
