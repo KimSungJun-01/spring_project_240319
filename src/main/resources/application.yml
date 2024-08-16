@@ -20,3 +20,6 @@ spring:
       format_sql: true
 mybatis:
   mapper-locations: mappers/*Mapper.xml
+naver:
+  client-id: W84yqPSgI7l7NDyJqQCp
+  secret: CFkLYnDLTY
