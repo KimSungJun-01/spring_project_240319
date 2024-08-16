@@ -205,4 +205,18 @@
  		WHERE
  			`id` = #{postId}
  	</delete>
+ 	<delete id="deleteImageByPostId" parameterType="int">
+ 		DELETE FROM
+ 			`image`
+ 		WHERE
+ 			`postId` = #{postId}
+ 	</delete>
+ 	<update id="updateIsEvaluatedByPostId" parameterType="int">
+ 		UPDATE `post`
+ 		SET
+ 			`isEvaluated` = TRUE
+ 			, `updatedAt` = NOW()
+ 		WHERE
+ 			`id` = #{postId}
+ 	</update>
  </mapper>

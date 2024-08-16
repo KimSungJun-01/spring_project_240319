@@ -33,4 +33,13 @@ public class PostImageBO {
 	public Image getImageByPostId(int postId) {
 		return postMapper.selectImageByPostId(postId);
 	}
+	
+	public void deleteImageByPostId(int postId) {
+		Image image = postMapper.selectImageByPostId(postId);
+		int rowCount = postMapper.deleteImageByPostId(postId);
+		
+		if (rowCount > 0 && image.getImagePath() != null) {
+			fileManagerService.deleteFile(image.getImagePath());
+		}
+	}
 }

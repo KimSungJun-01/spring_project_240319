@@ -15,11 +15,11 @@
 			<div class="evaluateBox3 w-100 d-flex">
 				<!-- 프로필 사진 -->
 				<div class="buyerProfile h-100 d-flex justify-content-center align-items-center">
-					<img th:src="${buyUser.profileImagePath}" alt="상대방 프로필 이미지" class="h-100 w-75 rounded">
+					<img th:src="${tradeUser.profileImagePath}" alt="상대방 프로필 이미지" class="h-100 w-75 rounded">
 				</div>
 				<!-- 이름 -->
 				<div class="buyerName h-100 d-flex justify-content-center align-items-center">
-					<h4 th:text="${buyUser.loginId}"></h4>
+					<h4 th:text="${tradeUser.loginId}"></h4>
 				</div>
 				<!-- 님에 대한 평가를 남겨주세요. -->
 				<div class="pleaseEvaluate h-100 d-flex align-items-center">
@@ -40,7 +40,7 @@
 			
 			<!-- 평가하기 버튼 -->
 			<div class="evaluateBox5 w-100 d-flex justify-content-center align-items-center">
-				<button type="button" id="evaluate" class="btn btn-info" th:data-buyer-id="${buyUser.id}">평가하기</button>
+				<button type="button" id="evaluate" class="btn btn-info" th:data-trader-id="${tradeUser.id}">평가하기</button>
 			</div>
 		</div>
 	</div>
@@ -63,12 +63,12 @@
 			$("#evaluate").on('click', function() {
 				//alert("평가하기");
 				
-				let buyerId = $(this).data("buyer-id");
+				let traderId = $(this).data("trader-id");
 				
 				$.ajax({
 					type:"post"
 					, url:"/user/evaluate"
-					, data:{"starPoint":starPoint, "buyerId":buyerId}
+					, data:{"starPoint":starPoint, "traderId":traderId}
 					, success:function(data) {
 						if (data.code == 200) {
 							alert("평가가 완료되었습니다.");

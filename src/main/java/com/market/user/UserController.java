@@ -61,13 +61,13 @@ public class UserController {
 	// 평가하기 화면
 	@GetMapping("/evaluate-view")
 	public String evaluate(
-			@RequestParam("buyerId") int buyerId,
+			@RequestParam("traderId") int traderId,
 			Model model) {
 		
 		// 구매자의 id로 해당 유저 정보 가져오기
-		UserEntity buyUser = userBO.getUserEntityById(buyerId);
+		UserEntity tradeUser = userBO.getUserEntityById(traderId);
 		
-		model.addAttribute("buyUser", buyUser);
+		model.addAttribute("tradeUser", tradeUser);
 		
 		return "user/evaluate";
 	}

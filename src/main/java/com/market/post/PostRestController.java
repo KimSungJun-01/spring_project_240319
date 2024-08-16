@@ -95,9 +95,9 @@ public class PostRestController {
 		return result;
 	}
 	
-	// 거래완료 요청
-	@PostMapping("/exchange-complete")
-	public Map<String, Object> exchangeComplete(
+	// isEvaluated 변경
+	@PostMapping("/update-isEvaluated")
+	public Map<String, Object> updateIsEvaluated(
 			@RequestParam("postId") int postId,
 			HttpSession session) {
 		
@@ -110,16 +110,44 @@ public class PostRestController {
 			return result;
 		}
 		
+		// 거래글 isEvaluated true로 변경
+		postBO.updateIsEvaluatedByPostId(postId);
+		
+		
 		// 거래자 id 추출
 		Post post = postBO.getPostByPostId(postId);
 		int buyerId = post.getBuyerId();
 		
-		// 게시글 삭제
-		postBO.deletePostById(postId);
-		
 		result.put("code", 200);
 		result.put("result", "성공");
 		result.put("buyerId", buyerId);
+		return result;
+	}
+	
+	@PostMapping("/delete-post")
+	public Map<String, Object> deletePost(
+			@RequestParam("postId") int postId,
+			HttpSession session) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 403);
+			result.put("error_message", "로그인을 해주세요");
+			return result;
+		}
+		
+		Post post = postBO.getPostByPostId(postId);
+		int postUserId = post.getUserId();
+		
+		// 게시글 삭제
+		postBO.deletePostById(postId);
+		postImageBO.deleteImageByPostId(postId);
+		
+		result.put("code", 200);
+		result.put("result", "성공");
+		result.put("userId", postUserId);
 		return result;
 	}
 }

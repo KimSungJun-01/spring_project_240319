@@ -86,4 +86,8 @@ public class PostBO {
 	public void deletePostById(int postId) {
 		postMapper.deletePostById(postId);
 	}
+	
+	public void updateIsEvaluatedByPostId(int postId) {
+		postMapper.updateIsEvaluatedByPostId(postId);
+	}
 }

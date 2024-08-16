@@ -107,7 +107,7 @@ public class UserRestController {
 	@PostMapping("/evaluate")
 	public Map<String, Object> evaluate(
 			@RequestParam("starPoint") int starPoint,
-			@RequestParam("buyerId") int buyerId,
+			@RequestParam("traderId") int traderId,
 			HttpSession session) {
 		
 		Map<String, Object> result = new HashMap<>();
@@ -138,7 +138,7 @@ public class UserRestController {
 			break;
 		}
 		
-		UserEntity user = userBO.getUserEntityById(buyerId);
+		UserEntity user = userBO.getUserEntityById(traderId);
 		double fixedDegree = user.getDegree() + addPoint;
 		userBO.updateDegreeById(fixedDegree, user.getId());
 		

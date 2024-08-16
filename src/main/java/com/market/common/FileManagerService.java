@@ -9,6 +9,9 @@ import java.nio.file.Paths;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class FileManagerService {
 	
@@ -43,6 +46,28 @@ public class FileManagerService {
 		return "/img/post_img/" + directoryName + "/" + file.getOriginalFilename();
 	}
 	
+	public void deleteFile(String imagePath) {
+		Path path = Paths.get(FILE_UPLOAD_PATH + imagePath.replace("/img/post_img/", ""));
+		
+		if (Files.exists(path)) {
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				log.info("[FileManagerService 파일삭제] 삭제 실패. path:{}", path.toString());
+				return;
+			}
+			
+			path = path.getParent();
+			if (Files.exists(path)) {
+				try {
+					Files.delete(path);
+				} catch (IOException e) {
+					log.info("[FileManagerService 파일삭제] 디렉토리 삭제 실패 path:{}", path.toString());
+				}
+			}
+		}
+	}
+	
 	// notebook
 	public static final String PROFILE_FILE_UPLOAD_PATH = "C:\\Users\\moonh\\OneDrive\\바탕 화면\\김성준\\6_spring_project\\market\\clone\\src\\main\\resources\\static\\img\\profile_img/";
 	
@@ -70,5 +95,27 @@ public class FileManagerService {
 		}
 		
 		return "/img/profile_img/" + directoryName + "/" + profileImage.getOriginalFilename();
+	}
+	
+	public void deleteProfileFile(String imagePath) {
+		Path path = Paths.get(PROFILE_FILE_UPLOAD_PATH + imagePath.replace("/img/profile_img/", ""));
+		
+		if (Files.exists(path)) {
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				log.info("[FileManagerService 파일삭제] 삭제 실패. path:{}", path.toString());
+				return;
+			}
+			
+			path = path.getParent();
+			if (Files.exists(path)) {
+				try {
+					Files.delete(path);
+				} catch (IOException e) {
+					log.info("[FileManagerService 파일삭제] 디렉토리 삭제 실패 path:{}", path.toString());
+				}
+			}
+		}
 	}
 }

@@ -63,8 +63,8 @@
 				<!-- 1-1내가 작성한 글인 경우 -->
 				<th:block th:if="${session.userId == post.userId}">
 					<!-- 1-1-1거래요청이 온 경우 -->
-					<div th:if="${post.buyerId != null}" class="d-flex justify-content-end">
-						<button type="button" id="successExBtn" class="btn btn-secondary" th:data-post-id="${post.id}">거래완료</button>
+					<div th:if="${post.buyerId != null and post.isEvaluated != true}" class="d-flex justify-content-end">
+						<button type="button" id="sellerSuccessExBtn" class="btn btn-secondary" th:data-post-id="${post.id}">거래완료</button>
 					</div>
 					
 					<!-- 1-1-2거래요청이 오지 않은 경우 -->
@@ -75,7 +75,15 @@
 				<th:block th:unless="${session.userId == post.userId}">
 					<!-- 1-2-1내가 거래요청한 글인 경우 -->
 					<div th:if="${session.userId == post.buyerId}" class="d-flex justify-content-end">
-						<button type="button" id="cancelExBtn" class="btn btn-danger" th:data-post-id="${post.id}">거래취소</button>
+						<!-- 1-2-1-1 상대방이 거래완료를 아직 수락하지 않은 경우 -->
+						<th:block th:if="${post.isEvaluated == false}">
+							<button type="button" id="cancelExBtn" class="btn btn-danger" th:data-post-id="${post.id}">거래취소</button>
+						</th:block>
+						
+						<!-- 1-2-1-2 상대방이 거래완료를 수락한 경우 -->
+						<th:block th:unless="${post.isEvaluated == false}">
+							<button type="button" id="buyerSuccessExBtn" class="btn btn-secondary" th:data-post-id="${post.id}">거래완료</button>
+						</th:block>
 					</div>
 					
 					<!-- 1-2-2거래요청하지 않은 글인 경우 -->
@@ -175,19 +183,19 @@
 				});
 			}); // --- 거래취소 버튼 클릭 끝
 			
-			// 거래완료 버튼 클릭
-			$("#successExBtn").on('click', function() {
+			// 판매자 거래완료 버튼 클릭
+			$("#sellerSuccessExBtn").on('click', function() {
 				//alert("거래완료 버튼 클릭");
 				let postId = $(this).data("post-id");
 				
 				$.ajax({
 					type:"post"
-					, url:"/post/exchange-complete"
+					, url:"/post/update-isEvaluated"
 					, data:{"postId":postId}
 					, success:function(data) {
 						if (data.code == 200) {
 							alert("거래가 완료되었습니다.");
-							location.href="/user/evaluate-view?buyerId=" + data.buyerId;
+							location.href="/user/evaluate-view?traderId=" + data.buyerId;
 						} else if (data.code == 403) {
 							alert(data.error_message);
 							location.href = "/user/sign-in-view";
@@ -199,7 +207,32 @@
 						alert("거래완료에 실패했습니다.");
 					} 
 				});
-			}); // --- 거래완료 버튼 클릭 끝
+			}); // --- 판매자 거래완료 버튼 클릭 끝
+			// 구매자 거래완료 버튼 클릭
+			$("#buyerSuccessExBtn").on('click', function() {
+				//alert("거래완료 버튼 클릭");
+				let postId = $(this).data("post-id");
+				
+				$.ajax({
+					type:"post"
+					, url:"/post/delete-post"
+					, data:{"postId":postId}
+					, success:function(data) {
+						if (data.code == 200) {
+							alert("거래가 완료되었습니다.");
+							location.href="/user/evaluate-view?traderId=" + data.userId;
+						} else if (data.code == 403) {
+							alert(data.error_message);
+							location.href = "/user/sign-in-view";
+						} else {
+							alert(data.error_message);
+						}
+					}
+					, error:function(e) {
+						alert("거래완료에 실패했습니다.");
+					} 
+				});
+			}); // --- 판매자 거래완료 버튼 클릭 끝
 		});
     </script>
 </th:block>

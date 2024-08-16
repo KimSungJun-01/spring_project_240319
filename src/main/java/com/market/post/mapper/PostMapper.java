@@ -29,6 +29,7 @@ public interface PostMapper {
 			@Param("postId") int postId);
 	public void updateBuyerIdByUserId(int userId);
 	public void deletePostById(int postId);
+	public void updateIsEvaluatedByPostId(int postId);
 	
 	// 이미지
 	public void insertImage(
@@ -36,4 +37,5 @@ public interface PostMapper {
 			@Param("imagePath") String imagePath);
 	
 	public Image selectImageByPostId(int postId);
+	public int deleteImageByPostId(int postId);
 }
