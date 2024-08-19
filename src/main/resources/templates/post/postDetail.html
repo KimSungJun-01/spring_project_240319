@@ -9,22 +9,15 @@
 			<!-- 제품 이미지 -->
 			<img th:src="${image.imagePath}" class="productDetailImage w-100 rounded mt-3">
 			
-			<div class="detailBox2 w-100 d-flex">
+			<div class="detailBox2 w-100 d-flex mt-1">
 				<!-- 제품 제목,가격 -->
-				<div class="h-100 detailBox3">
-					<div class="d-flex align-items-center">
-						<h2 th:text="${post.subject}" class="pt-2"></h2>
-						<!-- 거래전 -->
-						<th:block th:if="${#strings.equals(post.state, '거래전')}">
-							<h4 th:text="${post.state}" class="pt-1 pl-4 text-info"></h4>
-						</th:block>
-						
-						<!-- 예약중 -->
-						<th:block th:if="${#strings.equals(post.state, '예약중')}">
-							<h4 th:text="${post.state}" class="pt-1 pl-4 text-danger"></h4>
-						</th:block>
+				<div class="h-100 detailBox3 d-flex align-items-center">
+					<div>
+						<div class="d-flex align-items-center">
+							<h4 th:text="${post.subject}" class=""></h4>
+						</div>
+						<h4 th:text="${post.price} + '원'" class="font-weight-bold"></h4>
 					</div>
-					<h4 th:text="${post.price} + '원'" class="font-weight-bold ml-1"></h4>
 				</div>
 				
 				<!-- 판매자 정보 -->
@@ -43,18 +36,30 @@
 			</div>
 			<!-- 주소, 좋아요 버튼 -->
 			<div class="detailBox4 w-100 d-flex justify-content-between align-items-center">
-				<h5 th:text="${post.address}" class="ml-1"></h5>
+				<h5 th:text="${post.address}" id="postAddress"></h5>
 				<a href="#" class="likeBtn" th:data-post-id="${post.id}">
 					<img th:if="${filledLike == false}" src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="empty heart" class="mr-2">
 					<img th:unless="${filledLike == false}" src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18" height="18" alt="filled heart" class="mr-2">
 				</a>	
 			</div>
 			
+			<!-- 해당 게시글 거래 상태 -->
+			<div th:if="${#strings.equals(post.state, '거래전')}">
+				<h4 th:text="${post.state}" class="text-info"></h4>
+			</div>
+			
+			<!-- 예약중 -->
+			<div th:if="${#strings.equals(post.state, '예약중')}">
+				<h4 th:text="${post.state}" class="text-danger"></h4>
+			</div>
+			
 			<!-- 세부사항 텍스트 박스 -->
 			<textarea rows="13" class="form-control" th:text="${post.content}" readonly></textarea>
 			
 			<!-- 지도 -->
-			
+			<div class="d-flex justify-content-center pt-2 mb-2">
+				<div id="map" style="width:520px;height:350px;"></div>
+			</div>
 			
 			<!-- 거래요청 버튼 -->
 			
@@ -64,7 +69,7 @@
 				<th:block th:if="${session.userId == post.userId}">
 					<!-- 1-1-1거래요청이 온 경우 -->
 					<div th:if="${post.buyerId != null and post.isEvaluated != true}" class="d-flex justify-content-end">
-						<button type="button" id="sellerSuccessExBtn" class="btn btn-secondary" th:data-post-id="${post.id}">거래완료</button>
+						<button type="button" id="sellerSuccessExBtn" class="btn btn-secondary mb-2" th:data-post-id="${post.id}">거래완료</button>
 					</div>
 					
 					<!-- 1-1-2거래요청이 오지 않은 경우 -->
@@ -77,12 +82,12 @@
 					<div th:if="${session.userId == post.buyerId}" class="d-flex justify-content-end">
 						<!-- 1-2-1-1 상대방이 거래완료를 아직 수락하지 않은 경우 -->
 						<th:block th:if="${post.isEvaluated == false}">
-							<button type="button" id="cancelExBtn" class="btn btn-danger" th:data-post-id="${post.id}">거래취소</button>
+							<button type="button" id="cancelExBtn" class="btn btn-danger mb-2" th:data-post-id="${post.id}">거래취소</button>
 						</th:block>
 						
 						<!-- 1-2-1-2 상대방이 거래완료를 수락한 경우 -->
 						<th:block th:unless="${post.isEvaluated == false}">
-							<button type="button" id="buyerSuccessExBtn" class="btn btn-secondary" th:data-post-id="${post.id}">거래완료</button>
+							<button type="button" id="buyerSuccessExBtn" class="btn btn-secondary mb-2" th:data-post-id="${post.id}">거래완료</button>
 						</th:block>
 					</div>
 					
@@ -93,7 +98,7 @@
 						
 						<!-- 1-2-2-2예약자가 없는 경우 -->
 						<th:block th:unless="${post.buyerId != null}">
-							<button type="button" id="requestExBtn" class="btn btn-info" th:data-user-id="${session.userId}" th:data-post-id="${post.id}">거래요청</button>
+							<button type="button" id="requestExBtn" class="btn btn-info mb-2" th:data-user-id="${session.userId}" th:data-post-id="${post.id}">거래요청</button>
 						</th:block>
 					</div>
 				</th:block>
@@ -107,6 +112,59 @@
 
 <th:block layout:fragment="script">
     <script>
+    	// map
+    	var map;
+    	
+    	let postAddress = $("#postAddress").text();
+    	// alert(postAddress);
+
+		window.onload = function() {
+			selectMapList();
+			searchAddressToCoordinateAndPlot(postAddress);
+		}
+		
+		// 중고물품들의 객체 또는 검색된 주소를 위경도로 변환하고, 지도에 마커를 추가하는 함수
+	    function searchAddressToCoordinateAndPlot(postAddress) {
+	        naver.maps.Service.geocode({
+	            query: postAddress // 검색할 주소를 입력
+	        }, function(status, response) {
+	            if (status === naver.maps.Service.Status.ERROR) { // 변환에 실패한 경우
+	                return alert('Something Wrong!'); // 오류 메시지 출력
+	            }
+	            if (response.v2.meta.totalCount === 0) { // 주소를 찾을 수 없는 경우
+	                return alert('올바른 주소를 입력해주세요.'); // 경고 메시지 출력
+	            }
+	            var item = response.v2.addresses[0]; // 첫 번째 검색 결과를 선택
+	            
+	            insertAddress(postAddress, item.y, item.x);
+	        });
+		}
+		
+	 	// 지도에 마커를 표시하는 함수
+	 	function insertAddress(postAddress, latitude, longitude) {
+	 		// Post 객체의 정보를 담은 Html
+	    	var infowindowContent = `<div style="padding:10px;">${postAddress}</div>`;
+	        // 지도에 마커를 생성하여 추가
+	        var marker = new naver.maps.Marker({
+	            map: map, // 마커가 표시될 지도 객체
+	            position: new naver.maps.LatLng(latitude, longitude), // 마커 위치를 위경도로 설정
+	        });
+	        // 정보창 생성
+	        var infowindow = new naver.maps.InfoWindow({
+	        	content: infowindowContent
+	        });
+	        // 마커 클릭시 정보창 보이기
+	        naver.maps.Event.addListener(marker, 'click', function() {
+	        	infowindow.open(map, marker);
+	        });
+	        // 추가된 마커를 중심으로 지도 위치 이동
+	        map.setCenter(new naver.maps.LatLng(latitude, longitude));
+	    }
+	 	// 지도를 초기화하고 기본 위치에 지도 표시하는 함수
+	    function selectMapList() {
+	        map = new naver.maps.Map('map', {zoom: 13});
+	    }
+		// --- map 끝
 		$(document).ready(function() {
 			// 좋아요 클릭
 			$(".likeBtn").on('click', function(e) {

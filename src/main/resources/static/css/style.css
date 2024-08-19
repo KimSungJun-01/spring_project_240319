@@ -48,7 +48,7 @@ footer {height:100px; color:gray;}
 .myExchangeBtn {height:40px; width:430px;}
 .detailBox {width:520px; margin: 0 auto;}
 .productDetailImage {height:230px;}
-.detailBox2 {height:100px;}
+.detailBox2 {min-height:100px; height:100px;}
 .detailBox3 {width:400px;}
 .detailBox4 {height:40px;}
 .evaluateBox1 {width:600px;}
