@@ -25,6 +25,7 @@
     window.onload = function() {
         selectMapList(); // 지도를 초기화하는 함수 호출
         fetchAddressesAndPlotMarkers(); // 주소 리스트를 가져와서 마커를 표시하는 함수 호출
+        map.setCenter(new naver.maps.LatLng(37.5665, 126.9780));
     }
 
     // 서버에서 주소 리스트를 가져오는 함수 (이 부분은 실제 API로 대체 가능)
@@ -103,7 +104,7 @@
     function selectMapList() {
         map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng(37.5665, 126.9780), // 기본 위치 (위도, 경도)
-            zoom: 10 // 기본 줌 레벨
+            zoom: 12 // 기본 줌 레벨
         });
     }
     </script>
