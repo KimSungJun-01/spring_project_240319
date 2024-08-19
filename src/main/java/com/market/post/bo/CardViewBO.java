@@ -24,9 +24,11 @@ public class CardViewBO {
 	@Autowired
 	private LikeBO likeBO;
 	
+	private static final int CARD_VIEW_MAX_SIZE = 5;
+	
 	// input : 
 	// output : List<CardView>
-	public List<CardView> generateCardViewList() {
+	public List<CardView> generateCardViewList(Integer ) {
 		List<CardView> cardViewList = new ArrayList<>();
 		
 		List<Post> postList = postBO.getPostList();

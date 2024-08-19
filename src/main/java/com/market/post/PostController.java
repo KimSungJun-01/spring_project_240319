@@ -44,14 +44,29 @@ public class PostController {
 	// 중고거래 화면
 	@GetMapping("/post-list-view")
 	public String postListView(
-			@RequestParam(value="listOrder", required=false) String listOrder,
+			@RequestParam(value = "prevId", required = false) Integer prevIdParam,
+			@RequestParam(value = "nextId", required = false) Integer nextIdParam,
+			@RequestParam(value = "listOrder", required = false) String listOrder,
 			Model model) {
 		
 		List<CardView> cardViewList = null;
 		if (listOrder == null) {
-			cardViewList = cardViewBO.generateCardViewList();
+			cardViewList = cardViewBO.generateCardViewList(prevIdParam, nextIdParam);
 		} else {
-			cardViewList = cardViewBO.generateCardViewList(listOrder);
+			cardViewList = cardViewBO.generateCardViewList(listOrder, prevIdParam, nextIdParam);
+		}
+		
+		int prevId = 0;
+		int nextId = 0;
+		if (cardViewList.isEmpty() == false) {
+			prevId = cardViewList.get(0).getPost().getId();
+			nextId = cardViewList.get(cardViewList.size() - 1).getPost().getId();
+			
+			if (cardViewBO.isPrevLastPageByUserId(prevId)) {
+				prevId = 0;
+			}
+			
+			if (cardViewBO.isNextLastPageByUserId)
 		}
 		
 		model.addAttribute("cardViewList", cardViewList);
