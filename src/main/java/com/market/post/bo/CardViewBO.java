@@ -24,14 +24,12 @@ public class CardViewBO {
 	@Autowired
 	private LikeBO likeBO;
 	
-	private static final int CARD_VIEW_MAX_SIZE = 5;
-	
 	// input : 
 	// output : List<CardView>
-	public List<CardView> generateCardViewList(Integer ) {
+	public List<CardView> generateCardViewList(Integer prevId, Integer nextId) {
 		List<CardView> cardViewList = new ArrayList<>();
 		
-		List<Post> postList = postBO.getPostList();
+		List<Post> postList = postBO.getPostList(prevId, nextId);
 		
 		for (int i = 0; i < postList.size(); i++) {
 			CardView card = new CardView();
@@ -56,18 +54,18 @@ public class CardViewBO {
 	
 	// input : listOrder
 	// output : List<CardView>
-	public List<CardView> generateCardViewList(String listOrder) {
+	public List<CardView> generateCardViewList(String listOrder, Integer prevId, Integer nextId) {
 		List<CardView> cardViewList = new ArrayList<>();
 		
 		List<Post> postList = null;
 		if (listOrder.equals("latestOrder")) {
-			postList = postBO.getPostListLatestOrder();
+			postList = postBO.getPostListLatestOrder(prevId, nextId);
 		} else if (listOrder.equals("popularityOrder")) {
-			postList = postBO.getPostList();
+			postList = postBO.getPostList(prevId, nextId);
 		} else if (listOrder.equals("ascendingOrder")) {
-			postList = postBO.getPostListAscendingOrderPrice();
+			postList = postBO.getPostListAscendingOrderPrice(prevId, nextId);
 		} else if (listOrder.equals("descendingOrder")) {
-			postList = postBO.getPostListDescendingOrderPrice();
+			postList = postBO.getPostListDescendingOrderPrice(prevId, nextId);
 		}
 		
 		for (int i = 0; i < postList.size(); i++) {
@@ -179,4 +177,5 @@ public class CardViewBO {
 		
 		return cardViewList;
 	}
+
 }

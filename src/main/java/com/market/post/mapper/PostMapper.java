@@ -14,13 +14,25 @@ public interface PostMapper {
 	
 	// 글
 	public List<Map<String, Object>> selectPostListTest();
-	public List<Post> selectPostList();
+	public List<Post> selectPostList(
+			@Param("standardId") Integer standardId,
+			@Param("direction") String direction,
+			@Param("limit") int limit);
 	public List<Post> selectPostListByUserId(int userId);
 	public List<Post> selectRequestExchangePostListByUserId(int userId);
 	
-	public List<Post> selectPostListOrderByCreatedAt();
-	public List<Post> selectPostListOrderByAscendingOrderPrice();
-	public List<Post> selectPostListOrderByDescendingOrderPrice();
+	public List<Post> selectPostListOrderByCreatedAt(
+			@Param("standardId") Integer standardId,
+			@Param("direction") String direction,
+			@Param("limit") int limit);
+	public List<Post> selectPostListOrderByAscendingOrderPrice(
+			@Param("standardId") Integer standardId,
+			@Param("direction") String direction,
+			@Param("limit") int limit);
+	public List<Post> selectPostListOrderByDescendingOrderPrice(
+			@Param("standardId") Integer standardId,
+			@Param("direction") String direction,
+			@Param("limit") int limit);
 	
 	public void insertPost(Post post);
 	public Post selectPostById(int id);
@@ -30,6 +42,8 @@ public interface PostMapper {
 	public void updateBuyerIdByUserId(int userId);
 	public void deletePostById(int postId);
 	public void updateIsEvaluatedByPostId(int postId);
+	
+	public int selectPostIdAsSort(String sort);
 	
 	// 이미지
 	public void insertImage(

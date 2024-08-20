@@ -9,7 +9,7 @@
 		FROM
 			`post`
  	</select>
- 	<select id="selectPostList" resultType="com.market.post.domain.Post">
+ 	<select id="selectPostList" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
  			`id`
 			,`userId`
@@ -24,6 +24,19 @@
 			,`updatedAt`
 		FROM
 			`post`
+		WHERE
+			<if test="direction == 'next'">
+				<![CDATA[
+				`id` < #{standardId}
+				]]>
+			</if>
+			<if test="direction == 'prev'">
+				<![CDATA[
+				`id` > #{standardId}
+				]]>
+			</if>
+		ORDER BY `id` DESC
+		LIMIT #{limit}
  	</select>
  	<insert id="insertPost" parameterType="com.market.post.domain.Post" useGeneratedKeys="true" keyProperty="id">
  		INSERT INTO `post`
@@ -91,7 +104,7 @@
 		WHERE
 			`id` = #{id}
  	</select>
- 	<select id="selectPostListOrderByCreatedAt" resultType="com.market.post.domain.Post">
+ 	<select id="selectPostListOrderByCreatedAt" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
  			`id`
 			,`userId`
@@ -106,10 +119,21 @@
 			,`updatedAt`
 		FROM
 			`post`
-		ORDER BY
-			`createdAt` DESC
+		WHERE
+			<if test="direction == 'next'">
+				<![CDATA[
+				`id` < #{standardId}
+				]]>
+			</if>
+			<if test="direction == 'prev'">
+				<![CDATA[
+				`id` > #{standardId}
+				]]>
+			</if>
+		ORDER BY `createdAt` DESC
+		LIMIT #{limit}
  	</select>
- 	<select id="selectPostListOrderByAscendingOrderPrice" resultType="com.market.post.domain.Post">
+ 	<select id="selectPostListOrderByAscendingOrderPrice" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
  			`id`
 			,`userId`
@@ -124,10 +148,21 @@
 			,`updatedAt`
 		FROM
 			`post`
-		ORDER BY
-			`price` DESC
+		WHERE
+			<if test="direction == 'next'">
+				<![CDATA[
+				`id` < #{standardId}
+				]]>
+			</if>
+			<if test="direction == 'prev'">
+				<![CDATA[
+				`id` > #{standardId}
+				]]>
+			</if>
+		ORDER BY `price` ASC
+		LIMIT #{limit}
  	</select>
- 	<select id="selectPostListOrderByDescendingOrderPrice" resultType="com.market.post.domain.Post">
+ 	<select id="selectPostListOrderByDescendingOrderPrice" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
  			`id`
 			,`userId`
@@ -142,8 +177,19 @@
 			,`updatedAt`
 		FROM
 			`post`
-		ORDER BY
-			`price`
+		WHERE
+			<if test="direction == 'next'">
+				<![CDATA[
+				`id` < #{standardId}
+				]]>
+			</if>
+			<if test="direction == 'prev'">
+				<![CDATA[
+				`id` > #{standardId}
+				]]>
+			</if>
+		ORDER BY `price` DESC
+		LIMIT #{limit}
  	</select>
  	<update id="updateBuyerIdByPostId" parameterType="map">
  		UPDATE `post`
@@ -219,4 +265,12 @@
  		WHERE
  			`id` = #{postId}
  	</update>
+ 	<select id="selectPostIdAsSort" parameterType="String" resultType="int">
+ 		SELECT
+ 			`id`
+ 		FROM
+ 			`post`
+ 		ORDER BY `id` ${sort}
+ 		LIMIT 1
+ 	</select>
  </mapper>
