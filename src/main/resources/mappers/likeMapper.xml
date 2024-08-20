@@ -20,6 +20,12 @@
  			`postId` = #{postId}
  			AND `userId` = #{userId}
  	</select>
+ 	<delete id="deleteLikeByUserId" parameterType="int">
+ 		DELETE FROM
+ 			`like`
+ 		WHERE
+ 			`userId` = #{userId}
+ 	</delete>
  	<delete id="deleteLikeByPostIdUserId" parameterType="map">
  		DELETE FROM
  			`like`

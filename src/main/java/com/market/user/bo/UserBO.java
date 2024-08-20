@@ -64,4 +64,19 @@ public class UserBO {
 			user = userRepository.save(user);
 		}
 	}
+	
+	public void deleteUserById(int id) {
+		UserEntity user = userRepository.findById(id).orElse(null);
+		if (user != null) {
+			userRepository.delete(user);
+		}
+	}
+	
+	public void deleteProfileImageById(int id) {
+		UserEntity user = userRepository.findById(id).orElse(null);
+		if (user != null) {
+			String profileImagePath = user.getProfileImagePath();
+			fileManagerService.deleteProfileFile(profileImagePath);
+		}
+	}
 }

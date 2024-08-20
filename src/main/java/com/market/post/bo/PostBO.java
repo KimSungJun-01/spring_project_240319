@@ -17,7 +17,7 @@ public class PostBO {
 	@Autowired
 	private PostMapper postMapper; 
 	
-	private static final int POST_MAX_SIZE = 3;
+	private static final int POST_MAX_SIZE = 8;
 	
 	// input : x
 	// output : List<Post>
@@ -142,6 +142,10 @@ public class PostBO {
 		postMapper.deletePostById(postId);
 	}
 	
+	public void deletePostByUserId(int userId) {
+		postMapper.deletePostByUserId(userId);
+	}
+	
 	public void updateIsEvaluatedByPostId(int postId) {
 		postMapper.updateIsEvaluatedByPostId(postId);
 	}
@@ -154,5 +158,9 @@ public class PostBO {
 	public boolean isNextLastPage(int nextId) {
 		int minPostId = postMapper.selectPostIdAsSort("ASC");
 		return minPostId == nextId;
+	}
+	
+	public void updatePostByBuyerId(int userId) {
+		postMapper.updateBuyerIdByUserId(userId);
 	}
 }

@@ -41,6 +41,7 @@ public interface PostMapper {
 			@Param("postId") int postId);
 	public void updateBuyerIdByUserId(int userId);
 	public void deletePostById(int postId);
+	public void deletePostByUserId(int userId);
 	public void updateIsEvaluatedByPostId(int postId);
 	
 	public int selectPostIdAsSort(String sort);

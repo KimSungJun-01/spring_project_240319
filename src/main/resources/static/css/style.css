@@ -32,10 +32,11 @@ footer {height:100px; color:gray;}
 .exchangeLetter1 {font-size:35px;}
 .productOne {height:200px; width:200px; text-align:center; line-height:10px;}
 .productImage {height:120px; width:145px;}
-.infoBox {height:450px;}
+.infoBox {min-height:450px;}
 .profileBox {height:180px;}
 .degreeBox {height:100px;}
 .infoButtonBox {height:170px;}
+.unregisterBox {height:50px;}
 .postSubject {font-size:12px; text-align:left; color:black;}
 .postPrice {font-size:11px; text-align:left; color:black;}
 .postAddress {font-size:11px; text-align:left; color:black;}

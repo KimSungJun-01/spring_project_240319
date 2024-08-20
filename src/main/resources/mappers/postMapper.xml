@@ -24,18 +24,21 @@
 			,`updatedAt`
 		FROM
 			`post`
-		WHERE
 			<if test="direction == 'next'">
 				<![CDATA[
-				`id` < #{standardId}
+				WHERE `id` < #{standardId}
 				]]>
+				ORDER BY `id` DESC
 			</if>
 			<if test="direction == 'prev'">
 				<![CDATA[
-				`id` > #{standardId}
+				WHERE `id` > #{standardId}
 				]]>
+				ORDER BY `id` DESC
 			</if>
-		ORDER BY `id` DESC
+			<if test="direction == null">
+				ORDER BY `id` DESC
+			</if>		
 		LIMIT #{limit}
  	</select>
  	<insert id="insertPost" parameterType="com.market.post.domain.Post" useGeneratedKeys="true" keyProperty="id">
@@ -119,18 +122,21 @@
 			,`updatedAt`
 		FROM
 			`post`
-		WHERE
 			<if test="direction == 'next'">
 				<![CDATA[
-				`id` < #{standardId}
+				WHERE `id` < #{standardId}
 				]]>
+				ORDER BY `createdAt` DESC
 			</if>
 			<if test="direction == 'prev'">
 				<![CDATA[
-				`id` > #{standardId}
+				WHERE `id` > #{standardId}
 				]]>
+				ORDER BY `createdAt` DESC
 			</if>
-		ORDER BY `createdAt` DESC
+			<if test="direction == null">
+				ORDER BY `createdAt` DESC
+			</if>
 		LIMIT #{limit}
  	</select>
  	<select id="selectPostListOrderByAscendingOrderPrice" parameterType="map" resultType="com.market.post.domain.Post">
@@ -148,18 +154,21 @@
 			,`updatedAt`
 		FROM
 			`post`
-		WHERE
 			<if test="direction == 'next'">
 				<![CDATA[
-				`id` < #{standardId}
+				WHERE `id` < #{standardId}
 				]]>
+				ORDER BY `price` ASC
 			</if>
 			<if test="direction == 'prev'">
 				<![CDATA[
-				`id` > #{standardId}
+				WHERE `id` > #{standardId}
 				]]>
+				ORDER BY `price` ASC
 			</if>
-		ORDER BY `price` ASC
+			<if test="direction == null">
+				ORDER BY `price` ASC
+			</if>
 		LIMIT #{limit}
  	</select>
  	<select id="selectPostListOrderByDescendingOrderPrice" parameterType="map" resultType="com.market.post.domain.Post">
@@ -177,18 +186,21 @@
 			,`updatedAt`
 		FROM
 			`post`
-		WHERE
 			<if test="direction == 'next'">
 				<![CDATA[
-				`id` < #{standardId}
+				WHERE `id` < #{standardId}
 				]]>
+				ORDER BY `price` DESC
 			</if>
 			<if test="direction == 'prev'">
 				<![CDATA[
-				`id` > #{standardId}
+				WHERE `id` > #{standardId}
 				]]>
+				ORDER BY `price` DESC
 			</if>
-		ORDER BY `price` DESC
+			<if test="direction == null">
+				ORDER BY `price` DESC
+			</if>
 		LIMIT #{limit}
  	</select>
  	<update id="updateBuyerIdByPostId" parameterType="map">
@@ -273,4 +285,10 @@
  		ORDER BY `id` ${sort}
  		LIMIT 1
  	</select>
+ 	<delete id="deletePostByUserId" parameterType="int">
+ 		DELETE FROM
+ 			`post`
+ 		WHERE
+ 			`userId` = #{userId}
+ 	</delete>
  </mapper>

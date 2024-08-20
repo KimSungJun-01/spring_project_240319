@@ -124,8 +124,8 @@ public class PostRestController {
 		return result;
 	}
 	
-	@PostMapping("/delete-post")
-	public Map<String, Object> deletePost(
+	@PostMapping("/exComplete-delete-post")
+	public Map<String, Object> exCompletedeletePost(
 			@RequestParam("postId") int postId,
 			HttpSession session) {
 		
@@ -148,6 +148,29 @@ public class PostRestController {
 		result.put("code", 200);
 		result.put("result", "성공");
 		result.put("userId", postUserId);
+		return result;
+	}
+	
+	@PostMapping("/delete-post")
+	public Map<String, Object> deletePost(
+			@RequestParam("postId") int postId,
+			HttpSession session) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 403);
+			result.put("error_message", "로그인을 해주세요");
+			return result;
+		}
+		
+		// 게시글 삭제
+		postBO.deletePostById(postId);
+		postImageBO.deleteImageByPostId(postId);
+		
+		result.put("code", 200);
+		result.put("result", "성공");
 		return result;
 	}
 }

@@ -73,7 +73,9 @@
 					</div>
 					
 					<!-- 1-1-2거래요청이 오지 않은 경우 -->
-					<div th:unless="${post.buyerId != null}" class="d-flex justify-content-end"></div>
+					<div th:unless="${post.buyerId != null}" class="d-flex justify-content-end">
+						<button type="button" id="deletePostBtn" class="btn btn-danger mb-2" th:data-post-id="${post.id}">글 삭제</button>
+					</div>
 				</th:block>
 				
 				<!-- 1-2내가 작성한 글이 아닌 경우 -->
@@ -273,7 +275,7 @@
 				
 				$.ajax({
 					type:"post"
-					, url:"/post/delete-post"
+					, url:"/post/exComplete-delete-post"
 					, data:{"postId":postId}
 					, success:function(data) {
 						if (data.code == 200) {
@@ -290,7 +292,32 @@
 						alert("거래완료에 실패했습니다.");
 					} 
 				});
-			}); // --- 판매자 거래완료 버튼 클릭 끝
+			}); // --- 구매자 거래완료 버튼 클릭 끝
+			$("#deletePostBtn").on('click', function() {
+				//alert("글 삭제");
+				let postId = $(this).data("post-id");
+				//console.log(postId);
+				
+				$.ajax({
+					type:"post"
+					, url:"/post/delete-post"
+					, data:{"postId":postId}
+					, success:function(data) {
+						if (data.code == 200) {
+							alert("게시글이 삭제되었습니다.");
+							location.href = "/post/post-list-view";
+						} else if (data.code == 403) {
+							alert(data.error_message);
+							location.href = "/user/sign-in-view";
+						} else {
+							alert(data.error_message);
+						}
+					}
+					, error:function(e) {
+						alert("게시글을 삭제하는데 실패했습니다.");
+					}
+				});
+			});
 		});
     </script>
 </th:block>

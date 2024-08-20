@@ -46,4 +46,8 @@ public class LikeBO {
 	public List<Like> getLikeListByUserId(int userId) {
 		return likeMapper.selectLikeByUserId(userId);
 	}
+	
+	public void deleteLikeByUserId(int userId) {
+		likeMapper.deleteLikeByUserId(userId);
+	}
 }

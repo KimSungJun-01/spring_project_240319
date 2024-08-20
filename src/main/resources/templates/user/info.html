@@ -34,16 +34,38 @@
 			
 			<!-- 거래현황 버튼 -->
 			<div class="infoButtonBox">
-				<div class="h-25 w-100 d-flex justify-content-center align-items-center">
-					<button class="btn btn-secondary myLikeBtn">내가 찜한 목록</button>
+				<div class="w-100 d-flex justify-content-center align-items-center">
+					<button class="btn btn-secondary myLikeBtn m-2">내가 찜한 목록</button>
 				</div>
-				<div class="h-25 w-100 d-flex justify-content-center align-items-center">
-					<button class="btn btn-secondary myProductBtn">내가 올린 물품 목록</button>
+				<div class="w-100 d-flex justify-content-center align-items-center">
+					<button class="btn btn-secondary myProductBtn m-2">내가 올린 물품 목록</button>
 				</div>
-				<div class="h-25 w-100 d-flex justify-content-center align-items-center">
-					<button class="btn btn-secondary myExchangeBtn">내가 거래요청한 물품 목록</button>
+				<div class="w-100 d-flex justify-content-center align-items-center">
+					<button class="btn btn-secondary myExchangeBtn m-2">내가 거래요청한 물품 목록</button>
 				</div>
 			</div>
+			
+			<!-- 회원탈퇴 -->
+			<div class="unregisterBox w-100 d-flex justify-content-end align-items-center">
+				<a href="#" id="unregister" class="mr-2" th:data-user-id="${user.id}" data-toggle="modal" data-target="#modal">회원탈퇴</a>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="modal" tabindex="-1">
+		  <div class="modal-dialog modal-dialog-centered">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">회원탈퇴</h5>
+		      </div>
+		      <div class="modal-body">
+		        <p>탈퇴하시겠습니까?</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+		        <button type="button" class="btn btn-primary" id="unregistering">탈퇴하기</button>
+		      </div>
+		    </div>
+		  </div>
 		</div>
 	</div>
 </section>
@@ -68,6 +90,38 @@
 				//alert("내가 거래요청한 제품 목록 버튼 클릭");
 				location.href = "/post/my-exchange-view";
 			}); // --- 나의 거래 현황 클릭 끝
+			
+			// 회원탈퇴 버튼 클릭
+			$("#unregister").on('click', function(e) {
+				e.preventDefault();
+				//alert("회원탈퇴");
+				let userId = $(this).data("user-id");
+				//console.log(userId);
+				
+				$("#modal").data('user-id', userId);
+			});
+			
+			$("#unregistering").on('click', function(e) {
+				e.preventDefault();
+				let userId = $("#modal").data("user-id");
+				//alert(userId);
+				 $.ajax({
+					type:"delete"
+					, url:"/user/delete-user"
+					, data:{"userId":userId}
+				 	, success:function(data) {
+				 		if (data.code == 200) {
+				 			alert("회원탈퇴 되었습니다.");
+				 			location.href="/main/main-view"
+				 		} else {
+				 			alert(data.error_message);
+				 		}
+				 	}
+				 	, error:function(e) {
+				 		alert("회원탈퇴에 실패했습니다. 관리자에게 문의해주세요.");
+				 	}
+				 });
+			});
 		});
     </script>
 </th:block>

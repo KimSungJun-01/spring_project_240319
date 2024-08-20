@@ -1,9 +1,11 @@
 package com.market.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.market.common.EncryptUtils;
+import com.market.like.bo.LikeBO;
+import com.market.post.bo.PostBO;
+import com.market.post.bo.PostImageBO;
+import com.market.post.domain.Post;
 import com.market.user.bo.UserBO;
 import com.market.user.entity.UserEntity;
 
@@ -23,6 +29,15 @@ public class UserRestController {
 	
 	@Autowired
 	private UserBO userBO;
+	
+	@Autowired
+	private PostBO postBO;
+	
+	@Autowired
+	private PostImageBO postImageBO;
+	
+	@Autowired
+	private LikeBO likeBO;
 	
 	// ID 중복확인
 	@PostMapping("/is-duplicated-id")
@@ -144,6 +159,42 @@ public class UserRestController {
 		
 		result.put("code", 200);
 		result.put("result", "성공");
+		return result;
+	}
+	
+	// 회원탈퇴
+	@DeleteMapping("/delete-user")
+	public Map<String, Object> deleteUser(
+			@RequestParam("userId") int userId) {
+		Map<String, Object> result = new HashMap<>();
+		
+		// 유저가 올렸던 게시글 가져오기
+		List<Post> postList = postBO.getPostListByUserId(userId);
+		
+		// 게시글 하나씩에 있는 사진 삭제
+		for (int i = 0; i < postList.size(); i++) {
+			// 이미지 삭제
+			postImageBO.deleteImageByPostId(postList.get(i).getId());
+		}
+		
+		// 유저가 올렸던 게시글 전부 삭제
+		postBO.deletePostByUserId(userId);
+		
+		// 유저가 눌렀던 좋아요 정보 삭제
+		likeBO.deleteLikeByUserId(userId);
+		
+		// 유저가 거래요청 했던 정보 삭제
+		postBO.updatePostByBuyerId(userId);
+		
+		// 유저 프로필 이미지 삭제
+		userBO.deleteProfileImageById(userId);
+		
+		// 유저 삭제
+		userBO.deleteUserById(userId);
+		
+		result.put("code", 200);
+		result.put("result", "성공");
+		
 		return result;
 	}
 }
