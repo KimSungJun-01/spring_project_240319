@@ -1,4 +1,4 @@
-package com.market.post.bo;
+package com.market.cardview.bo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,9 +7,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.market.cardview.domain.CardView;
 import com.market.like.bo.LikeBO;
 import com.market.like.domain.Like;
-import com.market.post.domain.CardView;
+import com.market.post.bo.PostBO;
+import com.market.post.bo.PostImageBO;
 import com.market.post.domain.Post;
 
 @Service
@@ -26,10 +28,10 @@ public class CardViewBO {
 	
 	// input : 
 	// output : List<CardView>
-	public List<CardView> generateCardViewList(Integer prevId, Integer nextId) {
+	public List<CardView> generateCardViewList() {
 		List<CardView> cardViewList = new ArrayList<>();
 		
-		List<Post> postList = postBO.getPostList(prevId, nextId);
+		List<Post> postList = postBO.getPostList();
 		
 		for (int i = 0; i < postList.size(); i++) {
 			CardView card = new CardView();
@@ -54,18 +56,18 @@ public class CardViewBO {
 	
 	// input : listOrder
 	// output : List<CardView>
-	public List<CardView> generateCardViewList(String listOrder, Integer prevId, Integer nextId) {
+	public List<CardView> generateCardViewList(String listOrder) {
 		List<CardView> cardViewList = new ArrayList<>();
 		
 		List<Post> postList = null;
 		if (listOrder.equals("latestOrder")) {
-			postList = postBO.getPostListLatestOrder(prevId, nextId);
+			postList = postBO.getPostListLatestOrder();
 		} else if (listOrder.equals("popularityOrder")) {
-			postList = postBO.getPostList(prevId, nextId);
+			postList = postBO.getPostList();
 		} else if (listOrder.equals("ascendingOrder")) {
-			postList = postBO.getPostListAscendingOrderPrice(prevId, nextId);
+			postList = postBO.getPostListAscendingOrderPrice();
 		} else if (listOrder.equals("descendingOrder")) {
-			postList = postBO.getPostListDescendingOrderPrice(prevId, nextId);
+			postList = postBO.getPostListDescendingOrderPrice();
 		}
 		
 		for (int i = 0; i < postList.size(); i++) {

@@ -24,22 +24,6 @@
 			,`updatedAt`
 		FROM
 			`post`
-			<if test="direction == 'next'">
-				<![CDATA[
-				WHERE `id` < #{standardId}
-				]]>
-				ORDER BY `id` DESC
-			</if>
-			<if test="direction == 'prev'">
-				<![CDATA[
-				WHERE `id` > #{standardId}
-				]]>
-				ORDER BY `id` DESC
-			</if>
-			<if test="direction == null">
-				ORDER BY `id` DESC
-			</if>		
-		LIMIT #{limit}
  	</select>
  	<insert id="insertPost" parameterType="com.market.post.domain.Post" useGeneratedKeys="true" keyProperty="id">
  		INSERT INTO `post`
@@ -122,22 +106,7 @@
 			,`updatedAt`
 		FROM
 			`post`
-			<if test="direction == 'next'">
-				<![CDATA[
-				WHERE `id` < #{standardId}
-				]]>
-				ORDER BY `createdAt` DESC
-			</if>
-			<if test="direction == 'prev'">
-				<![CDATA[
-				WHERE `id` > #{standardId}
-				]]>
-				ORDER BY `createdAt` DESC
-			</if>
-			<if test="direction == null">
-				ORDER BY `createdAt` DESC
-			</if>
-		LIMIT #{limit}
+		ORDER BY `createdAt` DESC
  	</select>
  	<select id="selectPostListOrderByAscendingOrderPrice" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
@@ -154,22 +123,7 @@
 			,`updatedAt`
 		FROM
 			`post`
-			<if test="direction == 'next'">
-				<![CDATA[
-				WHERE `id` < #{standardId}
-				]]>
-				ORDER BY `price` ASC
-			</if>
-			<if test="direction == 'prev'">
-				<![CDATA[
-				WHERE `id` > #{standardId}
-				]]>
-				ORDER BY `price` ASC
-			</if>
-			<if test="direction == null">
-				ORDER BY `price` ASC
-			</if>
-		LIMIT #{limit}
+		ORDER BY `price` ASC
  	</select>
  	<select id="selectPostListOrderByDescendingOrderPrice" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
@@ -186,22 +140,7 @@
 			,`updatedAt`
 		FROM
 			`post`
-			<if test="direction == 'next'">
-				<![CDATA[
-				WHERE `id` < #{standardId}
-				]]>
-				ORDER BY `price` DESC
-			</if>
-			<if test="direction == 'prev'">
-				<![CDATA[
-				WHERE `id` > #{standardId}
-				]]>
-				ORDER BY `price` DESC
-			</if>
-			<if test="direction == null">
-				ORDER BY `price` DESC
-			</if>
-		LIMIT #{limit}
+		ORDER BY `price` DESC
  	</select>
  	<update id="updateBuyerIdByPostId" parameterType="map">
  		UPDATE `post`

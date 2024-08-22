@@ -1,4 +1,7 @@
-package com.market.post.domain;
+package com.market.cardview.domain;
+
+import com.market.post.domain.Image;
+import com.market.post.domain.Post;
 
 import lombok.Data;
 import lombok.ToString;

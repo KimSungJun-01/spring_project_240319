@@ -20,7 +20,7 @@ public class MapRestController {
 	@PostMapping("/get-address")
 	public List<Post> getAddress() {
 		
-		List<Post> postList = postBO.getPostList(null, null);
+		List<Post> postList = postBO.getPostList();
 		
 		return postList;
 	}

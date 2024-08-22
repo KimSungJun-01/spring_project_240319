@@ -23,6 +23,3 @@ mybatis:
 naver:
   client-id: W84yqPSgI7l7NDyJqQCp
   secret: CFkLYnDLTY
-pagehelper:
-  helper-dialect: mysql
-  reasonable: true

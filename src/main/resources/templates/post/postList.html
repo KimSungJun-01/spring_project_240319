@@ -40,10 +40,7 @@
 			</div>
 			
 			<!-- 페이지 이동 -->
-			<div class="changePage text-center">
-				<a th:if="${prevId != 0}" th:href="|/post/post-list-view?prevId=${prevId}|" class="mr-5">&lt;&lt; 이전</a>
-				<a th:if="${nextId != 0}" th:href="'/post/post-list-view?nextId=' + ${nextId}">다음 &gt;&gt;</a>
-			</div>
+			
 		</div>
 	</div>
 </section>

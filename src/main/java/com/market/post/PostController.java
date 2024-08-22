@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.market.cardview.bo.CardViewBO;
+import com.market.cardview.domain.CardView;
 import com.market.like.bo.LikeBO;
 import com.market.like.domain.Like;
-import com.market.post.bo.CardViewBO;
 import com.market.post.bo.PostBO;
 import com.market.post.bo.PostImageBO;
-import com.market.post.domain.CardView;
 import com.market.post.domain.Image;
 import com.market.post.domain.Post;
 import com.market.user.bo.UserBO;
@@ -45,34 +45,15 @@ public class PostController {
 	@GetMapping("/post-list-view")
 	public String postListView(
 			@RequestParam(value = "listOrder", required = false) String listOrder,
-			@RequestParam(value = "prevId", required = false) Integer prevIdParam,
-			@RequestParam(value = "nextId", required = false) Integer nextIdParam,
 			Model model) {
 		
 		List<CardView> cardViewList = null;
 		if (listOrder == null) {
-			cardViewList = cardViewBO.generateCardViewList(prevIdParam, nextIdParam);
+			cardViewList = cardViewBO.generateCardViewList();
 		} else {
-			cardViewList = cardViewBO.generateCardViewList(listOrder, prevIdParam, nextIdParam);
+			cardViewList = cardViewBO.generateCardViewList(listOrder);
 		}
-		
-		int prevId = 0;
-		int nextId = 0;
-		if (cardViewList.isEmpty() == false) {
-			prevId = cardViewList.get(0).getPost().getId();
-			nextId = cardViewList.get(cardViewList.size() - 1).getPost().getId();
-			
-			if (postBO.isPrevLastPage(prevId)) {
-				prevId = 0;
-			}
-			
-			if (postBO.isNextLastPage(nextId)) {
-				nextId = 0;
-			}
-		}
-		
-		model.addAttribute("prevId", prevId);
-		model.addAttribute("nextId", nextId);
+
 		model.addAttribute("cardViewList", cardViewList);
 		
 		if (listOrder != null) {
