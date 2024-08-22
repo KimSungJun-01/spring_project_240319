@@ -165,7 +165,8 @@ public class UserRestController {
 	// 회원탈퇴
 	@DeleteMapping("/delete-user")
 	public Map<String, Object> deleteUser(
-			@RequestParam("userId") int userId) {
+			@RequestParam("userId") int userId,
+			HttpSession session) {
 		Map<String, Object> result = new HashMap<>();
 		
 		// 유저가 올렸던 게시글 가져오기
@@ -191,6 +192,10 @@ public class UserRestController {
 		
 		// 유저 삭제
 		userBO.deleteUserById(userId);
+		
+		session.removeAttribute("userId");
+		session.removeAttribute("userLoginId");
+		session.removeAttribute("userName");
 		
 		result.put("code", 200);
 		result.put("result", "성공");
