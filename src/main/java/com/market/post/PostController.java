@@ -45,6 +45,7 @@ public class PostController {
 	@GetMapping("/post-list-view")
 	public String postListView(
 			@RequestParam(value = "listOrder", required = false) String listOrder,
+			@RequestParam("currentPage") int currentPage ,
 			Model model) {
 		
 		List<CardView> cardViewList = null;

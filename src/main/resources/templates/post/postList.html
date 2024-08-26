@@ -40,7 +40,52 @@
 			</div>
 			
 			<!-- 페이지 이동 -->
-			
+			<div class="changePage d-flex justify-content-center">
+				<nav aria-label="Page navigation example">
+				  <ul class="pagination">
+				    <li class="page-item">
+				      <a class="page-link" href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="#" data-page="1">1</a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="#" data-page="2">2</a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="#" data-page="3">3</a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="#" data-page="4">4</a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="#" data-page="5">5</a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="#" data-page="6">6</a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="#" data-page="7">7</a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="#" data-page="8">8</a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="#" data-page="9">9</a>
+				    </li>
+				    <li class="page-item">
+				    	<a class="page-link" href="#" data-page="10">10</a>
+				    </li>
+				    <li class="page-item">
+				      <a class="page-link" href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
+				</nav>
+			</div>
 		</div>
 	</div>
 </section>
@@ -48,13 +93,23 @@
 <th:block layout:fragment="script">
     <script>
 		$(document).ready(function() {
+			// 기본 페이지 번호 1로 설정
+			let currentPage = 1;
+			
+			$(".page-link").on('click', function(e) {
+				e.preventDefault();
+				
+				currentPage = $(this).data("page");
+				//alert(currentPage);
+			});
+			
 			$("#listOrder").on('change', function() {
 				let listOrder = $(this).val();
 				
 				$.ajax({
 					url: "/post/post-list-view"
 					, type: "GET"
-					, data: {"listOrder":listOrder}
+					, data: {"listOrder":listOrder, "currentPage":currentPage}
 					, success:function(data) {
 						$(".exchangeList").html(data);
 					}
