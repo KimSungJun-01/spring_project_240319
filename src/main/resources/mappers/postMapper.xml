@@ -9,7 +9,7 @@
 		FROM
 			`post`
  	</select>
- 	<select id="selectPostList" parameterType="map" resultType="com.market.post.domain.Post">
+ 	<select id="selectPostList" resultType="com.market.post.domain.Post">
  		SELECT
  			`id`
 			,`userId`
@@ -24,6 +24,24 @@
 			,`updatedAt`
 		FROM
 			`post`
+ 	</select>
+ 	<select id="selectPostListPaging" parameterType="map" resultType="com.market.post.domain.Post">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`subject`
+			,`price`
+			,`address`
+			,`content`
+			,`state`
+			,`buyerId`
+			,`isEvaluated`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		LIMIT
+			#{limitStart}, #{limitEnd}
  	</select>
  	<insert id="insertPost" parameterType="com.market.post.domain.Post" useGeneratedKeys="true" keyProperty="id">
  		INSERT INTO `post`
@@ -107,6 +125,8 @@
 		FROM
 			`post`
 		ORDER BY `createdAt` DESC
+		LIMIT
+			#{limitStart}, #{limitEnd}
  	</select>
  	<select id="selectPostListOrderByAscendingOrderPrice" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
@@ -124,6 +144,8 @@
 		FROM
 			`post`
 		ORDER BY `price` ASC
+		LIMIT
+			#{limitStart}, #{limitEnd}
  	</select>
  	<select id="selectPostListOrderByDescendingOrderPrice" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
@@ -141,6 +163,8 @@
 		FROM
 			`post`
 		ORDER BY `price` DESC
+		LIMIT
+			#{limitStart}, #{limitEnd}
  	</select>
  	<update id="updateBuyerIdByPostId" parameterType="map">
  		UPDATE `post`

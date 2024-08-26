@@ -22,6 +22,15 @@ public class PostBO {
 		return postMapper.selectPostList();
 	}
 	
+	public List<Post> getPostList(int limitStart, int limitEnd) {
+		return postMapper.selectPostListPaging(limitStart, limitEnd);
+	}
+	
+	public Integer getPostListCount() {
+		List<Post> post = postMapper.selectPostList();
+		return post.size();
+	}
+	
 	public List<Post> getPostListByUserId(int userId) {
 		return postMapper.selectPostListByUserId(userId);
 	}
@@ -32,16 +41,16 @@ public class PostBO {
 	
 	// input : x
 	// output : List<Post>
-	public List<Post> getPostListLatestOrder() {
-		return postMapper.selectPostListOrderByCreatedAt();
+	public List<Post> getPostListLatestOrder(int limitStart, int limitEnd) {
+		return postMapper.selectPostListOrderByCreatedAt(limitStart, limitEnd);
 	}
 	
-	public List<Post> getPostListAscendingOrderPrice() {
-		return postMapper.selectPostListOrderByAscendingOrderPrice();
+	public List<Post> getPostListAscendingOrderPrice(int limitStart, int limitEnd) {
+		return postMapper.selectPostListOrderByAscendingOrderPrice(limitStart, limitEnd);
 	}
 	
-	public List<Post> getPostListDescendingOrderPrice() {
-		return postMapper.selectPostListOrderByDescendingOrderPrice();
+	public List<Post> getPostListDescendingOrderPrice(int limitStart, int limitEnd) {
+		return postMapper.selectPostListOrderByDescendingOrderPrice(limitStart, limitEnd);
 	}
 	
 	public List<Post> getMyLikePostList(List<Like> pushedLikeList) {

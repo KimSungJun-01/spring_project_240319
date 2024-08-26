@@ -15,12 +15,21 @@ public interface PostMapper {
 	// 글
 	public List<Map<String, Object>> selectPostListTest();
 	public List<Post> selectPostList();
+	public List<Post> selectPostListPaging(
+			@Param("limitStart") int limitStart,
+			@Param("limitEnd") int limitEnd);
 	public List<Post> selectPostListByUserId(int userId);
 	public List<Post> selectRequestExchangePostListByUserId(int userId);
 	
-	public List<Post> selectPostListOrderByCreatedAt();
-	public List<Post> selectPostListOrderByAscendingOrderPrice();
-	public List<Post> selectPostListOrderByDescendingOrderPrice();
+	public List<Post> selectPostListOrderByCreatedAt(
+			@Param("limitStart") int limitStart,
+			@Param("limitEnd") int limitEnd);
+	public List<Post> selectPostListOrderByAscendingOrderPrice(
+			@Param("limitStart") int limitStrat,
+			@Param("limitEnd") int limitEnd);
+	public List<Post> selectPostListOrderByDescendingOrderPrice(
+			@Param("limitStart") int limitStrat,
+			@Param("limitEnd") int limitEnd);
 	
 	public void insertPost(Post post);
 	public Post selectPostById(int id);

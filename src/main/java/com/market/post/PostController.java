@@ -45,14 +45,45 @@ public class PostController {
 	@GetMapping("/post-list-view")
 	public String postListView(
 			@RequestParam(value = "listOrder", required = false) String listOrder,
-			@RequestParam("currentPage") int currentPage ,
+			@RequestParam(value = "currentPage", required = false) Integer currentPage,
 			Model model) {
+		
+		// 전체 게시글 개수
+		Integer totalPosts = postBO.getPostListCount();
+					
+		// 각 페이지당 나오는 게시글 수
+		int postsPerPage = 8;
+					
+		// 전체 페이지 개수
+		int totalPages = totalPosts / postsPerPage;
+		if (totalPosts % postsPerPage > 0) {
+			totalPages++;
+		}
+					
+		// 한번에 표시할 페이지 개수
+		int displayPageNum = 10;
+					
+		// 시작 페이지 번호
+		int startPage = ((currentPage - 1) / displayPageNum) * displayPageNum + 1;
+					
+		// 끝 페이지 번호
+		int endPage = (((currentPage - 1) / displayPageNum) + 1) * displayPageNum;
+		if (endPage > totalPages) {
+			endPage = totalPages;
+		}
+					
+		// 이전, 다음 활성화 여부
+		boolean prev = (startPage == 1) ? false : true;
+		boolean next = (endPage == totalPages) ? false : true;
+		
+		int limitStart = ((currentPage - 1) * postsPerPage) + 1;
+		int limitEnd = currentPage * 8;
 		
 		List<CardView> cardViewList = null;
 		if (listOrder == null) {
-			cardViewList = cardViewBO.generateCardViewList();
+			cardViewList = cardViewBO.generateCardViewList(limitStart, limitEnd);
 		} else {
-			cardViewList = cardViewBO.generateCardViewList(listOrder);
+			cardViewList = cardViewBO.generateCardViewList(listOrder, limitStart, limitEnd);
 		}
 
 		model.addAttribute("cardViewList", cardViewList);

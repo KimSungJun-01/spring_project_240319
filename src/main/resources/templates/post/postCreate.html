@@ -122,7 +122,7 @@
 					, success:function(data) {
 						if (data.code == 200) {
 							alert("글이 작성되었습니다.");
-							location.href = "/post/post-list-view";
+							location.href = "/post/post-list-view?currentPage=1";
 						} else {
 							alert(data.error_message);
 						}

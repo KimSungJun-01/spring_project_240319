@@ -48,7 +48,7 @@
 				        <span aria-hidden="true">&laquo;</span>
 				      </a>
 				    </li>
-				    <li class="page-item">
+				    <li class="page-item disabled">
 				    	<a class="page-link" href="#" data-page="1">1</a>
 				    </li>
 				    <li class="page-item">
@@ -93,23 +93,16 @@
 <th:block layout:fragment="script">
     <script>
 		$(document).ready(function() {
-			// 기본 페이지 번호 1로 설정
+			// 기본 게시글 정렬 최신순
+			let defaultOrder = 'latestOrder';
+			// 시작 페이지 1
 			let currentPage = 1;
 			
-			$(".page-link").on('click', function(e) {
-				e.preventDefault();
-				
-				currentPage = $(this).data("page");
-				//alert(currentPage);
-			});
-			
-			$("#listOrder").on('change', function() {
-				let listOrder = $(this).val();
-				
+			function fetchPosts(listOrder, page) {
 				$.ajax({
 					url: "/post/post-list-view"
 					, type: "GET"
-					, data: {"listOrder":listOrder, "currentPage":currentPage}
+					, data: {"listOrder":listOrder, "currentPage":page}
 					, success:function(data) {
 						$(".exchangeList").html(data);
 					}
@@ -117,6 +110,37 @@
 						alert("리스트 배열에 실패했습니다.");
 					}
 				});
+			}
+			
+			fecthPosts(defaultOrder, currentPage);
+			
+			$("#listOrder").on('change', function() {
+				let listOrder = $(this).val();
+				//alert(listOrder);
+				
+				$.ajax({
+					url: "/post/post-list-view"
+					, type: "GET"
+					, data: {"listOrder":listOrder}
+					, success:function(data) {
+						$(".exchangeList").html(data);
+					}
+					, error:function(error) {
+						alert("리스트 배열에 실패했습니다.");
+					}
+				});
+			});
+			
+			$(".page-link").on('click', function(e) {
+				e.preventDefault();
+				
+				currentPage = $(this).data("page");
+				alert(currentPage);
+				
+				$(".page-item").removeClass("disabled");
+				$(this).parent().addClass("disabled");
+				
+				fetchPosts($("#listOrder").val(), currentPage);
 			});
 		});
     </script>

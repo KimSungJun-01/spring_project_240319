@@ -28,10 +28,10 @@ public class CardViewBO {
 	
 	// input : 
 	// output : List<CardView>
-	public List<CardView> generateCardViewList() {
+	public List<CardView> generateCardViewList(int limitStart, int limitEnd) {
 		List<CardView> cardViewList = new ArrayList<>();
 		
-		List<Post> postList = postBO.getPostList();
+		List<Post> postList = postBO.getPostList(limitStart, limitEnd);
 		
 		for (int i = 0; i < postList.size(); i++) {
 			CardView card = new CardView();
@@ -56,18 +56,18 @@ public class CardViewBO {
 	
 	// input : listOrder
 	// output : List<CardView>
-	public List<CardView> generateCardViewList(String listOrder) {
+	public List<CardView> generateCardViewList(String listOrder, int limitStart, int limitEnd) {
 		List<CardView> cardViewList = new ArrayList<>();
 		
 		List<Post> postList = null;
 		if (listOrder.equals("latestOrder")) {
-			postList = postBO.getPostListLatestOrder();
+			postList = postBO.getPostListLatestOrder(limitStart, limitEnd);
 		} else if (listOrder.equals("popularityOrder")) {
-			postList = postBO.getPostList();
+			postList = postBO.getPostList(limitStart, limitEnd);
 		} else if (listOrder.equals("ascendingOrder")) {
-			postList = postBO.getPostListAscendingOrderPrice();
+			postList = postBO.getPostListAscendingOrderPrice(limitStart, limitEnd);
 		} else if (listOrder.equals("descendingOrder")) {
-			postList = postBO.getPostListDescendingOrderPrice();
+			postList = postBO.getPostListDescendingOrderPrice(limitStart, limitEnd);
 		}
 		
 		for (int i = 0; i < postList.size(); i++) {
