@@ -28,10 +28,10 @@ public class CardViewBO {
 	
 	// input : 
 	// output : List<CardView>
-	public List<CardView> generateCardViewList(int limitStart, int limitEnd) {
+	public List<CardView> generateCardViewList(int limitStart, int postsPerPage) {
 		List<CardView> cardViewList = new ArrayList<>();
 		
-		List<Post> postList = postBO.getPostList(limitStart, limitEnd);
+		List<Post> postList = postBO.getPostList(limitStart, postsPerPage);
 		
 		for (int i = 0; i < postList.size(); i++) {
 			CardView card = new CardView();
@@ -56,18 +56,18 @@ public class CardViewBO {
 	
 	// input : listOrder
 	// output : List<CardView>
-	public List<CardView> generateCardViewList(String listOrder, int limitStart, int limitEnd) {
+	public List<CardView> generateCardViewList(String listOrder, int limitStart, int postsPerPage) {
 		List<CardView> cardViewList = new ArrayList<>();
 		
 		List<Post> postList = null;
 		if (listOrder.equals("latestOrder")) {
-			postList = postBO.getPostListLatestOrder(limitStart, limitEnd);
+			postList = postBO.getPostListLatestOrder(limitStart, postsPerPage);
 		} else if (listOrder.equals("popularityOrder")) {
-			postList = postBO.getPostList(limitStart, limitEnd);
+			postList = postBO.getPostList(limitStart, postsPerPage);
 		} else if (listOrder.equals("ascendingOrder")) {
-			postList = postBO.getPostListAscendingOrderPrice(limitStart, limitEnd);
+			postList = postBO.getPostListAscendingOrderPrice(limitStart, postsPerPage);
 		} else if (listOrder.equals("descendingOrder")) {
-			postList = postBO.getPostListDescendingOrderPrice(limitStart, limitEnd);
+			postList = postBO.getPostListDescendingOrderPrice(limitStart, postsPerPage);
 		}
 		
 		for (int i = 0; i < postList.size(); i++) {

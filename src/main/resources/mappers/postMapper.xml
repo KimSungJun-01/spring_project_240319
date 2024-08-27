@@ -41,7 +41,7 @@
 		FROM
 			`post`
 		LIMIT
-			#{limitStart}, #{limitEnd}
+			#{limitStart}, #{postsPerPage}
  	</select>
  	<insert id="insertPost" parameterType="com.market.post.domain.Post" useGeneratedKeys="true" keyProperty="id">
  		INSERT INTO `post`
@@ -126,7 +126,7 @@
 			`post`
 		ORDER BY `createdAt` DESC
 		LIMIT
-			#{limitStart}, #{limitEnd}
+			#{limitStart}, #{postsPerPage}
  	</select>
  	<select id="selectPostListOrderByAscendingOrderPrice" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
@@ -145,7 +145,7 @@
 			`post`
 		ORDER BY `price` ASC
 		LIMIT
-			#{limitStart}, #{limitEnd}
+			#{limitStart}, #{postsPerPage}
  	</select>
  	<select id="selectPostListOrderByDescendingOrderPrice" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
@@ -164,7 +164,7 @@
 			`post`
 		ORDER BY `price` DESC
 		LIMIT
-			#{limitStart}, #{limitEnd}
+			#{limitStart}, #{postsPerPage}
  	</select>
  	<update id="updateBuyerIdByPostId" parameterType="map">
  		UPDATE `post`

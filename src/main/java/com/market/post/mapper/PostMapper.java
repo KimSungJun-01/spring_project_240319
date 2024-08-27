@@ -17,19 +17,19 @@ public interface PostMapper {
 	public List<Post> selectPostList();
 	public List<Post> selectPostListPaging(
 			@Param("limitStart") int limitStart,
-			@Param("limitEnd") int limitEnd);
+			@Param("postsPerPage") int postsPerPage);
 	public List<Post> selectPostListByUserId(int userId);
 	public List<Post> selectRequestExchangePostListByUserId(int userId);
 	
 	public List<Post> selectPostListOrderByCreatedAt(
 			@Param("limitStart") int limitStart,
-			@Param("limitEnd") int limitEnd);
+			@Param("postsPerPage") int postsPerPage);
 	public List<Post> selectPostListOrderByAscendingOrderPrice(
 			@Param("limitStart") int limitStrat,
-			@Param("limitEnd") int limitEnd);
+			@Param("postsPerPage") int postsPerPage);
 	public List<Post> selectPostListOrderByDescendingOrderPrice(
 			@Param("limitStart") int limitStrat,
-			@Param("limitEnd") int limitEnd);
+			@Param("postsPerPage") int postsPerPage);
 	
 	public void insertPost(Post post);
 	public Post selectPostById(int id);

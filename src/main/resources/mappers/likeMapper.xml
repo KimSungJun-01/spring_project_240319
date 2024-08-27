@@ -49,8 +49,7 @@
  	</insert>
  	<select id="selectLikeByUserId" parameterType="int" resultType="com.market.like.domain.Like">
  		SELECT
- 			`id`
-			,`userId`
+			`userId`
 			,`postId`
 			,`createdAt`
  		FROM

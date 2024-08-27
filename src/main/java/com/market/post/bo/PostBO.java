@@ -22,8 +22,8 @@ public class PostBO {
 		return postMapper.selectPostList();
 	}
 	
-	public List<Post> getPostList(int limitStart, int limitEnd) {
-		return postMapper.selectPostListPaging(limitStart, limitEnd);
+	public List<Post> getPostList(int limitStart, int postsPerPage) {
+		return postMapper.selectPostListPaging(limitStart, postsPerPage);
 	}
 	
 	public Integer getPostListCount() {
@@ -41,16 +41,16 @@ public class PostBO {
 	
 	// input : x
 	// output : List<Post>
-	public List<Post> getPostListLatestOrder(int limitStart, int limitEnd) {
-		return postMapper.selectPostListOrderByCreatedAt(limitStart, limitEnd);
+	public List<Post> getPostListLatestOrder(int limitStart, int postsPerPage) {
+		return postMapper.selectPostListOrderByCreatedAt(limitStart, postsPerPage);
 	}
 	
-	public List<Post> getPostListAscendingOrderPrice(int limitStart, int limitEnd) {
-		return postMapper.selectPostListOrderByAscendingOrderPrice(limitStart, limitEnd);
+	public List<Post> getPostListAscendingOrderPrice(int limitStart, int postsPerPage) {
+		return postMapper.selectPostListOrderByAscendingOrderPrice(limitStart, postsPerPage);
 	}
 	
-	public List<Post> getPostListDescendingOrderPrice(int limitStart, int limitEnd) {
-		return postMapper.selectPostListOrderByDescendingOrderPrice(limitStart, limitEnd);
+	public List<Post> getPostListDescendingOrderPrice(int limitStart, int postsPerPage) {
+		return postMapper.selectPostListOrderByDescendingOrderPrice(limitStart, postsPerPage);
 	}
 	
 	public List<Post> getMyLikePostList(List<Like> pushedLikeList) {

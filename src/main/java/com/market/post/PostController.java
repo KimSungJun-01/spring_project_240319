@@ -76,14 +76,13 @@ public class PostController {
 		boolean prev = (startPage == 1) ? false : true;
 		boolean next = (endPage == totalPages) ? false : true;
 		
-		int limitStart = ((currentPage - 1) * postsPerPage) + 1;
-		int limitEnd = currentPage * 8;
+		int limitStart = ((currentPage - 1) * postsPerPage);
 		
 		List<CardView> cardViewList = null;
 		if (listOrder == null) {
-			cardViewList = cardViewBO.generateCardViewList(limitStart, limitEnd);
+			cardViewList = cardViewBO.generateCardViewList(limitStart, postsPerPage);
 		} else {
-			cardViewList = cardViewBO.generateCardViewList(listOrder, limitStart, limitEnd);
+			cardViewList = cardViewBO.generateCardViewList(listOrder, limitStart, postsPerPage);
 		}
 
 		model.addAttribute("cardViewList", cardViewList);
