@@ -48,7 +48,7 @@
 				        <span aria-hidden="true">&laquo;</span>
 				      </a>
 				    </li>
-				    <li class="page-item disabled">
+				    <li class="page-item active">
 				    	<a class="page-link" href="#" data-page="1">1</a>
 				    </li>
 				    <li class="page-item">
@@ -132,6 +132,7 @@
 			});
 			
 			$(".page-link").on('click', function(e) {
+				alert("클릭");
 				e.preventDefault();
 				
 				currentPage = $(this).data("page");
