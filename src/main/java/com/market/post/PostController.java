@@ -45,7 +45,7 @@ public class PostController {
 	@GetMapping("/post-list-view")
 	public String postListView(
 			@RequestParam(value = "listOrder", required = false) String listOrder,
-			@RequestParam(value = "currentPage", required = false) Integer currentPage,
+			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage,
 			Model model) {
 		
 		// 전체 게시글 개수
@@ -86,12 +86,18 @@ public class PostController {
 		}
 
 		model.addAttribute("cardViewList", cardViewList);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("prev", prev);
+		model.addAttribute("next", next);
 		
 		if (listOrder != null) {
 			return "post/postList :: postListFragment";
 		}
 		
-		return "post/postList";
+ 		return "post/postList";
 	}
 	
 	// 글쓰기 화면

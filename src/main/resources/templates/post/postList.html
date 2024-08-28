@@ -43,46 +43,19 @@
 			<div class="changePage d-flex justify-content-center">
 				<nav aria-label="Page navigation example">
 				  <ul class="pagination">
-				    <li class="page-item">
-				      <a class="page-link" href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li class="page-item active">
-				    	<a class="page-link" href="#" data-page="1">1</a>
-				    </li>
-				    <li class="page-item">
-				    	<a class="page-link" href="#" data-page="2">2</a>
-				    </li>
-				    <li class="page-item">
-				    	<a class="page-link" href="#" data-page="3">3</a>
-				    </li>
-				    <li class="page-item">
-				    	<a class="page-link" href="#" data-page="4">4</a>
-				    </li>
-				    <li class="page-item">
-				    	<a class="page-link" href="#" data-page="5">5</a>
-				    </li>
-				    <li class="page-item">
-				    	<a class="page-link" href="#" data-page="6">6</a>
-				    </li>
-				    <li class="page-item">
-				    	<a class="page-link" href="#" data-page="7">7</a>
-				    </li>
-				    <li class="page-item">
-				    	<a class="page-link" href="#" data-page="8">8</a>
-				    </li>
-				    <li class="page-item">
-				    	<a class="page-link" href="#" data-page="9">9</a>
-				    </li>
-				    <li class="page-item">
-				    	<a class="page-link" href="#" data-page="10">10</a>
-				    </li>
-				    <li class="page-item">
-				      <a class="page-link" href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
+				    <li th:classappend="${!prev} ? 'disabled'" class="page-item">
+		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${startPage - 1}|}" aria-label="Previous">
+		                    <span aria-hidden="true">&laquo;</span>
+		                </a>
+           			</li>
+		            <li th:each="pageNum : ${#numbers.sequence(startPage, endPage)}" th:classappend="${pageNum == currentPage} ? 'active'" class="page-item">
+		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${pageNum}|}" th:data-page="${pageNum}" th:text="${pageNum}"></a>
+		            </li>
+		            <li th:classappend="${!next} ? 'disabled'" class="page-item">
+		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${endPage + 1}|}" aria-label="Next">
+		                    <span aria-hidden="true">&raquo;</span>
+		                </a>
+		            </li>
 				  </ul>
 				</nav>
 			</div>
@@ -93,18 +66,17 @@
 <th:block layout:fragment="script">
     <script>
 		$(document).ready(function() {
-			// 기본 게시글 정렬 최신순
-			let defaultOrder = 'latestOrder';
-			// 시작 페이지 1
 			let currentPage = 1;
 			
-			function fetchPosts(listOrder, page) {
+			function fetchPosts(listOrder, currentPage) {
 				$.ajax({
 					url: "/post/post-list-view"
 					, type: "GET"
-					, data: {"listOrder":listOrder, "currentPage":page}
+					, data: {"listOrder":listOrder, "currentPage":currentPage}
 					, success:function(data) {
 						$(".exchangeList").html(data);
+						// 페이징 버튼 최신화
+						updatePagination();
 					}
 					, error:function(error) {
 						alert("리스트 배열에 실패했습니다.");
@@ -112,36 +84,21 @@
 				});
 			}
 			
-			fecthPosts(defaultOrder, currentPage);
-			
 			$("#listOrder").on('change', function() {
 				let listOrder = $(this).val();
 				//alert(listOrder);
 				
-				$.ajax({
-					url: "/post/post-list-view"
-					, type: "GET"
-					, data: {"listOrder":listOrder}
-					, success:function(data) {
-						$(".exchangeList").html(data);
-					}
-					, error:function(error) {
-						alert("리스트 배열에 실패했습니다.");
-					}
-				});
+				// 정렬을 변경하면 다시 첫 페이지로 이동하기 위해
+				currentPage = 1;
+				
+				fetchPosts(listOrder, currentPage);
 			});
 			
-			$(".page-link").on('click', function(e) {
-				alert("클릭");
-				e.preventDefault();
+			$(".page-link").on('click', function() {
+				let currentPage = $(this).data("page");
+				//alert(currentPage);
 				
-				currentPage = $(this).data("page");
-				alert(currentPage);
-				
-				$(".page-item").removeClass("disabled");
-				$(this).parent().addClass("disabled");
-				
-				fetchPosts($("#listOrder").val(), currentPage);
+				fetchPosts(listOrder, currentPage);
 			});
 		});
     </script>
