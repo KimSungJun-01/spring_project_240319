@@ -66,7 +66,17 @@
 <th:block layout:fragment="script">
     <script>
 		$(document).ready(function() {
-			let currentPage = 1;
+			let listOrder = $("#listOrder").val();
+			
+			function updatePagination() {
+				$(".page-item").removeClass("active");
+				
+				$(".page-link").each(function() {
+					if ($(this).data("page") == currentPage) {
+						$(this).parent().addClass("active");
+					}
+				});
+			}
 			
 			function fetchPosts(listOrder, currentPage) {
 				$.ajax({
@@ -85,7 +95,7 @@
 			}
 			
 			$("#listOrder").on('change', function() {
-				let listOrder = $(this).val();
+				listOrder = $(this).val();
 				//alert(listOrder);
 				
 				// 정렬을 변경하면 다시 첫 페이지로 이동하기 위해
@@ -94,8 +104,10 @@
 				fetchPosts(listOrder, currentPage);
 			});
 			
-			$(".page-link").on('click', function() {
-				let currentPage = $(this).data("page");
+			$(".page-link").on('click', function(e) {
+				e.preventDefault();
+				currentPage = $(this).data("page");
+				listOrder = $("#listOrder").val();
 				//alert(currentPage);
 				
 				fetchPosts(listOrder, currentPage);

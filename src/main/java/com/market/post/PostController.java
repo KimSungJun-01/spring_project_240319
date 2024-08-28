@@ -45,7 +45,7 @@ public class PostController {
 	@GetMapping("/post-list-view")
 	public String postListView(
 			@RequestParam(value = "listOrder", required = false) String listOrder,
-			@RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage,
+			@RequestParam(value = "currentPage", required = false) Integer currentPage,
 			Model model) {
 		
 		// 전체 게시글 개수
@@ -56,7 +56,7 @@ public class PostController {
 					
 		// 전체 페이지 개수
 		int totalPages = totalPosts / postsPerPage;
-		if (totalPosts % postsPerPage > 0) {
+		if (totalPosts % postsPerPage > 0 || totalPosts == 0) {
 			totalPages++;
 		}
 					
