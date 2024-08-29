@@ -48,50 +48,22 @@ public class PostController {
 			@RequestParam(value = "currentPage", required = false) Integer currentPage,
 			Model model) {
 		
-		// 전체 게시글 개수
 		Integer totalPosts = postBO.getPostListCount();
-					
-		// 각 페이지당 나오는 게시글 수
-		int postsPerPage = 8;
-					
-		// 전체 페이지 개수
-		int totalPages = totalPosts / postsPerPage;
-		if (totalPosts % postsPerPage > 0 || totalPosts == 0) {
-			totalPages++;
-		}
-					
-		// 한번에 표시할 페이지 개수
-		int displayPageNum = 10;
-					
-		// 시작 페이지 번호
-		int startPage = ((currentPage - 1) / displayPageNum) * displayPageNum + 1;
-					
-		// 끝 페이지 번호
-		int endPage = (((currentPage - 1) / displayPageNum) + 1) * displayPageNum;
-		if (endPage > totalPages) {
-			endPage = totalPages;
-		}
-					
-		// 이전, 다음 활성화 여부
-		boolean prev = (startPage == 1) ? false : true;
-		boolean next = (endPage == totalPages) ? false : true;
-		
-		int limitStart = ((currentPage - 1) * postsPerPage);
+		SetPage setPage = new SetPage(currentPage, totalPosts);
 		
 		List<CardView> cardViewList = null;
 		if (listOrder == null) {
-			cardViewList = cardViewBO.generateCardViewList(limitStart, postsPerPage);
+			cardViewList = cardViewBO.generateCardViewList(setPage.getLimitStart(), setPage.getPostsPerPage());
 		} else {
-			cardViewList = cardViewBO.generateCardViewList(listOrder, limitStart, postsPerPage);
+			cardViewList = cardViewBO.generateCardViewList(listOrder, setPage.getLimitStart(), setPage.getPostsPerPage());
 		}
 
 		model.addAttribute("cardViewList", cardViewList);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
+		model.addAttribute("startPage", setPage.getStartPage());
+		model.addAttribute("endPage", setPage.getEndPage());
 		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("prev", prev);
-		model.addAttribute("next", next);
+		model.addAttribute("prev", setPage.getPrev());
+		model.addAttribute("next", setPage.getNext());
 		
 		if (listOrder != null) {
 			return "post/postList :: postListFragment";
@@ -137,7 +109,9 @@ public class PostController {
 	
 	// 내가 올린 제품 현황
 	@GetMapping("/my-product-view")
-	public String myProductView(HttpSession session, Model model) {
+	public String myProductView(
+			@RequestParam("currentPage") Integer currentPage,
+			HttpSession session, Model model) {
 		
 		// 로그인 여부 확인
 		Integer userId = (Integer)session.getAttribute("userId");
@@ -145,10 +119,17 @@ public class PostController {
 			return "redirect:/user/sign-in-view";
 		}
 		
-		List<CardView> cardViewList = cardViewBO.generateMyCardViewList(userId);
+		List<Post> postList = postBO.getPostListByUserId(userId);
+		SetPage setPage = new SetPage(currentPage, postList.size());
 		
-		model.addAttribute("userId", userId);
+		List<CardView> cardViewList = cardViewBO.generateMyCardViewList(userId, setPage.getLimitStart(), setPage.getPostsPerPage());
+		
 		model.addAttribute("cardViewList", cardViewList);
+		model.addAttribute("startPage", setPage.getStartPage());
+		model.addAttribute("endPage", setPage.getEndPage());
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("prev", setPage.getPrev());
+		model.addAttribute("next", setPage.getNext());
 		
 		return "post/myProduct";
 	}
@@ -193,4 +174,5 @@ public class PostController {
 		
 		return "post/postDetail";
 	}
+	
 }

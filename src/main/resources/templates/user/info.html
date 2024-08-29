@@ -73,19 +73,19 @@
 <th:block layout:fragment="script">
     <script>
 		$(document).ready(function() {
-			// 찜한 목록 버튼 클릭
+			// 내가 찜한 목록 버튼 클릭
 			$(".myLikeBtn").on('click', function() {
 				//alert("찜한 목록 클릭");
 				location.href = "/post/like-view";
 			}); // --- 찜한 목록 버튼 클릭 끝
 			
-			// 나의 거래 현황 클릭
+			// 내가 올린 물품 목록 버튼 클릭
 			$(".myProductBtn").on('click', function() {
 				//alert("나의 거래 현황 클릭");
-				location.href = "/post/my-product-view";
+				location.href = "/post/my-product-view?currentPage=1";
 			}); // --- 나의 거래 현황 클릭 끝
 			
-			// 내가 거래요청한 제품 목록 버튼 클릭
+			// 내가 거래요청한 물품 목록 버튼 클릭
 			$(".myExchangeBtn").on('click', function() {
 				//alert("내가 거래요청한 제품 목록 버튼 클릭");
 				location.href = "/post/my-exchange-view";

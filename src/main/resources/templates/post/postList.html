@@ -44,7 +44,7 @@
 				<nav aria-label="Page navigation example">
 				  <ul class="pagination">
 				    <li th:classappend="${!prev} ? 'disabled'" class="page-item">
-		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${startPage - 1}|}" aria-label="Previous">
+		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${currentPage - 1}|}" aria-label="Previous">
 		                    <span aria-hidden="true">&laquo;</span>
 		                </a>
            			</li>
@@ -52,7 +52,7 @@
 		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${pageNum}|}" th:data-page="${pageNum}" th:text="${pageNum}"></a>
 		            </li>
 		            <li th:classappend="${!next} ? 'disabled'" class="page-item">
-		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${endPage + 1}|}" aria-label="Next">
+		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${currentPage + 1}|}" aria-label="Next">
 		                    <span aria-hidden="true">&raquo;</span>
 		                </a>
 		            </li>
@@ -104,14 +104,6 @@
 				fetchPosts(listOrder, currentPage);
 			});
 			
-			$(".page-link").on('click', function(e) {
-				e.preventDefault();
-				currentPage = $(this).data("page");
-				listOrder = $("#listOrder").val();
-				//alert(currentPage);
-				
-				fetchPosts(listOrder, currentPage);
-			});
 		});
     </script>
 </th:block>

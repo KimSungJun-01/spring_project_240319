@@ -24,6 +24,7 @@
 			,`updatedAt`
 		FROM
 			`post`
+		ORDER BY `createdAt` DESC
  	</select>
  	<select id="selectPostListPaging" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
@@ -40,6 +41,7 @@
 			,`updatedAt`
 		FROM
 			`post`
+		ORDER BY `createdAt` DESC
 		LIMIT
 			#{limitStart}, #{postsPerPage}
  	</select>
@@ -201,6 +203,28 @@
 			`post`
 		WHERE
 			`userId` = #{userId}
+		ORDER BY `createdAt` DESC
+ 	</select>
+ 	<select id="selectPostListByUserIdAndLimitStartAndPostsPerPage" parameterType="map" resultType="com.market.post.domain.Post">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`subject`
+			,`price`
+			,`address`
+			,`content`
+			,`state`
+			,`buyerId`
+			,`isEvaluated`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		WHERE
+			`userId` = #{userId}
+		ORDER BY `createdAt` DESC
+		LIMIT
+			#{limitStart}, #{postsPerPage}
  	</select>
  	<select id="selectRequestExchangePostListByUserId" parameterType="int" resultType="com.market.post.domain.Post">
  		SELECT

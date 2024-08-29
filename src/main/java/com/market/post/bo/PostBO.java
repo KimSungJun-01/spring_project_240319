@@ -31,8 +31,17 @@ public class PostBO {
 		return post.size();
 	}
 	
-	public List<Post> getPostListByUserId(int userId) {
+	public Integer getPostListCountByUserId(Integer userId) {
+		List<Post> post = postMapper.selectPostListByUserId(userId);
+		return post.size();
+	}
+	
+	public List<Post> getPostListByUserId(Integer userId) {
 		return postMapper.selectPostListByUserId(userId);
+	}
+	
+	public List<Post> getPostListByUserId(int userId, int limitStart, int postsPerPage) {
+		return postMapper.selectPostListByUserIdAndLimitStartAndPostsPerPage(userId, limitStart, postsPerPage);
 	}
 	
 	public List<Post> getRequestExchangePostListByUserId(int userId) {

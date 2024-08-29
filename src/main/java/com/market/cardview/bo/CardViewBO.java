@@ -128,10 +128,10 @@ public class CardViewBO {
 		return cardViewList;
 	}
 	
-	public List<CardView> generateMyCardViewList(int userId) {
+	public List<CardView> generateMyCardViewList(int userId, int limitStart, int postsPerPage) {
 		List<CardView> cardViewList = new ArrayList<>();
 		
-		List<Post> postList = postBO.getPostListByUserId(userId);
+		List<Post> postList = postBO.getPostListByUserId(userId, limitStart, postsPerPage);
 		
 		for (int i = 0; i < postList.size(); i++) {
 			CardView card = new CardView();
