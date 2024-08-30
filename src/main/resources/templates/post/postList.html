@@ -30,7 +30,7 @@
 							<img th:src="${cardView.image.imagePath}" class="productImage mt-1 rounded" alt="제품 이미지">						
 							<div class="pl-1 pt-1">
 								<div class="postSubject" th:text="${cardView.post.subject}"></div>
-								<div class="postPrice font-weight-bold pt-1" th:text="${cardView.post.price} + '원'"></div>
+								<div class="postPrice font-weight-bold pt-1" th:text="${#numbers.formatInteger(cardView.post.price, 0, 'COMMA')} + '원'"></div>
 								<div class="postAddress pt-1" th:text="${cardView.post.address}"></div>
 								<div class="likeCount pt-1" th:text="'관심 ' + ${cardView.likeCount}"></div>
 							</div>

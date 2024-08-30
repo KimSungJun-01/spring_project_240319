@@ -23,7 +23,11 @@ public interface PostMapper {
 			@Param("userId") int userId,
 			@Param("limitStart") int limitStart,
 			@Param("postsPerPage") int postsPerPage);
-	public List<Post> selectRequestExchangePostListByUserId(int userId);
+	public List<Post> selectMyExchangePostListByUserId(Integer userId);
+	public List<Post> selectRequestExchangePostListByUserId(
+			@Param("userId") int userId,
+			@Param("limitStart") int limitStart,
+			@Param("postsPerPage") int postsPerPage);
 	
 	public List<Post> selectPostListOrderByCreatedAt(
 			@Param("limitStart") int limitStart,

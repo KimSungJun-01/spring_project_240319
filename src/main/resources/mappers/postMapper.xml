@@ -226,7 +226,7 @@
 		LIMIT
 			#{limitStart}, #{postsPerPage}
  	</select>
- 	<select id="selectRequestExchangePostListByUserId" parameterType="int" resultType="com.market.post.domain.Post">
+ 	<select id="selectRequestExchangePostListByUserId" parameterType="map" resultType="com.market.post.domain.Post">
  		SELECT
  			`id`
 			,`userId`
@@ -243,6 +243,9 @@
 			`post`
 		WHERE
 			`buyerId` = #{userId}
+		ORDER BY `createdAt` DESC
+		LIMIT
+			#{limitStart}, #{postsPerPage}
  	</select>
  	<delete id="deletePostById" parameterType="int">
  		DELETE FROM
@@ -278,4 +281,22 @@
  		WHERE
  			`userId` = #{userId}
  	</delete>
+ 	<select id="selectMyExchangePostListByUserId" parameterType="int" resultType="com.market.post.domain.Post">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`subject`
+			,`price`
+			,`address`
+			,`content`
+			,`state`
+			,`buyerId`
+			,`isEvaluated`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		WHERE
+			`buyerId` = #{userId}
+ 	</select>
  </mapper>

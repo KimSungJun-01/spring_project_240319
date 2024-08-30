@@ -16,7 +16,7 @@
 						<div class="d-flex align-items-center">
 							<h4 th:text="${post.subject}" class=""></h4>
 						</div>
-						<h4 th:text="${post.price} + '원'" class="font-weight-bold"></h4>
+						<h4 th:text="${#numbers.formatInteger(post.price, 0, 'COMMA')} + '원'" class="font-weight-bold"></h4>
 					</div>
 				</div>
 				

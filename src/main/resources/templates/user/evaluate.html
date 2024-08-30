@@ -72,7 +72,7 @@
 					, success:function(data) {
 						if (data.code == 200) {
 							alert("평가가 완료되었습니다.");
-							location.href = "/post/post-list-view";
+							location.href = "/post/post-list-view?currentPage=1";
 						} else if (data.code == 403){
 							alert(data.error_message);
 							location.href = "/user/sign-in-view";

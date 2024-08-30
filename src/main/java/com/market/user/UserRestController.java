@@ -155,7 +155,13 @@ public class UserRestController {
 		
 		UserEntity user = userBO.getUserEntityById(traderId);
 		double fixedDegree = user.getDegree() + addPoint;
-		userBO.updateDegreeById(fixedDegree, user.getId());
+		if (fixedDegree >= 0 && fixedDegree <= 100) {
+			userBO.updateDegreeById(fixedDegree, user.getId());
+		} else if (fixedDegree < 0) {
+			userBO.updateDegreeById(0, user.getId());
+		} else if (fixedDegree > 100) {
+			userBO.updateDegreeById(100, user.getId());
+		}
 		
 		result.put("code", 200);
 		result.put("result", "성공");

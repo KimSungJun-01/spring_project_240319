@@ -146,18 +146,28 @@ public class PostController {
 	
 	// 내가 거래요청한 제품 현황
 	@GetMapping("/my-exchange-view")
-	public String myExchangeView(HttpSession session, Model model) {
+	public String myExchangeView(
+			@RequestParam("currentPage") Integer currentPage,
+			HttpSession session, Model model) {
 		
 		// 로그인 여부 확인
 		Integer userId = (Integer)session.getAttribute("userId");
 		if (userId == null) {
 			return "redirect:/user/sign-in-view";
 		}
-				
-		List<CardView> cardViewList = cardViewBO.generateRequestExchangeCardViewList(userId);
 		
-		model.addAttribute("userId", userId);
+		Integer totalPosts = postBO.getPostListCountByMyExchange(userId);
+		SetPage setPage = new SetPage(currentPage, totalPosts);
+		
+		List<CardView> cardViewList = cardViewBO.generateRequestExchangeCardViewList(userId, setPage.getLimitStart(), setPage.getPostsPerPage());
+		
+		
 		model.addAttribute("cardViewList", cardViewList);
+		model.addAttribute("startPage", setPage.getStartPage());
+		model.addAttribute("endPage", setPage.getEndPage());
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("prev", setPage.getPrev());
+		model.addAttribute("next", setPage.getNext());
 				
 		return "post/myExchange";
 	}
@@ -168,7 +178,6 @@ public class PostController {
 			@RequestParam("postId") int postId,
 			HttpSession session,
 			Model model) {
-		
 		
 		Integer userId = (Integer)session.getAttribute("userId");
 		

@@ -154,10 +154,10 @@ public class CardViewBO {
 		return cardViewList;
 	}
 	
-	public List<CardView> generateRequestExchangeCardViewList(int userId) {
+	public List<CardView> generateRequestExchangeCardViewList(int userId, int limitStart, int postsPerPage) {
 		List<CardView> cardViewList = new ArrayList<>();
 		
-		List<Post> requestExchangePostList = postBO.getRequestExchangePostListByUserId(userId);
+		List<Post> requestExchangePostList = postBO.getRequestExchangePostListByUserId(userId, limitStart, postsPerPage);
 		
 		for (int i = 0; i < requestExchangePostList.size(); i++) {
 			CardView card = new CardView();

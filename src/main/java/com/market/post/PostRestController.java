@@ -35,7 +35,7 @@ public class PostRestController {
 			@RequestParam("address") String address,
 			@RequestParam(value = "content", required = false) String content,
 			@RequestParam("files") List<MultipartFile> files,
-			HttpSession session) {	
+			HttpSession session) {
 		
 		int userId = (int)session.getAttribute("userId");
 		String userLoginId = (String)session.getAttribute("userLoginId");
