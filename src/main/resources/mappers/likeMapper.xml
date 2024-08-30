@@ -57,4 +57,16 @@
  		WHERE
  			`userId` = #{userId}
  	</select>
+ 	<select id="selectLikeByUserIdAndLimitStartAndPostsPerPage" parameterType="map" resultType="com.market.like.domain.Like">
+ 		SELECT
+			`userId`
+			,`postId`
+			,`createdAt`
+ 		FROM
+ 			`like`
+ 		WHERE
+ 			`userId` = #{userId}
+ 		LIMIT
+ 			#{limitStart}, #{postsPerPage}
+ 	</select>
  </mapper>

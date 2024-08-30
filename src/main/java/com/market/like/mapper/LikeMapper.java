@@ -20,6 +20,12 @@ public interface LikeMapper {
 	
 	public List<Like> selectLikeByUserId(int userId);
 	
+	public List<Like> selectLikeByUserIdAndLimitStartAndPostsPerPage(
+			@Param("userId")int userId,
+			@Param("limitStart") int limitStart,
+			@Param("postsPerPage") int postsPerPage);
+	
+	
 	public void deleteLikeByUserId(int userId);
 	
 	public void deleteLikeByPostIdUserId(

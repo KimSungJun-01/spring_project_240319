@@ -47,6 +47,10 @@ public class LikeBO {
 		return likeMapper.selectLikeByUserId(userId);
 	}
 	
+	public List<Like> getLikeListByUserIdAndLimitStartAndPostsPerPage(int userId, int limitStart, int postsPerPage) {
+		return likeMapper.selectLikeByUserIdAndLimitStartAndPostsPerPage(userId, limitStart, postsPerPage);
+	}
+	
 	public void deleteLikeByUserId(int userId) {
 		likeMapper.deleteLikeByUserId(userId);
 	}

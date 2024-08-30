@@ -64,8 +64,9 @@ public class PostBO {
 	
 	public List<Post> getMyLikePostList(List<Like> pushedLikeList) {
 		List<Post> myLikePostList = new ArrayList<>();
+		
 		for (int i = 0; i < pushedLikeList.size(); i++) {
-			int thisPostId = pushedLikeList.get(i).getPostId();
+			Integer thisPostId = pushedLikeList.get(i).getPostId();
 			myLikePostList.add(postMapper.selectPostById(thisPostId));
 		}
 		return myLikePostList;

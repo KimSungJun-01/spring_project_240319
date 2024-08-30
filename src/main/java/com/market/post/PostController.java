@@ -87,7 +87,9 @@ public class PostController {
 	
 	// 찜한 목록 화면
 	@GetMapping("/like-view")
-	public String likeView(HttpSession session, Model model) {
+	public String likeView(
+			@RequestParam(value = "currentPage", required = false) Integer currentPage,
+			HttpSession session, Model model) {
 		
 		// 로그인 여부 확인
 		Integer userId = (Integer)session.getAttribute("userId");
@@ -97,12 +99,20 @@ public class PostController {
 		
 		// like 테이블에서 사용자가 좋아요를 누른 좋아요 객체 배열 가져오기
 		List<Like> pushedLikeList = likeBO.getLikeListByUserId(userId);
+		Integer totalPosts = pushedLikeList.size();
+		SetPage setPage = new SetPage(currentPage, totalPosts);
+		
+		List<Like> pushedLikeListPaging = likeBO.getLikeListByUserIdAndLimitStartAndPostsPerPage(userId, setPage.getLimitStart(), setPage.getPostsPerPage());
 		
 		// pushedLikeList의 각 개체가 가지고 있는 postId에 해당하는 게시물 cardViewList로 만들기
-		List<CardView> cardViewList = cardViewBO.generateMyLikeCardViewList(pushedLikeList);
+		List<CardView> cardViewList = cardViewBO.generateMyLikeCardViewList(pushedLikeListPaging);
 		
 		model.addAttribute("cardViewList", cardViewList);
-		model.addAttribute("userId", userId);
+		model.addAttribute("startPage", setPage.getStartPage());
+		model.addAttribute("endPage", setPage.getEndPage());
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("prev", setPage.getPrev());
+		model.addAttribute("next", setPage.getNext());
 		
 		return "post/myLikeProduct";
 	}
