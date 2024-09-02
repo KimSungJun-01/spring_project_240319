@@ -13,7 +13,7 @@
 				</div>
 				<div class="h-100 w-25 d-flex justify-content-center align-items-center">
 					<select id="listOrder">
-					  <option selected value="latestOrder">최신 제품순</option>
+					  <option value="latestOrder">최신 제품순</option>
 					  <option value="popularityOrder">인기순</option>
 					  <option value="descendingOrder">높은 가격순</option>
 					  <option value="ascendingOrder">낮은 가격순</option>
@@ -44,15 +44,15 @@
 				<nav aria-label="Page navigation example">
 				  <ul class="pagination">
 				    <li th:classappend="${!prev} ? 'disabled'" class="page-item">
-		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${currentPage - 1}&listOrder=${listOrder}|}" aria-label="Previous">
+		                <a class="page-link" th:href="@{|/post/post-list-view?listOrder=${listOrder}&currentPage=${currentPage - 1}|}" aria-label="Previous">
 		                    <span aria-hidden="true">&laquo;</span>
 		                </a>
            			</li>
 		            <li th:each="pageNum : ${#numbers.sequence(startPage, endPage)}" th:classappend="${pageNum == currentPage} ? 'active'" class="page-item">
-		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${pageNum}&listOrder=${listOrder}|}" th:data-page="${pageNum}" th:text="${pageNum}"></a>
+		                <a class="page-link" th:href="@{|/post/post-list-view?listOrder=${listOrder}&currentPage=${pageNum}|}" th:data-page="${pageNum}" th:text="${pageNum}"></a>
 		            </li>
 		            <li th:classappend="${!next} ? 'disabled'" class="page-item">
-		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${currentPage + 1}&listOrder=${listOrder}|}" aria-label="Next">
+		                <a class="page-link" th:href="@{|/post/post-list-view?listOrder=${listOrder}&currentPage=${currentPage + 1}|}" aria-label="Next">
 		                    <span aria-hidden="true">&raquo;</span>
 		                </a>
 		            </li>
@@ -66,8 +66,8 @@
 <th:block layout:fragment="script">
     <script>
 		$(document).ready(function() {
-			let listOrder = $("#listOrder").val();
-			let currentPage = 1;
+			var currentPage = 1;
+			var listOrder = $("#listOrder").val();
 			
 			function updatePagination() {
 				$(".page-item").removeClass("active");
@@ -76,10 +76,6 @@
 					if ($(this).data("page") == currentPage) {
 						$(this).parent().addClass("active");
 					}
-					
-					let href = $(this).attr("href");
-					href += "&listOrder=" + listOrder;
-					$(this).attr("href", href);
 				});
 			}
 			
@@ -109,12 +105,22 @@
 				fetchPosts(listOrder, currentPage);
 			});
 			
-			const urlParams = new URLSearchParams(window.location.search);
-		    listOrder = urlParams.get('listOrder') || listOrder;
-		    currentPage = parseInt(urlParams.get('currentPage')) || 1;
-
-		    fetchPosts(listOrder, currentPage);
-			
+			 $(document).on('click', '.page-link', function(e) {
+				 e.preventDefault();
+			     
+				 var page = $(this).data("page");
+			     alert(page);
+			     if (page) {
+			    	 currentPage = page;
+			     } else {
+			    	// 페이지 이동
+			    	var url = $(this).attr('href');
+			    	var urlParams = new URLSearchParams(url.split('?')[1]);
+			    	currentPage = urlParams.get('currentPage');
+			     }
+			     
+			     fetchPosts(listOrder, currentPage);
+			 });
 		});
     </script>
 </th:block>
