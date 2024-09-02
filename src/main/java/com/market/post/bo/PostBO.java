@@ -23,7 +23,8 @@ public class PostBO {
 	}
 	
 	public List<Post> getPostList(int limitStart, int postsPerPage) {
-		return postMapper.selectPostListPaging(limitStart, postsPerPage);
+		List<Post> postList = postMapper.selectPostListPaging(limitStart, postsPerPage);
+		return postList != null ? postList : new ArrayList<>();
 	}
 	
 	public Integer getPostListCount() {

@@ -64,6 +64,7 @@ public class PostController {
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("prev", setPage.getPrev());
 		model.addAttribute("next", setPage.getNext());
+		model.addAttribute("listOrder", listOrder);
 		
 		if (listOrder != null) {
 			return "post/postList :: postListFragment";

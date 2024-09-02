@@ -44,15 +44,15 @@
 				<nav aria-label="Page navigation example">
 				  <ul class="pagination">
 				    <li th:classappend="${!prev} ? 'disabled'" class="page-item">
-		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${currentPage - 1}|}" aria-label="Previous">
+		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${currentPage - 1}&listOrder=${listOrder}|}" aria-label="Previous">
 		                    <span aria-hidden="true">&laquo;</span>
 		                </a>
            			</li>
 		            <li th:each="pageNum : ${#numbers.sequence(startPage, endPage)}" th:classappend="${pageNum == currentPage} ? 'active'" class="page-item">
-		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${pageNum}|}" th:data-page="${pageNum}" th:text="${pageNum}"></a>
+		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${pageNum}&listOrder=${listOrder}|}" th:data-page="${pageNum}" th:text="${pageNum}"></a>
 		            </li>
 		            <li th:classappend="${!next} ? 'disabled'" class="page-item">
-		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${currentPage + 1}|}" aria-label="Next">
+		                <a class="page-link" th:href="@{|/post/post-list-view?currentPage=${currentPage + 1}&listOrder=${listOrder}|}" aria-label="Next">
 		                    <span aria-hidden="true">&raquo;</span>
 		                </a>
 		            </li>
@@ -67,6 +67,7 @@
     <script>
 		$(document).ready(function() {
 			let listOrder = $("#listOrder").val();
+			let currentPage = 1;
 			
 			function updatePagination() {
 				$(".page-item").removeClass("active");
@@ -75,6 +76,10 @@
 					if ($(this).data("page") == currentPage) {
 						$(this).parent().addClass("active");
 					}
+					
+					let href = $(this).attr("href");
+					href += "&listOrder=" + listOrder;
+					$(this).attr("href", href);
 				});
 			}
 			
@@ -103,6 +108,12 @@
 				
 				fetchPosts(listOrder, currentPage);
 			});
+			
+			const urlParams = new URLSearchParams(window.location.search);
+		    listOrder = urlParams.get('listOrder') || listOrder;
+		    currentPage = parseInt(urlParams.get('currentPage')) || 1;
+
+		    fetchPosts(listOrder, currentPage);
 			
 		});
     </script>
