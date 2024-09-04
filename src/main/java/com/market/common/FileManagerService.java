@@ -44,7 +44,7 @@ public class FileManagerService {
 			return null;
 		}
 		
-		return "/img/post_img/" + directoryName + "/" + file.getOriginalFilename();
+		return "/images/" + directoryName + "/" + file.getOriginalFilename();
 	}
 	
 	public void deleteFile(String imagePath) {
@@ -74,7 +74,7 @@ public class FileManagerService {
 	
 	// study
 	//public static final String PROFILE_FILE_UPLOAD_PATH = "C:\\Users\\201-16\\Desktop\\web\\6_market_project\\clone\\src\\main\\resources\\static\\img\\profile_img/";
-	public static final String PROFILE_FILE_UPLOAD_PATH = "/home/ec2-user/images";
+	public static final String PROFILE_FILE_UPLOAD_PATH = "/home/ec2-user/profile_images/";
 	
 	public String profileUploadFile(MultipartFile profileImage, String loginId) {
 		
@@ -96,7 +96,7 @@ public class FileManagerService {
 			return null;
 		}
 		
-		return "/img/profile_img/" + directoryName + "/" + profileImage.getOriginalFilename();
+		return "/profile_images/" + directoryName + "/" + profileImage.getOriginalFilename();
 	}
 	
 	public void deleteProfileFile(String imagePath) {
