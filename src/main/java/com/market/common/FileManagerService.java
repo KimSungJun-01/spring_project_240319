@@ -43,7 +43,7 @@ public class FileManagerService {
 			return null;
 		}
 		
-		return "/img/post_img/" + directoryName + "/" + file.getOriginalFilename();
+		return "/images/" + directoryName + "/" + file.getOriginalFilename();
 	}
 	
 	public void deleteFile(String imagePath) {
@@ -94,7 +94,7 @@ public class FileManagerService {
 			return null;
 		}
 		
-		return "/img/profile_img/" + directoryName + "/" + profileImage.getOriginalFilename();
+		return "/profile_images/" + directoryName + "/" + profileImage.getOriginalFilename();
 	}
 	
 	public void deleteProfileFile(String imagePath) {
